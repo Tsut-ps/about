@@ -30,11 +30,6 @@
             <Icon name="simple-icons:misskey" size="30" />
           </a>
         </div>
-
-        <!-- スクロール矢印 -->
-        <div class="scroll-indicator">
-          <Icon name="mdi:chevron-down" size="32" />
-        </div>
       </div>
     </section>
 
@@ -59,16 +54,11 @@
 </template>
 
 <style scoped>
-.container {
-  min-height: 100vh;
-}
-
 .profile {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 6rem 2rem 3rem;
 }
 
 .profile-content {
@@ -77,32 +67,26 @@
 }
 
 .avatar-wrapper {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .avatar {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .name {
-  font-size: 2.5rem;
-  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
   font-weight: 700;
-}
-
-.title {
-  font-size: 1.25rem;
-  margin: 0 0 1.5rem;
-  opacity: 0.7;
 }
 
 .bio {
   font-size: 1rem;
   line-height: 1.6;
-  margin: 0 0 2rem;
+  margin-bottom: 2rem;
   opacity: 0.9;
 }
 
@@ -111,7 +95,6 @@
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
 }
 
 .social-link {
@@ -128,31 +111,6 @@
 
 .social-link:hover {
   transform: translateY(-2px);
-  background-color: #2a2b34;
-}
-
-.scroll-indicator {
-  margin-top: 2rem;
-  opacity: 0.5;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(8px);
-  }
-}
-
-/* Activities Section */
-.activities {
-  min-height: 100vh;
-  padding: 4rem 2rem;
 }
 
 .activities-content {
