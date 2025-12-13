@@ -8,7 +8,7 @@
 <style>
 :root {
   --color-bg: #1b202c;
-  --color-accent: #202128;
+  --color-accent: #323b52;
   --color-text: #f1f1f1;
 }
 
