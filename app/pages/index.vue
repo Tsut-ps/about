@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const { data: activities, pending, error } = await useFetch('/api/activities')
 
-const filters = ['すべて', 'YouTube', 'ニコニコ動画', '個人サイト（ブログ）', 'Cosense（Scrapbox）']
+const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense（Scrapbox）']
 
 const platformMap: Record<string, string[]> = {
   'すべて': ['youtube', 'nicovideo', 'blog', 'note', 'scrapbox'],
   'YouTube': ['youtube'],
   'ニコニコ動画': ['nicovideo'],
-  '個人サイト（ブログ）': ['blog', 'note'],
+  'ブログ': ['blog', 'note'],
   'Cosense（Scrapbox）': ['scrapbox']
 }
 
