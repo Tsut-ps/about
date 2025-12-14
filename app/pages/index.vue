@@ -54,7 +54,7 @@ const platformIcons: Record<string, { name: string; size: number }> = {
       <div class="profile-content">
         <!-- プロフィール画像 -->
         <div class="avatar-wrapper">
-          <img src="/kknkr.png" alt="狐紺くろのプロフィール画像" class="avatar">
+          <NuxtImg src="/kknkr.png" alt="狐紺くろのプロフィール画像" class="avatar" width="100" height="100" format="webp" />
         </div>
 
         <!-- 名前 -->
@@ -107,7 +107,8 @@ const platformIcons: Record<string, { name: string; size: number }> = {
           <a v-for="item in filteredActivities" :key="item.id" :href="item.links[0]?.url" target="_blank"
             class="activity-card">
             <div class="card-thumbnail">
-              <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title">
+              <NuxtImg v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" width="480" height="360"
+                format="webp" />
               <div v-else class="thumbnail-fallback">
                 <Icon
                   :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
