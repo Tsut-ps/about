@@ -42,9 +42,9 @@ function formatDate(date: Date | string) {
 const platformIcons: Record<string, { name: string; size: number }> = {
   youtube: { name: 'mdi:youtube', size: 24 },
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
-  blog: { name: 'mdi:rss', size: 18 },
+  blog: { name: 'custom:kknkr', size: 22 },
   note: { name: 'simple-icons:note', size: 18 },
-  scrapbox: { name: 'ic:baseline-edit-note', size: 20 }
+  scrapbox: { name: 'ic:baseline-edit-note', size: 26 }
 }
 </script>
 
@@ -120,9 +120,16 @@ const platformIcons: Record<string, { name: string; size: number }> = {
               <div class="card-meta">
                 <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
                 <div class="card-platforms">
-                  <Icon v-for="(link, index) in item.links" :key="index"
-                    :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
+                  <template v-for="(link, index) in item.links" :key="index">
+                    <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom:kknkr'">
+                      <NuxtImg src="/kknkr.png" alt="ブログ" :width="platformIcons[link.platform]?.size"
+                        :height="platformIcons[link.platform]?.size" />
+                    </template>
+                    <template v-else>
+                      <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
                     :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
+</template>
+                  </template>
                 </div>
               </div>
             </div>
