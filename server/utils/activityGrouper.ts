@@ -124,7 +124,6 @@ function isSimilarTitle(title1: string, title2: string): boolean {
   const shorter = core1.length < core2.length ? core1 : core2;
   const longer = core1.length >= core2.length ? core1 : core2;
   if (longer.includes(shorter) && shorter.length / longer.length > 0.6) {
-    console.log("含む判定:", title1, title2);
     return true;
   }
 
