@@ -24,5 +24,19 @@ export default defineNuxtConfig({
 
   app: {
     baseURL: "/about/",
+    head: {
+      title: "狐紺くろ",
+      htmlAttrs: {
+        lang: "ja",
+      },
+      link: [{ rel: "icon", type: "image/x-icon", href: "/about/favicon.png" }],
+      meta: [
+        {
+          name: "狐紺くろのプロフィール",
+          content:
+            "垢別リンクです。YouTube/ニコ動、匿名質問、noteへのリンクはこちらから",
+        },
+      ],
+    },
   },
 });
