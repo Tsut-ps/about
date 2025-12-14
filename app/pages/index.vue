@@ -132,8 +132,7 @@ const platformIcons: Record<string, PlatformIcon> = {
                 <div class="card-platforms">
                   <template v-for="(link, index) in item.links" :key="index">
                     <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom'">
-                      <NuxtImg :src="platformIcons[link.platform]?.src" :alt="link.platform"
-                        :width="platformIcons[link.platform]?.size" :height="platformIcons[link.platform]?.size"
+                      <NuxtImg :src="platformIcons[link.platform]?.src" :alt="link.platform" width="100" height="100"
                         format="webp" />
                     </template>
                     <template v-else>
@@ -389,6 +388,9 @@ const platformIcons: Record<string, PlatformIcon> = {
   img {
     border-radius: 50%;
     opacity: 0.75;
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
   }
 }
 
