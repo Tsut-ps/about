@@ -369,7 +369,15 @@ const platformIcons: Record<string, { name: string; size: number }> = {
 .card-platforms {
   display: flex;
   gap: 0.5rem;
-  opacity: 0.6;
-  align-items: center;
+    align-items: center;
+
+  span {
+    opacity: 0.5;
+  }
+
+  img {
+    border-radius: 50%;
+    opacity: 0.75;
+  }
 }
 </style>
