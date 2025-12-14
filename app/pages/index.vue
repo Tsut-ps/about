@@ -231,7 +231,7 @@ const platformIcons: Record<string, { name: string; size: number }> = {
 
 .filter-container {
   display: flex;
-  gap: 1.5rem;
+  gap: .25rem;
   flex-wrap: wrap;
 }
 
@@ -240,11 +240,11 @@ const platformIcons: Record<string, { name: string; size: number }> = {
   border: none;
   color: var(--color-text);
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: .75rem 1.25rem;
   cursor: pointer;
   opacity: 0.5;
   transition: all 0.2s;
-  border-radius: 6px;
+  border-radius: 64px;
 }
 
 .filter-btn:hover {
