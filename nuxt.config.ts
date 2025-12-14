@@ -13,4 +13,8 @@ export default defineNuxtConfig({
       routes: ["/"],
     },
   },
+
+  app: {
+    baseURL: "/about/",
+  },
 });
