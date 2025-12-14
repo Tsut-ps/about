@@ -127,8 +127,8 @@ const platformIcons: Record<string, { name: string; size: number }> = {
                     </template>
                     <template v-else>
                       <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
-                    :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
-</template>
+                        :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
+                    </template>
                   </template>
                 </div>
               </div>
@@ -369,7 +369,7 @@ const platformIcons: Record<string, { name: string; size: number }> = {
 .card-platforms {
   display: flex;
   gap: 0.5rem;
-    align-items: center;
+  align-items: center;
 
   span {
     opacity: 0.5;
@@ -379,5 +379,9 @@ const platformIcons: Record<string, { name: string; size: number }> = {
     border-radius: 50%;
     opacity: 0.75;
   }
+}
+
+:where(.i-simple-icons\:niconico) {
+  transform: translateY(-1px);
 }
 </style>
