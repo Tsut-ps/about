@@ -39,10 +39,20 @@ function formatDate(date: Date | string) {
   })
 }
 
-const platformIcons: Record<string, { name: string; size: number }> = {
+interface PlatformIcon {
+  name: string
+  src?: string
+  size: number
+}
+
+const platformIcons: Record<string, PlatformIcon> = {
   youtube: { name: 'mdi:youtube', size: 24 },
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
-  blog: { name: 'custom:kknkr', size: 22 },
+  blog: {
+    name: 'custom',
+    src: '/kknkr.png',
+    size: 22
+  },
   note: { name: 'simple-icons:note', size: 18 },
   scrapbox: { name: 'ic:baseline-edit-note', size: 26 }
 }
@@ -121,9 +131,10 @@ const platformIcons: Record<string, { name: string; size: number }> = {
                 <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
                 <div class="card-platforms">
                   <template v-for="(link, index) in item.links" :key="index">
-                    <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom:kknkr'">
-                      <NuxtImg src="/kknkr.png" alt="ブログ" :width="platformIcons[link.platform]?.size"
-                        :height="platformIcons[link.platform]?.size" />
+                    <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom'">
+                      <NuxtImg :src="platformIcons[link.platform]?.src" :alt="link.platform"
+                        :width="platformIcons[link.platform]?.size" :height="platformIcons[link.platform]?.size"
+                        format="webp" />
                     </template>
                     <template v-else>
                       <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
