@@ -5,6 +5,12 @@ export default defineNuxtConfig({
 
   modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image"],
 
+  icon: {
+    serverBundle: {
+      collections: ["ic", "mdi", "simple-icons"],
+    },
+  },
+
   // SSG設定
   ssr: true,
   nitro: {
