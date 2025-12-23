@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
+const baseURL = runtimeConfig.app.baseURL
+
 const { data: activities, pending, error } = await useFetch('/api/activities')
 
 const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense（Scrapbox）']
@@ -50,7 +53,7 @@ const platformIcons: Record<string, PlatformIcon> = {
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
   blog: {
     name: 'custom',
-    src: '/kknkr.png',
+    src: baseURL + '/kknkr.png',
     size: 22
   },
   note: { name: 'simple-icons:note', size: 18 },
