@@ -24,4 +24,8 @@ body {
   color: var(--color-text);
   font-family: 'Noto Sans JP', sans-serif;
 }
+
+:where(.i-simple-icons\:niconico) {
+  transform: translateY(-1px);
+}
 </style>

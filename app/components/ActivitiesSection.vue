@@ -1,0 +1,154 @@
+<script setup lang="ts">
+const { data: activities, pending, error } = await useFetch('/api/activities')
+
+const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense（Scrapbox）']
+
+const platformMap: Record<string, string[]> = {
+  'すべて': ['youtube', 'nicovideo', 'blog', 'note', 'scrapbox'],
+  'YouTube': ['youtube'],
+  'ニコニコ動画': ['nicovideo'],
+  'ブログ': ['blog', 'note'],
+  'Cosense（Scrapbox）': ['scrapbox']
+}
+
+const activeFilter = ref('ニコニコ動画')
+
+const filteredActivities = computed(() => {
+  if (!activities.value) return []
+
+  const filtered = activities.value.filter(item =>
+    item.links.some(link => {
+      const platforms = platformMap[activeFilter.value] || []
+      return platforms.includes(link.platform)
+    })
+  )
+
+  return filtered.slice(0, 3)
+})
+
+function setFilter(filter: string) {
+  activeFilter.value = filter
+}
+</script>
+
+<template>
+  <section class="activities">
+    <div class="activities-content">
+      <div class="header-container">
+        <h2 class="activities-title">New!</h2>
+        <div class="filter-container">
+          <button v-for="filter in filters" :key="filter" class="filter-btn"
+            :class="{ active: activeFilter === filter }" @click="setFilter(filter)">
+            {{ filter }}
+          </button>
+        </div>
+      </div>
+
+      <!-- ローディング・エラー表示 -->
+      <div v-if="pending" class="loading">読み込み中...</div>
+      <div v-else-if="error" class="error">エラーが発生しました</div>
+
+      <!-- アクティビティグリッド -->
+      <div v-else class="activity-grid">
+        <a v-for="item in filteredActivities" :key="item.id" :href="item.links[0]?.url" target="_blank"
+          class="activity-card">
+          <UiCard :item="item" />
+        </a>
+      </div>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.activities {
+  margin: 1rem 1rem 6rem;
+}
+
+.activities-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.activities-title {
+  font-size: 3rem;
+  margin: 0;
+  opacity: 0.9;
+  font-weight: 500;
+  font-family: 'Caveat', cursive;
+}
+
+.filter-container {
+  display: flex;
+  gap: .25rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 1rem;
+  padding: .75rem 1.25rem;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.2s;
+  border-radius: 64px;
+}
+
+.filter-btn:hover {
+  opacity: 0.8;
+  background-color: var(--color-accent);
+}
+
+.filter-btn.active {
+  opacity: 1;
+  background-color: var(--color-accent);
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  opacity: 0.7;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-8px);
+}
+
+.activity-card:hover .card-thumbnail img {
+  transform: scale(1.05);
+}
+</style>
