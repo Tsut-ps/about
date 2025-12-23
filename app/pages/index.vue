@@ -53,7 +53,7 @@ const platformIcons: Record<string, PlatformIcon> = {
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
   blog: {
     name: 'custom',
-    src: baseURL + '/kknkr.png',
+    src: baseURL + 'kknkr.png',
     size: 22
   },
   note: { name: 'simple-icons:note', size: 18 },
