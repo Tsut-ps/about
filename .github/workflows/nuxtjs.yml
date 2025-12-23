@@ -1,6 +1,8 @@
 # https://github.com/actions/deploy-pages#usage
 name: Deploy Nuxt site to GitHub Pages
 on:
+  schedule: # JST 4:00（UTC 19:00）
+    - cron: "0 19 */3 * *"
   workflow_dispatch:
   push:
     branches:
