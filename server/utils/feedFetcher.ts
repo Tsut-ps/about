@@ -97,9 +97,15 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
       }
     }
 
+    console.log(
+      `[/api/activities] Fetched ${items.length} items from ${feedConfig.name}`
+    );
     return items;
   } catch (error) {
-    console.error(`Failed to fetch ${feedConfig.name}:`, error);
+    console.error(
+      `[/api/activities] Failed to fetch ${feedConfig.name}:`,
+      error
+    );
     return [];
   }
 }
