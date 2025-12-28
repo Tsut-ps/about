@@ -11,6 +11,12 @@ export default defineNuxtConfig({
     clientBundle: {
       scan: true, // プロジェクト内の <Icon> をスキャンしてバンドル
     },
+    customCollections: [
+      {
+        prefix: "custom",
+        dir: "./app/assets/icons",
+      },
+    ],
   },
 
   // SSG設定

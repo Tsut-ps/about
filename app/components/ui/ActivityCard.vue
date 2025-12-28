@@ -36,13 +36,9 @@ interface PlatformIcon {
 const platformIcons: Record<string, PlatformIcon> = {
   youtube: { name: 'mdi:youtube', size: 24 },
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
-  blog: {
-    name: 'custom',
-    src: baseURL + 'kknkr.png',
-    size: 22
-  },
+  blog: { name: 'mdi:web', size: 22 },
   note: { name: 'simple-icons:note', size: 18 },
-  scrapbox: { name: 'ic:baseline-edit-note', size: 26 }
+  scrapbox: { name: 'custom:cosense', size: 20 }
 }
 </script>
 
@@ -66,14 +62,8 @@ const platformIcons: Record<string, PlatformIcon> = {
       <div class="card-platforms">
         <template v-for="(link, index) in item.links" :key="index">
           <a :href="link.url" target="_blank" class="platform-link">
-            <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom'">
-              <img :src="platformIcons[link.platform]?.src" :alt="link.platform"
-                :width="platformIcons[link.platform]?.size" :height="platformIcons[link.platform]?.size">
-            </template>
-            <template v-else>
-              <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
-                :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
-            </template>
+            <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
+              :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
           </a>
         </template>
       </div>
