@@ -25,7 +25,7 @@ function formatDate(date: Date | string) {
   })
 }
 
-const url = item.links.find(link => link.platform === selectedPlatform)?.url || item.links[0]?.url
+const url = computed(() => item.links.find(link => link.platform === selectedPlatform)?.url || item.links[0]?.url)
 
 interface PlatformIcon {
   name: string
