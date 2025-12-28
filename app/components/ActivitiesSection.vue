@@ -74,6 +74,10 @@ function setFilter(filter: string) {
   margin-bottom: 2.5rem;
   gap: 2rem;
   flex-wrap: wrap;
+
+  @media (max-width: 800px) {
+    justify-content: center
+  }
 }
 
 .activities-title {
@@ -88,6 +92,10 @@ function setFilter(filter: string) {
   display: flex;
   gap: .25rem;
   flex-wrap: wrap;
+
+  @media (max-width: 800px) {
+    justify-content: center;
+  }
 }
 
 .filter-btn {
