@@ -18,7 +18,7 @@ const SNSLinks = [
     url: 'https://twitter.com/Tsut_ps',
     iconName: 'mdi:twitter',
     iconSize: 28,
-    name: 'Twitter',
+    name: 'Twitter(X)',
     description: 'サイト、動画更新、進捗、なんかできた副産物 etc.'
   },
   {
