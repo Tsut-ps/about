@@ -58,13 +58,16 @@ const platformIcons: Record<string, PlatformIcon> = {
       <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
       <div class="card-platforms">
         <template v-for="(link, index) in item.links" :key="index">
-          <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom'">
-            <img :src="platformIcons[link.platform]?.src" :alt="link.platform" width="22" height="22">
-          </template>
-          <template v-else>
-            <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
-              :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
-          </template>
+          <a :href="link.url" target="_blank" class="platform-link">
+            <template v-if="link.platform && platformIcons[link.platform]?.name === 'custom'">
+              <img :src="platformIcons[link.platform]?.src" :alt="link.platform"
+                :width="platformIcons[link.platform]?.size" :height="platformIcons[link.platform]?.size">
+            </template>
+            <template v-else>
+              <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
+                :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
+            </template>
+          </a>
         </template>
       </div>
     </div>
@@ -145,5 +148,9 @@ const platformIcons: Record<string, PlatformIcon> = {
     opacity: 0.75;
     object-fit: cover;
   }
+}
+
+.platform-link {
+  color: var(--color-text);
 }
 </style>

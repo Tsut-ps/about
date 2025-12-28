@@ -3,6 +3,7 @@ const { data: activities, pending, error } = await useFetch('/api/activities')
 
 const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense（Scrapbox）']
 
+// フィルター時のリンクは1番目を優先
 const platformMap: Record<string, string[]> = {
   'すべて': ['youtube', 'nicovideo', 'blog', 'note', 'scrapbox'],
   'YouTube': ['youtube'],
@@ -34,6 +35,8 @@ function setFilter(filter: string) {
 <template>
   <section class="activities">
     <div class="activities-content">
+
+      <!-- フィルターヘッダー -->
       <div class="header-container">
         <h2 class="activities-title">New!</h2>
         <div class="filter-container">
@@ -48,11 +51,11 @@ function setFilter(filter: string) {
       <div v-if="pending" class="loading">読み込み中...</div>
       <div v-else-if="error" class="error">エラーが発生しました</div>
 
-      <!-- アクティビティグリッド -->
+      <!-- アクティビティ -->
       <div v-else class="activity-grid">
-        <a v-for="item in filteredActivities" :key="item.id" :href="item.links[0]?.url" target="_blank"
-          class="activity-card">
-          <UiCard :item="item" />
+        <a v-for="item in filteredActivities" :key="item.id" :href="item.links.find(link => link.platform === platformMap[activeFilter]?.[0])?.url
+          || item.links[0]?.url" target="_blank" class="activity-card">
+          <UiActivityCard :item="item" />
         </a>
       </div>
     </div>
