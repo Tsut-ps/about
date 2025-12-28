@@ -28,6 +28,14 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Zen Maru Gothic', sans-serif;
+  
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 :where(.i-simple-icons\:niconico) {
