@@ -13,9 +13,6 @@ const { item, selectedPlatform } = defineProps<{
   selectedPlatform: string | undefined
 }>()
 
-const runtimeConfig = useRuntimeConfig()
-const baseURL = runtimeConfig.app.baseURL
-
 function formatDate(date: Date | string) {
   const d = new Date(date)
   return d.toLocaleDateString('ja-JP', {
