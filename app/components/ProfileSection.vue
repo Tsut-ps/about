@@ -1,3 +1,36 @@
+<script setup lang="ts">
+const SNSLinks = [
+  {
+    url: 'https://www.youtube.com/@kokonkr',
+    iconName: 'mdi:youtube',
+    iconSize: 32,
+    name: 'YouTube',
+    description: '好きな音声合成キャラが喋ったり歌ったり(カバー)'
+  },
+  {
+    url: 'https://www.nicovideo.jp/user/56264499',
+    iconName: 'simple-icons:niconico',
+    iconSize: 28,
+    name: 'ニコニコ動画',
+    description: '一部YouTubeにはないトーク動画が上がってます'
+  },
+  {
+    url: 'https://twitter.com/Tsut_ps',
+    iconName: 'mdi:twitter',
+    iconSize: 28,
+    name: 'Twitter',
+    description: 'サイト、動画更新、進捗、なんかできた副産物 etc.'
+  },
+  {
+    url: 'https://misskey.io/@Tsut_ps',
+    iconName: 'simple-icons:misskey',
+    iconSize: 28,
+    name: 'Misskey',
+    description: 'Discord以外だったら、ここが一番活発'
+  }
+]
+</script>
+
 <template>
   <section class="profile">
     <div class="profile-content">
@@ -19,42 +52,8 @@
 
       <!-- SNSリンク -->
       <div class="social-links">
-        <a href="https://www.youtube.com/@kokonkr" target="_blank" class="social-card">
-          <div class="social-icon">
-            <Icon name="mdi:youtube" size="32" />
-          </div>
-          <div class="social-info">
-            <h3 class="social-name">YouTube</h3>
-            <p class="social-description">好きな音声合成キャラが喋ったり歌ったり(カバー)</p>
-          </div>
-        </a>
-        <a href="https://www.nicovideo.jp/user/56264499" target="_blank" class="social-card">
-          <div class="social-icon">
-            <Icon name="simple-icons:niconico" size="28" />
-          </div>
-          <div class="social-info">
-            <h3 class="social-name">ニコニコ動画</h3>
-            <p class="social-description">一部YouTubeにはないトーク動画が上がってます</p>
-          </div>
-        </a>
-        <a href="https://twitter.com/Tsut_ps" target="_blank" class="social-card">
-          <div class="social-icon">
-            <Icon name="mdi:twitter" size="28" />
-          </div>
-          <div class="social-info">
-            <h3 class="social-name">Twitter</h3>
-            <p class="social-description">サイト、動画更新、進捗、なんかできた副産物 etc.</p>
-          </div>
-        </a>
-        <a href="https://misskey.io/@Tsut_ps" target="_blank" class="social-card">
-          <div class="social-icon">
-            <Icon name="simple-icons:misskey" size="28" />
-          </div>
-          <div class="social-info">
-            <h3 class="social-name">Misskey</h3>
-            <p class="social-description">Discord以外だったら、ここが一番活発</p>
-          </div>
-        </a>
+        <UiSNSCard v-for="link in SNSLinks" :key="link.url" :url="link.url" :icon-name="link.iconName"
+          :icon-size="link.iconSize" :name="link.name" :description="link.description" />
       </div>
     </div>
   </section>
@@ -112,49 +111,5 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
   gap: 1rem;
-}
-
-.social-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid var(--color-accent);
-  transition: all 0.2s ease;
-}
-
-.social-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  background: var(--color-accent);
-}
-
-.social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  background: var(--color-accent);
-}
-
-.social-info {
-  flex: 1;
-  text-align: left;
-}
-
-.social-name {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem 0;
-  color: var(--color-text);
-}
-
-.social-description {
-  font-size: 0.85rem;
-  margin: 0;
-  opacity: 0.7;
 }
 </style>

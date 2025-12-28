@@ -1,0 +1,67 @@
+<script setup lang="ts">
+const { url, iconName, iconSize, name, description } = defineProps<{
+  url: string
+  iconName: string
+  iconSize: number
+  name: string
+  description: string
+}>()
+</script>
+
+<template>
+  <a :href="url" target="_blank" class="social-card">
+    <div class="social-icon">
+      <Icon :name="iconName" :size="iconSize" />
+    </div>
+    <div class="social-info">
+      <h3 class="social-name">{{ name }}</h3>
+      <p class="social-description">{{ description }}</p>
+    </div>
+  </a>
+</template>
+
+<style>
+.social-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-accent);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: var(--color-accent);
+  }
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--color-accent);
+}
+
+.social-info {
+  flex: 1;
+  text-align: left;
+}
+
+.social-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--color-text);
+}
+
+.social-description {
+  font-size: 0.85rem;
+  margin: 0;
+  opacity: 0.7;
+}
+</style>
