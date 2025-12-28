@@ -27,7 +27,7 @@ body {
   margin: 0;
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Zen Maru Gothic', sans-serif;
 }
 
 :where(.i-simple-icons\:niconico) {
