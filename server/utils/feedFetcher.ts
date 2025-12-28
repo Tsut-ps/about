@@ -23,6 +23,11 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
         : [parsed.feed.entry];
 
       for (const entry of entries) {
+        const url = entry.link?.["@_href"] || entry.link;
+
+        // ショート動画を除く
+        if (url && url.includes("/shorts/")) continue;
+
         items.push({
           id: entry.id,
           title: entry.title,
@@ -31,7 +36,7 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
           links: [
             {
               platform: feedConfig.platform,
-              url: entry.link?.["@_href"] || entry.link,
+              url,
             },
           ],
           thumbnail: entry["media:group"]?.["media:thumbnail"]?.["@_url"],
