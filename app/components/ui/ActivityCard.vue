@@ -113,7 +113,6 @@ const platformIcons: Record<string, PlatformIcon> = {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .card-meta {

@@ -82,7 +82,8 @@ function setFilter(filter: string) {
 
 .activities-title {
   font-size: 3rem;
-  margin: 0;
+  margin: 0 -1rem;
+  padding: 0 1rem;
   opacity: 0.9;
   font-weight: 500;
   font-family: 'Caveat', cursive;
