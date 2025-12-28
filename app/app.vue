@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   background-color: var(--color-bg);

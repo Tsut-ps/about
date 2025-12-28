@@ -53,10 +53,9 @@ function setFilter(filter: string) {
 
       <!-- アクティビティ -->
       <div v-else class="activity-grid">
-        <a v-for="item in filteredActivities" :key="item.id" :href="item.links.find(link => link.platform === platformMap[activeFilter]?.[0])?.url
-          || item.links[0]?.url" target="_blank" class="activity-card">
-          <UiActivityCard :item="item" />
-        </a>
+        <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
+          <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
+        </div>
       </div>
     </div>
   </section>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { item } = defineProps<{
+const { item, selectedPlatform } = defineProps<{
   item: {
     id: string
     title: string
@@ -9,7 +9,8 @@ const { item } = defineProps<{
       platform?: string
       url: string
     }[]
-  }
+  },
+  selectedPlatform: string | undefined
 }>()
 
 const runtimeConfig = useRuntimeConfig()
@@ -23,6 +24,8 @@ function formatDate(date: Date | string) {
     day: '2-digit'
   })
 }
+
+const url = item.links.find(link => link.platform === selectedPlatform)?.url || item.links[0]?.url
 
 interface PlatformIcon {
   name: string
@@ -45,15 +48,19 @@ const platformIcons: Record<string, PlatformIcon> = {
 
 <template>
   <div class="card-thumbnail">
-    <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" width="480" height="360">
-    <div v-else class="thumbnail-fallback">
-      <Icon
-        :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
-        size="48" />
-    </div>
+    <a :href="url" target="_blank">
+      <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" width="480" height="360">
+      <div v-else class="thumbnail-fallback">
+        <Icon
+          :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
+          size="48" />
+      </div>
+    </a>
   </div>
   <div class="card-info">
-    <h3 class="card-title">{{ item.title }}</h3>
+    <a :href="url" target="_blank">
+      <h3 class="card-title">{{ item.title }}</h3>
+    </a>
     <div class="card-meta">
       <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
       <div class="card-platforms">
@@ -107,7 +114,7 @@ const platformIcons: Record<string, PlatformIcon> = {
   flex: 1 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .card-title {
