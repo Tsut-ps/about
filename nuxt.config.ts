@@ -22,6 +22,12 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    "/api/activities": {
+      swr: 3600,
+    },
+  },
+
   app: {
     baseURL: "/about/",
     head: {
