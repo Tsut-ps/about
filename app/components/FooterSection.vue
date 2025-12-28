@@ -2,7 +2,7 @@
   <footer class="footer-section">
     <p>© Tsut-ps.</p>
     <p>
-      Deployed with GitHub.
+      Deployed with <a href="https://github.com/Tsut-ps/about" target="_blank">GitHub</a>.
     </p>
   </footer>
 </template>
