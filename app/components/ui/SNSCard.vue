@@ -17,6 +17,9 @@ const { url, iconName, iconSize, name, description } = defineProps<{
       <h3 class="social-name">{{ name }}</h3>
       <p class="social-description">{{ description }}</p>
     </div>
+    <div class="social-arrow">
+      <Icon name="mdi:chevron-right" :size="28" />
+    </div>
   </a>
 </template>
 
@@ -63,5 +66,13 @@ const { url, iconName, iconSize, name, description } = defineProps<{
   font-size: 0.85rem;
   margin: 0;
   opacity: 0.7;
+}
+
+.social-arrow {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: var(--color-text);
+  opacity: 0.5;
 }
 </style>
