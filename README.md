@@ -1,75 +1,32 @@
-# Nuxt Minimal Starter
+<a href="https://tsut-ps.github.io/about/">
+  <video src="./public/256kkn.mp4" width="100%" height="240" autoplay loop muted playsinline style="border-radius: 1rem; object-fit: cover;"></video>
+</a>
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# about
 
-## Setup
+- SNS リンクとアクティビティを出す Web サイト
+- Nuxt 4（Vue 3）+ TypeScript + Composition API 構成
+- サーバーサイドで各種 RSS/フィードを集約し、重複をグルーピングして表示
 
-Make sure to install dependencies:
+## フロント
 
-```bash
-# npm
-npm install
+- アイコンのみ/カードリンクの 2 構成
+- フィルタ付きのアクティビティ
 
-# pnpm
-pnpm install
+## サーバー/API
 
-# yarn
-yarn install
+- **server/api/activities.ts**  
+  各種フィード（YouTube, ニコニコ, note, ブログ, Scrapbox）をまとめて取得し、重複をグループ化して返す API（キャッシュあり）
+- **server/utils/activityGrouper.ts**  
+  類似タイトルの活動をグルーピングし、サムネイルや日付を最適化
+- **server/utils/feedFetcher.ts**  
+  サーバーサイドで RSS/Atom フィードを取得、解析やフィルタリングなど前処理を行う
 
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
+## 開発・ビルド
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+npm install      # 依存関係のインストール
+npm run dev      # 開発サーバー起動
+npm run build    # 本番ビルド
+npm run preview  # 本番ビルドのローカルプレビュー
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
