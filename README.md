@@ -1,5 +1,5 @@
 <a href="https://tsut-ps.github.io/about/">
-  <video src="./public/256kkn.mp4" width="100%" height="240" autoplay loop muted playsinline style="border-radius: 1rem; object-fit: cover;"></video>
+  <img src="./public/256kkn.webp" width="100%" height="auto" />
 </a>
 
 # about
