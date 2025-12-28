@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data: activities, pending, error } = await useFetch('/api/activities')
+const { data: activities } = await useFetch('/api/activities')
 
 const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense(Scrapbox)']
 
@@ -47,12 +47,8 @@ function setFilter(filter: string) {
         </div>
       </div>
 
-      <!-- ローディング・エラー表示 -->
-      <div v-if="pending" class="loading">読み込み中...</div>
-      <div v-else-if="error" class="error">エラーが発生しました</div>
-
       <!-- アクティビティ -->
-      <div v-else class="activity-grid">
+      <div class="activity-grid">
         <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
           <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
         </div>
@@ -114,13 +110,6 @@ function setFilter(filter: string) {
 .filter-btn.active {
   opacity: 1;
   background-color: var(--color-accent);
-}
-
-.loading,
-.error {
-  text-align: center;
-  padding: 3rem;
-  opacity: 0.7;
 }
 
 .activity-grid {
