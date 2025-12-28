@@ -137,6 +137,7 @@ const SNSCardLinks = [
   margin: -2rem 2rem 3rem;
   text-align: center;
   max-width: 600px;
+  z-index: 10;
 }
 
 .avatar-wrapper {
