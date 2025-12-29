@@ -118,6 +118,8 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 }
 
 .social-mini-link {
+  margin: -0.5rem;
+  padding: 0.5rem;
   transition: all 0.2s ease;
 
   &:hover {
