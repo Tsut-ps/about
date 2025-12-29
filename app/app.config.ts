@@ -1,5 +1,33 @@
-export default defineAppConfig({
+import type { SNSLink } from "~/types/sns";
+
+export default defineAppConfig<{
+  snsLinks: SNSLink[];
+}>({
   snsLinks: [
+    {
+      url: "https://www.youtube.com/@kokonkr",
+      iconName: "mdi:youtube",
+      iconSize: 32,
+      name: "YouTube",
+      description: "好きな音声合成キャラが喋ったり歌ったり(カバー)",
+      viewType: "card",
+    },
+    {
+      url: "https://www.nicovideo.jp/user/56264499",
+      iconName: "simple-icons:niconico",
+      iconSize: 28,
+      name: "ニコニコ動画",
+      description: "一部YouTubeにはないトーク動画が上がってます",
+      viewType: "card",
+    },
+    {
+      url: "https://matcha14.com/",
+      iconName: "mdi:web",
+      iconSize: 28,
+      name: "個人サイト",
+      description: "機材、買ったガジェットとか。My new gear……!",
+      viewType: "card",
+    },
     {
       url: "https://twitter.com/Tsut_ps",
       iconName: "mdi:twitter",
@@ -42,29 +70,6 @@ export default defineAppConfig({
       name: "欲しいものリスト",
       description:
         "公開してますが、無理のない範囲で支援していただけると幸いです",
-    },
-  ],
-  snsCardLinks: [
-    {
-      url: "https://www.youtube.com/@kokonkr",
-      iconName: "mdi:youtube",
-      iconSize: 32,
-      name: "YouTube",
-      description: "好きな音声合成キャラが喋ったり歌ったり(カバー)",
-    },
-    {
-      url: "https://www.nicovideo.jp/user/56264499",
-      iconName: "simple-icons:niconico",
-      iconSize: 28,
-      name: "ニコニコ動画",
-      description: "一部YouTubeにはないトーク動画が上がってます",
-    },
-    {
-      url: "https://matcha14.com/",
-      iconName: "mdi:web",
-      iconSize: 28,
-      name: "個人サイト",
-      description: "機材、買ったガジェットとか。My new gear……!",
     },
   ],
 });

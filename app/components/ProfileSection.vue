@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
-const SNSLinks = appConfig.snsLinks
-const SNSCardLinks = appConfig.snsCardLinks
+const SNSLinks = appConfig.snsLinks.filter(link => link.viewType !== 'card')
+const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 </script>
 
 <template>

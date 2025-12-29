@@ -1,11 +1,6 @@
 <script setup lang="ts">
-const { url, iconName, iconSize, name, description } = defineProps<{
-  url: string
-  iconName: string
-  iconSize: number
-  name: string
-  description: string
-}>()
+import type { SNSLink } from '~/types/sns'
+const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
 </script>
 
 <template>
