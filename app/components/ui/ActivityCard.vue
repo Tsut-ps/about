@@ -130,8 +130,7 @@ const platformIcons: Record<string, PlatformIcon> = {
 
 .card-platforms {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 1rem;
 
   span {
     opacity: 0.5;
@@ -145,6 +144,10 @@ const platformIcons: Record<string, PlatformIcon> = {
 }
 
 .platform-link {
+  margin: -0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
   color: var(--color-text);
 }
 </style>
