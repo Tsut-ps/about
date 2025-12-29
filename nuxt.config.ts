@@ -6,10 +6,9 @@ export default defineNuxtConfig({
   modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon"],
 
   icon: {
-    // SSG で /api/_nuxt_icon を使わないようにする
-    provider: "none",
-    clientBundle: {
-      scan: true, // プロジェクト内の <Icon> をスキャンしてバンドル
+    provider: "iconify",
+    serverBundle: {
+      collections: ["mdi", "simple-icons"], // SSGで必要なコレクションをバンドル
     },
     customCollections: [
       {
