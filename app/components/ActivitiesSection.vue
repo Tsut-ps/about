@@ -47,7 +47,7 @@ function setFilter(filter: string) {
       </div>
 
       <!-- アクティビティ -->
-      <div class="activity-grid">
+      <div class="activity-container">
         <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
           <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
         </div>
@@ -62,7 +62,6 @@ function setFilter(filter: string) {
 }
 
 .activities-content {
-  width: fit-content;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -121,24 +120,23 @@ function setFilter(filter: string) {
   background-color: var(--color-accent);
 }
 
-.activity-grid {
-  max-height: auto;
+.activity-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 800px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 600px) {
     grid-template-columns: 1fr;
     justify-items: center;
   }
 }
 
 .activity-card {
-  max-width: 380px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -146,10 +144,14 @@ function setFilter(filter: string) {
   cursor: pointer;
   transition: transform 0.3s ease;
 
-  @media (min-width: 641px) and (max-width: 1024px) {
+  @media (min-width: 600px) and (max-width: 800px) {
     &:nth-child(3) {
       display: none;
     }
+  }
+
+  @media (max-width: 600px) {
+    max-width: 380px;
   }
 }
 
