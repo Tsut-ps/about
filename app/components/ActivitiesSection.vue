@@ -5,7 +5,7 @@ const filters = ['YouTube', 'ニコニコ動画', 'ブログ', 'Cosense/note']
 
 // フィルター時のリンクは1番目を優先
 const platformMap: Record<string, string[]> = {
-    'YouTube': ['youtube'],
+  'YouTube': ['youtube'],
   'ニコニコ動画': ['nicovideo'],
   'ブログ': ['blog'],
   'Cosense/note': ['note', 'scrapbox']
@@ -62,6 +62,7 @@ function setFilter(filter: string) {
 }
 
 .activities-content {
+  width: fit-content;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -74,8 +75,8 @@ function setFilter(filter: string) {
   gap: 2rem;
   flex-wrap: wrap;
 
-  @media (max-width: 800px) {
-    justify-content: center
+  @media (max-width: 640px) {
+    justify-content: center;
   }
 }
 
@@ -121,6 +122,7 @@ function setFilter(filter: string) {
 }
 
 .activity-grid {
+  max-height: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -131,16 +133,24 @@ function setFilter(filter: string) {
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
+    justify-items: center;
   }
 }
 
 .activity-card {
+  max-width: 380px;
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: var(--color-text);
   cursor: pointer;
   transition: transform 0.3s ease;
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    &:nth-child(3) {
+      display: none;
+    }
+  }
 }
 
 .activity-card:hover {
