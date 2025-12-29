@@ -1,10 +1,11 @@
 <template>
   <NuxtRouteAnnouncer />
-  <NuxtLayout>
-    <main>
-      <NuxtPage />
-    </main>
-  </NuxtLayout>
+  <HeaderSection />
+  <main>
+    <ProfileSection />
+    <ActivitiesSection />
+  </main>
+  <FooterSection />
 </template>
 
 <style>
@@ -28,7 +29,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Zen Maru Gothic', sans-serif;
-  
+
 }
 
 button,

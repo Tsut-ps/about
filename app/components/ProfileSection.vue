@@ -6,10 +6,6 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 
 <template>
   <section class="profile">
-    <div class="header-wrapper">
-      <video src="/256kkn.mp4" alt="かわいいヘッダー画像" class="header" autoplay loop muted playsinline @contextmenu.prevent />
-    </div>
-
     <div class="profile-content">
       <!-- プロフィール画像 -->
       <div class="avatar-wrapper">
@@ -52,24 +48,8 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
   justify-content: center;
 }
 
-.header-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: min(240px, 35vw);
-  background-color: #edbd98;
-}
-
-.header {
-  width: 100%;
-  max-width: 1200px;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 33%;
-}
-
 .profile-content {
-  margin: -2rem 2rem 3rem;
+  margin: 3rem 2rem;
   text-align: center;
   max-width: 600px;
   z-index: 10;
