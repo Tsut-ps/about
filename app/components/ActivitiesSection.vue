@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { data: activities } = await useFetch('/api/activities')
+const appConfig = useAppConfig()
 
 const filters = ['YouTube', 'ニコニコ動画', 'ブログ', 'Cosense/note']
 
@@ -29,6 +30,12 @@ const filteredActivities = computed(() => {
 function setFilter(filter: string) {
   activeFilter.value = filter
 }
+
+const platformLink = computed(() => {
+  return appConfig.snsLinks.find(snsLink => {
+    return snsLink.name === activeFilter.value
+  })?.url || undefined
+})
 </script>
 
 <template>
@@ -51,6 +58,13 @@ function setFilter(filter: string) {
         <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
           <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
         </div>
+      </div>
+
+      <!-- もっと見る -->
+      <div class="more-container">
+        <a v-if="platformLink" :href="platformLink" aria-label="もっと見る">
+          <Icon name="mdi:chevron-down" :size="24" />
+        </a>
       </div>
     </div>
   </section>
@@ -161,5 +175,20 @@ function setFilter(filter: string) {
 
 .activity-card:hover .card-thumbnail img {
   transform: scale(1.05);
+}
+
+.more-container {
+  display: block;
+  width: 100%;
+  height: 6em;
+  opacity: 0.5;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
