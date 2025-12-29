@@ -1,12 +1,11 @@
 <script setup lang="ts">
 const { data: activities } = await useFetch('/api/activities')
 
-const filters = ['すべて', 'YouTube', 'ニコニコ動画', 'ブログ', 'Cosense/note']
+const filters = ['YouTube', 'ニコニコ動画', 'ブログ', 'Cosense/note']
 
 // フィルター時のリンクは1番目を優先
 const platformMap: Record<string, string[]> = {
-  'すべて': ['youtube', 'nicovideo', 'blog', 'note', 'scrapbox'],
-  'YouTube': ['youtube'],
+    'YouTube': ['youtube'],
   'ニコニコ動画': ['nicovideo'],
   'ブログ': ['blog'],
   'Cosense/note': ['note', 'scrapbox']
