@@ -45,7 +45,7 @@ export default defineAppConfig<{
     {
       url: "https://github.com/Tsut-ps",
       iconName: "mdi:github",
-      iconSize: 28,
+      iconSize: 30,
       name: "GitHub",
       description: "Web系エンジニア(ほんとは閑静な喫茶店でハッカーしたい)",
     },
@@ -66,7 +66,7 @@ export default defineAppConfig<{
     {
       url: "https://www.amazon.jp/hz/wishlist/ls/29Z1OGW2MBBWP",
       iconName: "mdi:gift",
-      iconSize: 24,
+      iconSize: 25,
       name: "欲しいものリスト",
       description:
         "公開してますが、無理のない範囲で支援していただけると幸いです",

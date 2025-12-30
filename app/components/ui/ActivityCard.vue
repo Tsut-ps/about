@@ -35,7 +35,8 @@ const platformIcons: Record<string, PlatformIcon> = {
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
   blog: { name: 'mdi:web', size: 22 },
   note: { name: 'simple-icons:note', size: 18 },
-  scrapbox: { name: 'custom:cosense', size: 20 }
+  scrapbox: { name: 'custom:cosense', size: 20 },
+  github: { name: 'mdi:github', size: 23 }
 }
 </script>
 
@@ -46,7 +47,7 @@ const platformIcons: Record<string, PlatformIcon> = {
       <div v-else class="thumbnail-fallback">
         <Icon
           :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
-          size="48" />
+          :size="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.size || 24) * 2.4" />
       </div>
     </a>
   </div>

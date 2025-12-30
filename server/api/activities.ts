@@ -1,13 +1,15 @@
 import type { ActivityItem } from "../types/activity";
 import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
+import { fetchAPIGitHub } from "../utils/apiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
-  // フィードを並行取得
-  const results = await Promise.allSettled(
-    feeds.map((feed) => fetchFeed(feed))
-  );
+  // フィードとAPIを並行取得
+  const results = await Promise.allSettled([
+    ...feeds.map((feed) => fetchFeed(feed)),
+    fetchAPIGitHub(),
+  ]);
 
   // 成功したものだけを取得
   const activityItems: ActivityItem[] = [];
