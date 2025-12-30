@@ -15,3 +15,10 @@ export interface Feed {
   platform: string;
   name: string;
 }
+
+export interface API {
+  url: string;
+  platform: string;
+  name: string;
+  excludeItems?: string[];
+}

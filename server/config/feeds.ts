@@ -21,9 +21,4 @@ export const feeds: Feed[] = [
     platform: "blog",
     name: "個人ブログ",
   },
-  {
-    url: "https://scrapbox.io/api/feed/Tsut-ps/",
-    platform: "scrapbox",
-    name: "Cosense",
-  },
 ];

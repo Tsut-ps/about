@@ -1,7 +1,8 @@
 import type { ActivityItem } from "../types/activity";
 import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
-import { fetchAPIGitHub } from "../utils/apiFetcher";
+import { fetchAPIGitHub } from "../utils/githubApiFetcher";
+import { fetchScrapbox } from "../utils/scrapboxApiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
@@ -9,6 +10,7 @@ export default defineEventHandler(async () => {
   const results = await Promise.allSettled([
     ...feeds.map((feed) => fetchFeed(feed)),
     fetchAPIGitHub(),
+    fetchScrapbox(),
   ]);
 
   // 成功したものだけを取得

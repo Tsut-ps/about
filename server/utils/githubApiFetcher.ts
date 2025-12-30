@@ -1,7 +1,10 @@
+import { apis } from "../config/apis";
 import type { ActivityItem } from "../types/activity";
 
+const githubApi = apis.find((api) => api.platform === "github");
+
 // 使用する型のみ
-export interface GitHubRepo {
+export interface GitHubApiResponse {
   id: number;
   name: string;
   html_url: string;
@@ -13,27 +16,27 @@ export interface GitHubRepo {
   archived: boolean;
 }
 
-const userName = "Tsut-ps";
-const reposToExclude = ["Tsut-ps"];
-
 export async function fetchAPIGitHub(): Promise<ActivityItem[]> {
+  if (!githubApi?.url) {
+    console.error(`[/api/activities] GitHub API URL is not defined`);
+    return [];
+  }
   try {
-    const response: GitHubRepo[] = await $fetch(
-      `https://api.github.com/users/${userName}/repos`,
-      {
-        query: {
-          sort: "created",
-          direction: "desc",
-          per_page: 10,
-        },
-        timeout: 10000,
-      }
-    );
+    const response: GitHubApiResponse[] = await $fetch(githubApi.url, {
+      query: {
+        sort: "created",
+        direction: "desc",
+        per_page: 10,
+      },
+      timeout: 10000,
+    });
 
     const items: ActivityItem[] = response
       .filter(
         (repo) =>
-          !repo.fork && !repo.archived && !reposToExclude.includes(repo.name)
+          !repo.fork &&
+          !repo.archived &&
+          !githubApi.excludeItems?.includes(repo.name)
       )
       .map((repo) => ({
         id: `github-${repo.id}`,
@@ -42,11 +45,10 @@ export async function fetchAPIGitHub(): Promise<ActivityItem[]> {
         publishedDate: new Date(repo.created_at),
         links: [
           {
-            platform: "github",
+            platform: githubApi.platform,
             url: repo.html_url,
           },
         ],
-        description: repo.description,
       }));
 
     console.log(`[/api/activities] Fetched ${items.length} items from GitHub`);
