@@ -62,7 +62,7 @@ const platformLink = computed(() => {
 
       <!-- もっと見る -->
       <div class="more-container">
-        <a v-if="platformLink" :href="platformLink" aria-label="もっと見る">
+        <a v-if="platformLink" :href="platformLink" aria-label="もっと見る" target="_blank">
           <Icon name="mdi:chevron-down" :size="24" />
         </a>
       </div>
