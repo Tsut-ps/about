@@ -19,9 +19,6 @@ jobs:
           node-version: "20"
       - run: npm install
       - run: npx nuxt build --preset github_pages
-        env:
-          # GitHub Secretsから環境変数を渡す
-          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

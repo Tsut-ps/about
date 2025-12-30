@@ -3,7 +3,6 @@ import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
 import { fetchApiGitHub } from "../utils/githubApiFetcher";
 import { fetchApiScrapbox } from "../utils/scrapboxApiFetcher";
-import { fetchApiTwitter } from "../utils/twitterApiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
@@ -12,7 +11,6 @@ export default defineEventHandler(async () => {
     ...feeds.map((feed) => fetchFeed(feed)),
     fetchApiGitHub(),
     fetchApiScrapbox(),
-    fetchApiTwitter(),
   ]);
 
   // 成功したものだけを取得

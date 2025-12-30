@@ -33,7 +33,6 @@ interface PlatformIcon {
 const platformIcons: Record<string, PlatformIcon> = {
   youtube: { name: 'mdi:youtube', size: 24 },
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
-  twitter: { name: 'mdi:twitter', size: 22 },
   blog: { name: 'mdi:web', size: 22 },
   note: { name: 'simple-icons:note', size: 18 },
   scrapbox: { name: 'custom:cosense', size: 20 },
