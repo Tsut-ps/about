@@ -1,7 +1,8 @@
 import { apis } from "../config/apis";
 import type { ActivityItem } from "../types/activity";
 
-const githubApi = apis.find((api) => api.platform === "github");
+const config = apis.find((api) => api.platform === "github");
+const apiUrl = `https://api.github.com/users/${config?.userName}/repos`;
 
 // 使用する型のみ
 export interface GitHubApiResponse {
@@ -16,13 +17,13 @@ export interface GitHubApiResponse {
   archived: boolean;
 }
 
-export async function fetchAPIGitHub(): Promise<ActivityItem[]> {
-  if (!githubApi?.url) {
-    console.error(`[/api/activities] GitHub API URL is not defined`);
+export async function fetchApiGitHub(): Promise<ActivityItem[]> {
+  if (!config?.userName) {
+    console.error(`[/api/activities] GitHub username is not defined`);
     return [];
   }
   try {
-    const response: GitHubApiResponse[] = await $fetch(githubApi.url, {
+    const response: GitHubApiResponse[] = await $fetch(apiUrl, {
       query: {
         sort: "created",
         direction: "desc",
@@ -36,7 +37,7 @@ export async function fetchAPIGitHub(): Promise<ActivityItem[]> {
         (repo) =>
           !repo.fork &&
           !repo.archived &&
-          !githubApi.excludeItems?.includes(repo.name)
+          !config.excludeItems?.includes(repo.name)
       )
       .map((repo) => ({
         id: `github-${repo.id}`,
@@ -45,16 +46,19 @@ export async function fetchAPIGitHub(): Promise<ActivityItem[]> {
         publishedDate: new Date(repo.created_at),
         links: [
           {
-            platform: githubApi.platform,
+            platform: config.platform,
             url: repo.html_url,
           },
         ],
       }));
 
-    console.log(`[/api/activities] Fetched ${items.length} items from GitHub`);
-    return items;
+    const limitedItems = items.slice(0, config.itemLimit || items.length);
+    console.log(
+      `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from GitHub`
+    );
+    return limitedItems;
   } catch (error) {
-    console.error(`[/api/activities] Failed to fetch GitHub`, error);
+    console.error("[/api/activities] Failed to fetch GitHub", error);
     return [];
   }
 }

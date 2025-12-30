@@ -14,11 +14,13 @@ export interface Feed {
   url: string;
   platform: string;
   name: string;
+  itemLimit?: number;
 }
 
 export interface API {
-  url: string;
   platform: string;
   name: string;
+  userName?: string;
+  itemLimit?: number;
   excludeItems?: string[];
 }

@@ -22,6 +22,7 @@
   "devDependencies": {
     "@iconify-json/ic": "^1.2.4",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.63"
+    "@iconify-json/simple-icons": "^1.2.63",
+    "@types/node": "^25.0.3"
   }
 }

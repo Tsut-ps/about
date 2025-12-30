@@ -1,16 +1,18 @@
 import type { ActivityItem } from "../types/activity";
 import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
-import { fetchAPIGitHub } from "../utils/githubApiFetcher";
-import { fetchScrapbox } from "../utils/scrapboxApiFetcher";
+import { fetchApiGitHub } from "../utils/githubApiFetcher";
+import { fetchApiScrapbox } from "../utils/scrapboxApiFetcher";
+import { fetchApiTwitter } from "../utils/twitterApiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
   // フィードとAPIを並行取得
   const results = await Promise.allSettled([
     ...feeds.map((feed) => fetchFeed(feed)),
-    fetchAPIGitHub(),
-    fetchScrapbox(),
+    fetchApiGitHub(),
+    fetchApiScrapbox(),
+    fetchApiTwitter(),
   ]);
 
   // 成功したものだけを取得

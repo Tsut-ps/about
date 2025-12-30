@@ -1,13 +1,15 @@
 import { apis } from "../config/apis";
 import type { ActivityItem } from "../types/activity";
 
-const scrapboxApi = apis.find((api) => api.platform === "scrapbox");
+const config = apis.find((api) => api.platform === "scrapbox");
+const apiUrl = `https://scrapbox.io/api/pages/${config?.userName}/`;
 
 // 使用する型のみ
 interface ScrapboxPage {
   id: string;
   title: string;
   image?: string;
+  pin: 0 | number; // 0ならピン留めされていない
   created: number; // Unix timestamp (秒)
   updated: number; // Unix timestamp (秒)
 }
@@ -25,15 +27,15 @@ function replaceSpacesWithUnderscores(str: string): string {
   return str.replace(/ /g, "_");
 }
 
-export async function fetchScrapbox(): Promise<ActivityItem[]> {
-  if (!scrapboxApi?.url) {
-    console.error(`[/api/activities] Scrapbox API URL is not defined`);
+export async function fetchApiScrapbox(): Promise<ActivityItem[]> {
+  if (!config?.userName) {
+    console.error(`[/api/activities] Scrapbox username is not defined`);
     return [];
   }
   try {
-    const response: ScrapboxApiResponse = await $fetch(scrapboxApi.url, {
+    const response: ScrapboxApiResponse = await $fetch(apiUrl, {
       query: {
-        limit: 50,
+        limit: 20,
         sort: "created",
       },
       timeout: 10000,
@@ -42,7 +44,9 @@ export async function fetchScrapbox(): Promise<ActivityItem[]> {
     const projectName = response.projectName;
 
     const items: ActivityItem[] = response.pages
-      .filter((page) => !scrapboxApi.excludeItems?.includes(page.title))
+      .filter(
+        (page) => !config.excludeItems?.includes(page.title) && page.pin === 0
+      )
       .map((page) => ({
         id: `scrapbox-${page.id}`,
         title: page.title,
@@ -50,7 +54,7 @@ export async function fetchScrapbox(): Promise<ActivityItem[]> {
         publishedDate: new Date(page.created * 1000), // 作成日
         links: [
           {
-            platform: scrapboxApi.platform,
+            platform: config.platform,
             url: `https://scrapbox.io/${projectName}/${encodeURIComponent(
               replaceSpacesWithUnderscores(page.title)
             )}`,
@@ -58,12 +62,13 @@ export async function fetchScrapbox(): Promise<ActivityItem[]> {
         ],
       }));
 
+    const limitedItems = items.slice(0, config.itemLimit || items.length);
     console.log(
-      `[/api/activities] Fetched ${items.length} items from Scrapbox`
+      `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from Scrapbox`
     );
-    return items;
+    return limitedItems;
   } catch (error) {
-    console.error(`[/api/activities] Failed to fetch Scrapbox`, error);
+    console.error("[/api/activities] Failed to fetch Scrapbox", error);
     return [];
   }
 }

@@ -61,8 +61,6 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
           if (imgMatch) thumbnail = imgMatch[1];
         }
 
-        // scrapbox: サムネイルなし (CORS制限のため)
-
         // nicovideo: 高画質版サムネイルを取得
         if (
           feedConfig.platform === "nicovideo" &&
@@ -72,23 +70,12 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
           thumbnail = thumbnail + ".L";
         }
 
-        let title = entry.title;
-
-        // scrapbox: タイトルから「 - 」以降を除去
-        if (feedConfig.platform === "scrapbox" && title.includes(" - ")) {
-          title = title.split(" - ")[0].trim();
-        }
-        // scrapbox: ユーザーページを除外
-        if (feedConfig.platform === "scrapbox" && title === "Tsut-ps") {
-          continue;
-        }
-
         // blog, note, scrapbox
         const id = entry.guid?.["#text"] || entry.guid || entry.link;
 
         items.push({
           id,
-          title,
+          title: entry.title,
           date: new Date(entry.pubDate),
           publishedDate: new Date(entry.pubDate),
           links: [
@@ -102,10 +89,11 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
       }
     }
 
+    const limitedItems = items.slice(0, feedConfig.itemLimit || items.length);
     console.log(
-      `[/api/activities] Fetched ${items.length} items from ${feedConfig.name}`
+      `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from ${feedConfig.name}`
     );
-    return items;
+    return limitedItems;
   } catch (error) {
     console.error(
       `[/api/activities] Failed to fetch ${feedConfig.name}:`,

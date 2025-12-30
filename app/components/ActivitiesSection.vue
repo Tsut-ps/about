@@ -2,18 +2,16 @@
 const { data: activities } = await useFetch('/api/activities')
 const appConfig = useAppConfig()
 
-const filters = ['YouTube', 'ニコニコ動画', 'ブログ/note', '手記/開発ログ']
+const filters = ['音声合成動画', 'ブログ/note', '手記/開発ログ']
 
 // フィルター時のリンクは1番目を優先
 const platformMap: Record<string, string[]> = {
-  'YouTube': ['youtube'],
-  'ニコニコ動画': ['nicovideo'],
+  '音声合成動画': ['youtube', 'nicovideo', 'twitter'],
   'ブログ/note': ['blog', 'note'],
   '手記/開発ログ': ['scrapbox', 'github'],
 }
 
-const activeFilter = ref('ニコニコ動画')
-
+const activeFilter = ref('音声合成動画')
 const filteredActivities = computed(() => {
   if (!activities.value) return []
 
@@ -24,7 +22,7 @@ const filteredActivities = computed(() => {
     })
   )
 
-  return filtered.slice(0, 3)
+  return filtered.slice(0, 6)
 })
 
 function setFilter(filter: string) {

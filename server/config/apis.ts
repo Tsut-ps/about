@@ -2,15 +2,23 @@ import type { API } from "../types/activity";
 
 export const apis: API[] = [
   {
-    url: "https://scrapbox.io/api/pages/Tsut-ps/",
+    userName: "Tsut-ps",
     platform: "scrapbox",
     name: "Cosense",
+    itemLimit: 3,
     excludeItems: ["Tsut-ps"], // ユーザーページを除外
   },
   {
-    url: "https://api.github.com/users/Tsut-ps/repos",
+    userName: "Tsut-ps",
     platform: "github",
     name: "GitHub",
-    excludeItems: ["Tsut-ps"], // プロフィールリポジトリを除外
+    itemLimit: 3,
+    excludeItems: ["Tsut-ps", "about"], // プロフィールリポジトリを除外
+  },
+  {
+    userName: "Tsut_ps",
+    platform: "twitter",
+    name: "X",
+    itemLimit: 2,
   },
 ];
