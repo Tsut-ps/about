@@ -13,7 +13,7 @@ export default defineAppConfig<{
       viewType: "card",
     },
     {
-      url: "https://www.nicovideo.jp/user/56264499",
+      url: "https://www.nicovideo.jp/user/56264499/video",
       iconName: "simple-icons:niconico",
       iconSize: 28,
       name: "ニコニコ動画",
