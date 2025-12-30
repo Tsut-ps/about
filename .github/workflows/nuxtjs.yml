@@ -8,6 +8,7 @@ on:
     branches:
       - main
 jobs:
+  # ビルドを実行
   build:
     runs-on: ubuntu-latest
     steps:
@@ -16,26 +17,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      # Pick your own package manager and build script
       - run: npm install
       - run: npx nuxt build --preset github_pages
+        env:
+          # GitHub Secretsから環境変数を渡す
+          TWITTER_BEARER_TOKEN: ${{ secrets.TWITTER_BEARER_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public
-  # Deployment job
+  # Pagesにデプロイ
   deploy:
-    # Add a dependency to the build job
+    # ビルドジョブに依存関係を追加
     needs: build
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    # Pagesデプロイに必要な権限をGITHUB_TOKENに付与
     permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-    # Deploy to the github_pages environment
+      pages: write # Pagesにデプロイするため
+      id-token: write # デプロイが適切なソースから行われていることを検証するため
+    # github_pages環境にデプロイ
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # Specify runner + deployment step
+    # ランナーとデプロイ手順を指定
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
