@@ -54,7 +54,7 @@ const platformLink = computed(() => {
       </div>
 
       <!-- アクティビティ -->
-      <div class="activity-container">
+      <div :key="activeFilter" class="activity-container">
         <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
           <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
         </div>
@@ -138,6 +138,7 @@ const platformLink = computed(() => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  animation: fadeIn 0.3s ease forwards;
 
   @media (max-width: 800px) {
     grid-template-columns: repeat(2, 1fr);
@@ -166,6 +167,16 @@ const platformLink = computed(() => {
 
   @media (max-width: 600px) {
     max-width: 380px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
