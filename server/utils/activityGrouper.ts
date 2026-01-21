@@ -1,5 +1,20 @@
 import type { ActivityItem } from "../types/activity";
 
+/**
+ * 類似した活動アイテムをグループ化するユーティリティ
+ * 
+ * 同じコンテンツを複数プラットフォームに投稿した場合（例: YouTubeとニコニコ動画に同じ動画）、
+ * タイトルの類似度から同一コンテンツを判定してグループ化する。
+ * 
+ * グループ化の処理:
+ * 1. タイトルの類似度を計算（装飾文字・助詞などを除外して比較）
+ * 2. 類似アイテムが見つかった場合、すべてのリンクを統合
+ * 3. 最適なサムネイル（優先度: YouTube > ニコニコ > その他）を選択
+ * 4. 最も古い公開日（初出日）を採用
+ * 
+ * @param items - グループ化する活動アイテムの配列
+ * @returns グループ化された活動アイテムの配列
+ */
 export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   const grouped: ActivityItem[] = [];
   const processedIds = new Set<string>();
@@ -76,6 +91,25 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   return grouped;
 }
 
+/**
+ * 2つのタイトルが類似しているかを判定する
+ * 
+ * 判定アルゴリズム:
+ * 1. タイトルを正規化（装飾文字、助詞、記号などを除去してコア情報を抽出）
+ * 2. 完全一致なら true
+ * 3. 片方がもう片方を含み、短い方が長い方の60%以上なら true
+ * 
+ * 除外される要素:
+ * - 括弧とその中身【】[]()
+ * - よくある動詞表現（歌ってみた、カバーしてみた など）
+ * - 助詞（に、で、を、が、は）
+ * - 記号（!？。、など）
+ * - スペース
+ * 
+ * @param title1 - 比較するタイトル1
+ * @param title2 - 比較するタイトル2
+ * @returns 類似している場合 true
+ */
 function isSimilarTitle(title1: string, title2: string): boolean {
   // タイトルの正規化（コア情報の抽出）
   const extractCore = (str: string) => {

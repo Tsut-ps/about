@@ -1,11 +1,31 @@
 import { XMLParser } from "fast-xml-parser";
 import type { ActivityItem, Feed } from "../types/activity";
 
+/**
+ * RSS/Atom フィード取得・解析ユーティリティ
+ * 
+ * 複数のフィードフォーマットに対応:
+ * - Atom形式（YouTube）: <feed><entry> 構造
+ * - RSS 2.0形式（ニコニコ動画、note、ブログ、Scrapbox）: <rss><channel><item> 構造
+ * 
+ * 各プラットフォーム固有の処理:
+ * - YouTube: ショート動画を除外、media:thumbnail からサムネイル取得
+ * - ニコニコ動画: 高画質版サムネイル（.L）を使用
+ * - ブログ: description内の<img>タグからサムネイル抽出
+ * 
+ * エラーハンドリング: 取得失敗時は空配列を返して処理を継続
+ */
 const parser = new XMLParser({
   ignoreAttributes: false, // hrefなどの属性を含めて解析
   attributeNamePrefix: "@_", // 属性名の接頭辞
 });
 
+/**
+ * RSS/Atom フィードを取得して ActivityItem 配列に変換
+ * 
+ * @param feedConfig - フィード設定（URL、プラットフォーム名、アイテム数制限など）
+ * @returns 取得・解析された活動アイテムの配列（エラー時は空配列）
+ */
 export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
   try {
     const response: string = await $fetch(feedConfig.url, {
