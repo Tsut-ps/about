@@ -9,7 +9,9 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
     <div class="profile-content">
       <!-- プロフィール画像 -->
       <div class="avatar-wrapper">
+        <span class="orbit orbit-left" aria-hidden="true">♪</span>
         <img src="/kknkr.png" alt="狐紺くろのプロフィール画像" class="avatar" width="100" height="100">
+        <span class="orbit orbit-right" aria-hidden="true">★</span>
       </div>
 
       <!-- 名前 -->
@@ -56,7 +58,10 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 }
 
 .avatar-wrapper {
-  margin-bottom: 1rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar {
@@ -64,6 +69,26 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.orbit {
+  position: absolute;
+  font-size: 1.25rem;
+  opacity: 0.7;
+  animation: orbitBounce 2.8s ease-in-out infinite;
+}
+
+.orbit-left {
+  left: -2.1rem;
+  top: 60%;
+  transform: translateY(-50%);
+}
+
+.orbit-right {
+  right: -2rem;
+  top: 65%;
+  transform: translateY(-50%);
+  animation-delay: 1.4s;
 }
 
 .name {
@@ -111,5 +136,17 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 .social-links {
   display: grid;
   gap: 1rem;
+}
+
+@keyframes orbitBounce {
+
+  0%,
+  100% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(calc(-50% - 6px)) rotate(8deg);
+  }
 }
 </style>
