@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
-const SNSLinks = appConfig.snsLinks.filter(link => link.viewType !== 'card')
+const SNSLinks = appConfig.snsLinks.filter(link => !link.viewType)
 const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
+const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'card-aka')
 </script>
 
 <template>
@@ -36,6 +37,12 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
       <!-- SNSリンク(カード) -->
       <div class="social-links">
         <UiSNSCard v-for="link in SNSCardLinks" :key="link.url" :url="link.url" :icon-name="link.iconName"
+          :icon-size="link.iconSize" :name="link.name" :description="link.description" />
+      </div>
+
+      <!-- SNSリンク(その他のカード) -->
+      <div class="social-links social-links-aka">
+        <UiSNSCardAka v-for="link in SNSCardLinksAka" :key="link.url" :url="link.url" :icon-name="link.iconName"
           :icon-size="link.iconSize" :name="link.name" :description="link.description" />
       </div>
     </div>
@@ -134,8 +141,13 @@ const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 }
 
 .social-links {
+  margin: 1rem 0;
   display: grid;
   gap: 1rem;
+}
+
+.social-links-aka {
+  gap: .5rem;
 }
 
 @keyframes orbitBounce {

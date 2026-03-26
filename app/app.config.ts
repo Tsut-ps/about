@@ -29,6 +29,14 @@ export default defineAppConfig<{
       viewType: "card",
     },
     {
+      url: "https://fori.io/Moti-kitsune",
+      iconName: "custom:mk",
+      iconSize: 28,
+      name: "もちきつね",
+      description: "映像別名義",
+      viewType: "card-aka",
+    },
+    {
       url: "https://twitter.com/Tsut_ps",
       iconName: "mdi:twitter",
       iconSize: 28,
