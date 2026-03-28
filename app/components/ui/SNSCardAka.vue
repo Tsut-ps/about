@@ -23,6 +23,11 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
   &:hover {
     transform: translateY(-4px);
   }
+
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+  }
 }
 
 .social-aka-name {

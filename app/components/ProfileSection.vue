@@ -138,6 +138,11 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
+
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+  }
 }
 
 .social-links {

@@ -33,6 +33,11 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     background: var(--color-accent);
   }
+
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+  }
 }
 
 .social-icon {
