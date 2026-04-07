@@ -9,7 +9,7 @@ export default defineAppConfig<{
       iconName: "mdi:youtube",
       iconSize: 32,
       name: "YouTube",
-      description: "好きな音声合成キャラが喋ったり歌ったり(カバー)",
+      description: "好きな音声合成キャラに歌ってもらったり(カバー)",
       viewType: "card",
     },
     {
@@ -17,7 +17,7 @@ export default defineAppConfig<{
       iconName: "simple-icons:niconico",
       iconSize: 28,
       name: "ニコニコ動画",
-      description: "一部YouTubeにはないトーク動画が上がってます",
+      description: "ソフトウェアトーク動画が置いてあります",
       viewType: "card",
     },
     {
