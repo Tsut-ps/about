@@ -48,7 +48,7 @@ const platformLink = computed(() => {
         <h2 class="activities-title">New!</h2>
         <div class="filter-container">
           <button v-for="filter in filters" :key="filter" class="filter-btn"
-            :class="{ active: activeFilter === filter }" @click="setFilter(filter)">
+            :class="{ active: activeFilter === filter }" @click="setFilter(filter)" @mouseenter="setFilter(filter)">
             {{ filter }}
           </button>
         </div>
