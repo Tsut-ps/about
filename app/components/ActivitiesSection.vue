@@ -13,6 +13,7 @@ const platformMap: Record<string, string[]> = {
 }
 
 const activeFilter = ref('ニコニコ動画')
+const visibleActivityCount = 6
 
 const filteredActivities = computed(() => {
   if (!activities.value) return []
@@ -24,7 +25,7 @@ const filteredActivities = computed(() => {
     })
   )
 
-  return filtered.slice(0, 3)
+  return filtered.slice(0, visibleActivityCount)
 })
 
 function setFilter(filter: string) {
@@ -160,7 +161,7 @@ const platformLink = computed(() => {
   transition: transform 0.3s ease;
 
   @media (min-width: 600px) and (max-width: 800px) {
-    &:nth-child(3) {
+    &:nth-child(n+5) {
       display: none;
     }
   }

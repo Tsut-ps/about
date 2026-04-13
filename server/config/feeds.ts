@@ -17,12 +17,12 @@ export const feeds: Feed[] = [
     url: "https://note.com/tsutps/rss",
     platform: "note",
     name: "note",
-    itemLimit: 2,
+    itemLimit: 1,
   },
   {
     url: "https://matcha14.com/feed/",
     platform: "blog",
     name: "個人ブログ",
-    itemLimit: 2,
+    itemLimit: 5,
   },
 ];
