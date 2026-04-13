@@ -121,13 +121,14 @@ const platformLink = computed(() => {
   padding: .65rem 1.25rem;
   cursor: pointer;
   opacity: 0.5;
-  transition: all 0.2s;
   border-radius: 64px;
+  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .filter-btn:hover {
   opacity: 0.8;
   background-color: var(--color-accent);
+  transform: translateY(-2px);
 }
 
 .filter-btn.active {
