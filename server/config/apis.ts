@@ -2,6 +2,12 @@ import type { API } from "../types/activity";
 
 export const apis: API[] = [
   {
+    playlistId: "UULFq6EmR4FgaSVvGpqdHvqOLA",
+    platform: "youtube",
+    name: "YouTube",
+    itemLimit: 24,
+  },
+  {
     userName: "Tsut-ps",
     platform: "scrapbox",
     name: "Cosense",

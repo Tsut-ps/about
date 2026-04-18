@@ -16,36 +16,8 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
 
     const items: ActivityItem[] = [];
 
-    // YouTube: Atom形式
-    if (parsed.feed?.entry) {
-      const entries = Array.isArray(parsed.feed.entry)
-        ? parsed.feed.entry
-        : [parsed.feed.entry];
-
-      for (const entry of entries) {
-        const url = entry.link?.["@_href"] || entry.link;
-
-        // ショート動画を除く
-        if (url && url.includes("/shorts/")) continue;
-
-        items.push({
-          id: entry.id,
-          title: entry.title,
-          date: new Date(entry.updated || entry.published),
-          publishedDate: new Date(entry.published),
-          links: [
-            {
-              platform: feedConfig.platform,
-              url,
-            },
-          ],
-          thumbnail: entry["media:group"]?.["media:thumbnail"]?.["@_url"],
-        });
-      }
-    }
-
     // nicovideo/blog/note/scrapbox: RSS 2.0形式
-    else if (parsed.rss?.channel?.item) {
+    if (parsed.rss?.channel?.item) {
       const entries = Array.isArray(parsed.rss.channel.item)
         ? parsed.rss.channel.item
         : [parsed.rss.channel.item];

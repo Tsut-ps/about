@@ -11,6 +11,8 @@ jobs:
   # ビルドを実行
   build:
     runs-on: ubuntu-latest
+    env:
+      NUXT_YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
     steps:
       - uses: actions/checkout@v6
       - run: corepack enable

@@ -3,12 +3,14 @@ import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
 import { fetchApiGitHub } from "../utils/githubApiFetcher";
 import { fetchApiScrapbox } from "../utils/scrapboxApiFetcher";
+import { fetchApiYouTube } from "../utils/youtubeApiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
   // フィードとAPIを並行取得
   const results = await Promise.allSettled([
     ...feeds.map((feed) => fetchFeed(feed)),
+    fetchApiYouTube(),
     fetchApiGitHub(),
     fetchApiScrapbox(),
   ]);

@@ -45,7 +45,7 @@ interface TwitterResponse {
 }
 
 export async function fetchApiTwitter(): Promise<ActivityItem[]> {
-  const bearerToken = process.env.TWITTER_BEARER_TOKEN;
+  const bearerToken = useRuntimeConfig().twitterBearerToken;
   if (!config?.userName) {
     console.error("[/api/activities] Twitter username is not defined");
     return [];

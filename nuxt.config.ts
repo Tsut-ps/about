@@ -3,6 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
+  // https://nuxt.com/docs/4.x/guide/going-further/runtime-config#environment-variables
+  runtimeConfig: {
+    youtubeApiKey: "",
+  },
+
   modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon"],
 
   icon: {

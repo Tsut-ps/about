@@ -21,6 +21,7 @@ export interface API {
   platform: string;
   name: string;
   userName?: string;
+  playlistId?: string;
   itemLimit?: number;
   excludeItems?: string[];
 }
