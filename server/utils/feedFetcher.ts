@@ -23,6 +23,15 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
         : [parsed.rss.channel.item];
 
       for (const entry of entries) {
+        // ニコニコ: /watch/ss... から始まるショート動画を除く
+        if (
+          feedConfig.platform === "nicovideo" &&
+          typeof entry.link === "string" &&
+          entry.link.includes("/watch/ss")
+        ) {
+          continue;
+        }
+
         // nicovideo, note
         let thumbnail =
           entry["media:thumbnail"]?.["@_url"] || entry["media:thumbnail"];
