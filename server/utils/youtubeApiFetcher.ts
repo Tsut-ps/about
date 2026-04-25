@@ -1,7 +1,7 @@
 import { apis } from "../config/apis";
-import type { ActivityItem } from "../types/activity";
+import type { ActivityItem, API } from "../types/activity";
 
-const config = apis.find((api) => api.platform === "youtube");
+const configs = apis.filter((api) => api.platform.startsWith("youtube"));
 const apiUrl = "https://www.googleapis.com/youtube/v3";
 
 interface YouTubeThumbnail {
@@ -46,16 +46,9 @@ const pickThumbnail = (thumbnails: YouTubeThumbnailSet): string | undefined => {
   );
 };
 
-export async function fetchApiYouTube(): Promise<ActivityItem[]> {
-  const apiKey = useRuntimeConfig().youtubeApiKey;
-
+async function fetchYouTubePlaylist(config: API, apiKey: string): Promise<ActivityItem[]> {
   if (!config?.playlistId) {
-    console.error("[/api/activities] YouTube playlistId is not defined");
-    return [];
-  }
-
-  if (!apiKey) {
-    console.error("[/api/activities] YOUTUBE_API_KEY is not set");
+    console.error(`[/api/activities] ${config.name} playlistId is not defined`);
     return [];
   }
 
@@ -74,7 +67,7 @@ export async function fetchApiYouTube(): Promise<ActivityItem[]> {
     );
 
     if (!playlistResponse.items || playlistResponse.items.length === 0) {
-      console.log("[/api/activities] No videos found from YouTube");
+      console.log(`[/api/activities] No videos found from ${config.name}`);
       return [];
     }
 
@@ -104,11 +97,23 @@ export async function fetchApiYouTube(): Promise<ActivityItem[]> {
 
     const limitedItems = items.slice(0, config.itemLimit || items.length);
     console.log(
-      `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from YouTube`,
+      `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from ${config.name}`,
     );
     return limitedItems;
   } catch (error) {
-    console.error("[/api/activities] Failed to fetch YouTube", error);
+    console.error(`[/api/activities] Failed to fetch ${config.name}`, error);
     return [];
   }
+}
+
+export async function fetchApiYouTube(): Promise<ActivityItem[]> {
+  const apiKey = useRuntimeConfig().youtubeApiKey;
+
+  if (!apiKey) {
+    console.error("[/api/activities] YOUTUBE_API_KEY is not set");
+    return [];
+  }
+
+  const results = await Promise.all(configs.map((config) => fetchYouTubePlaylist(config, apiKey)));
+  return results.flat();
 }

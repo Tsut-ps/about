@@ -8,6 +8,12 @@ export const apis: API[] = [
     itemLimit: 24,
   },
   {
+    playlistId: "UUSHq6EmR4FgaSVvGpqdHvqOLA",
+    platform: "youtube-shorts",
+    name: "YouTube Shorts",
+    itemLimit: 24,
+  },
+  {
     userName: "Tsut-ps",
     platform: "scrapbox",
     name: "Cosense",

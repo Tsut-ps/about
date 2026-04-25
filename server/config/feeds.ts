@@ -6,6 +6,9 @@ export const feeds: Feed[] = [
     platform: "nicovideo",
     name: "ニコニコ動画",
     itemLimit: 24,
+    shortPlatform: "nicovideo-shorts",
+    shortName: "ニコニコショート",
+    shortItemLimit: 24,
   },
   {
     url: "https://note.com/tsutps/rss",

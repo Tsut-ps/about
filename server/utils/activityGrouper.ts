@@ -1,5 +1,7 @@
 import type { ActivityItem } from "../types/activity";
 
+type ContentGroup = "standard" | "shorts";
+
 export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   const grouped: ActivityItem[] = [];
   const processedIds = new Set<string>();
@@ -7,12 +9,15 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   for (const item of items) {
     if (processedIds.has(item.id)) continue;
 
-    // 類似タイトルのアイテムを検索
+    const itemContentGroup = getContentGroup(item);
+
+    // itemを基準に、未処理のotherを1件ずつ比較して類似候補を集める
     const similar = items.filter(
       (other) =>
         !processedIds.has(other.id) &&
         other.id !== item.id &&
-        isSimilarTitle(item.title, other.title)
+        getContentGroup(other) === itemContentGroup &&
+        isSimilarTitle(item.title, other.title),
     );
 
     if (similar.length > 0) {
@@ -22,14 +27,21 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
       // サムネイル優先順位 [高] 0 >>>> 4 [低]
       const priorityOrder = [
         "youtube",
+        "youtube-shorts",
         "nicovideo",
+        "nicovideo-shorts",
         "blog",
         "note",
         "scrapbox",
+        "github",
       ];
+
+      const getPlatformPriority = (platform?: string) => {
+        const priority = priorityOrder.indexOf(platform ?? "");
+        return priority === -1 ? priorityOrder.length : priority; // 存在しない場合は最低優先度
+      };
       let bestThumbnail = item.thumbnail;
-      let bestPriority =
-        priorityOrder.indexOf(item.links[0]?.platform) ?? priorityOrder.length; // 存在しない場合は最低優先度
+      let bestPriority = getPlatformPriority(item.links[0]?.platform);
 
       // 公開日は最も古いものを採用
       let oldestPublishedDate = item.publishedDate;
@@ -38,10 +50,8 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
 
       for (const similarItem of similar) {
         if (similarItem.thumbnail) {
-          const priority =
-            priorityOrder.indexOf(similarItem.links[0]?.platform) ??
-            priorityOrder.length;
-          if (priority < bestPriority) {
+          const priority = getPlatformPriority(similarItem.links[0]?.platform);
+          if (!bestThumbnail || priority < bestPriority) {
             bestThumbnail = similarItem.thumbnail;
             bestPriority = priority;
           }
@@ -76,6 +86,12 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   return grouped;
 }
 
+// 通常の動画とショート動画を分ける
+function getContentGroup(item: ActivityItem): ContentGroup {
+  const platform = item.links[0]?.platform; // 未処理はまだ1件のプラットフォーム/リンクしかないため
+  return platform?.endsWith("-shorts") ? "shorts" : "standard";
+}
+
 function isSimilarTitle(title1: string, title2: string): boolean {
   // タイトルの正規化（コア情報の抽出）
   const extractCore = (str: string) => {
@@ -85,7 +101,7 @@ function isSimilarTitle(title1: string, title2: string): boolean {
         .trim()
         // 全角英数字を半角に
         .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) =>
-          String.fromCharCode(s.charCodeAt(0) - 0xfee0)
+          String.fromCharCode(s.charCodeAt(0) - 0xfee0),
         )
         // 括弧とその中身を削除（装飾情報）
         .replace(/【[^】]*】/g, "")
@@ -93,6 +109,10 @@ function isSimilarTitle(title1: string, title2: string): boolean {
         .replace(/\([^)]*\)/g, "")
         .replace(/「[^」]*」/g, (match) => {
           // 「」内が曲名などの可能性があるので残す（「」は削除）
+          return match.slice(1, -1);
+        })
+        .replace(/｢[^｣]*｣/g, (match) => {
+          // ｢｣内が曲名などの可能性があるので残す（｢｣は削除）
           return match.slice(1, -1);
         })
         // よくある動詞表現を除く
@@ -104,7 +124,7 @@ function isSimilarTitle(title1: string, title2: string): boolean {
         // 助詞を除く（に、で、を、が、は）
         .replace(/[にでをがは]/g, "")
         // 記号を除く
-        .replace(/[！!？?。、，,・]/g, "")
+        .replace(/[！!？?。、，,・#＃]/g, "")
         // スペースを除く
         .replace(/\s+/g, "")
         .trim()
@@ -127,5 +147,51 @@ function isSimilarTitle(title1: string, title2: string): boolean {
     return true;
   }
 
-  return false;
+  // タイトルが短すぎる場合は誤判定が増えるため、ngram比較は行わない
+  const minCoreLength = Math.min(
+    Array.from(core1).length,
+    Array.from(core2).length,
+  );
+  if (minCoreLength < 2) return false;
+
+  // 語順が入れ替わったタイトルでも拾えるよう、隣接文字列の一致率を見る
+  // タイトルが短い場合は2-gram、長い場合は3-gramで比較
+  const ngramSize = minCoreLength < 10 ? 2 : 3;
+  const threshold = ngramSize === 2 ? 0.9 : 0.8;
+  return calculateNgramSimilarity(core1, core2, ngramSize) >= threshold;
+}
+
+// タイトルの類似度を計算するn-gram
+function calculateNgramSimilarity(
+  str1: string,
+  str2: string,
+  ngramSize: number,
+): number {
+  const ngrams1 = getNgramCounts(str1, ngramSize);
+  const ngrams2 = getNgramCounts(str2, ngramSize);
+  const total =
+    [...ngrams1.values()].reduce((sum, count) => sum + count, 0) +
+    [...ngrams2.values()].reduce((sum, count) => sum + count, 0);
+
+  if (total === 0) return 0;
+
+  let intersection = 0;
+  for (const [ngram, count] of ngrams1) {
+    intersection += Math.min(count, ngrams2.get(ngram) ?? 0);
+  }
+
+  return (2 * intersection) / total;
+}
+
+function getNgramCounts(str: string, ngramSize: number): Map<string, number> {
+  const chars = Array.from(str);
+  const ngrams = new Map<string, number>();
+
+  // 文字単位のn-gramを数える
+  for (let index = 0; index <= chars.length - ngramSize; index++) {
+    const ngram = chars.slice(index, index + ngramSize).join("");
+    ngrams.set(ngram, (ngrams.get(ngram) ?? 0) + 1);
+  }
+
+  return ngrams;
 }

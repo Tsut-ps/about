@@ -15,6 +15,9 @@ export interface Feed {
   platform: string;
   name: string;
   itemLimit?: number;
+  shortPlatform?: string;
+  shortName?: string;
+  shortItemLimit?: number;
 }
 
 export interface API {

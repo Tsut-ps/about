@@ -2,18 +2,19 @@
 const { data: activities } = await useFetch('/api/activities')
 const appConfig = useAppConfig()
 
-const filters = ['YouTube', 'ニコニコ動画', 'ブログ/note', '手記/開発ログ']
+const filters = ['YouTube', 'ニコニコ動画', '#Shorts', 'ブログ/note', '手記/開発ログ']
 
 // フィルター時のリンクは1番目を優先
 const platformMap: Record<string, string[]> = {
   'YouTube': ['youtube'],
   'ニコニコ動画': ['nicovideo'],
+  '#Shorts': ['youtube-shorts', 'nicovideo-shorts'],
   'ブログ/note': ['blog', 'note'],
   '手記/開発ログ': ['scrapbox', 'github'],
 }
 
 const activeFilter = ref('ニコニコ動画')
-const visibleActivityCount = 6
+const visibleActivityCount = computed(() => activeFilter.value === '#Shorts' ? 4 : 6)
 
 const filteredActivities = computed(() => {
   if (!activities.value) return []
@@ -25,7 +26,7 @@ const filteredActivities = computed(() => {
     })
   )
 
-  return filtered.slice(0, visibleActivityCount)
+  return filtered.slice(0, visibleActivityCount.value)
 })
 
 function setFilter(filter: string) {
@@ -55,9 +56,12 @@ const platformLink = computed(() => {
       </div>
 
       <!-- アクティビティ -->
-      <div :key="activeFilter" class="activity-container">
-        <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
-          <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
+      <div class="activity-container-frame">
+        <div :key="activeFilter" class="activity-container"
+          :class="{ 'activity-container-shorts': activeFilter === '#Shorts' }">
+          <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
+            <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
+          </div>
         </div>
       </div>
 
@@ -136,6 +140,12 @@ const platformLink = computed(() => {
   background-color: var(--color-accent);
 }
 
+.activity-container-frame {
+  @media (min-width: 801px) {
+    min-height: 660px;
+  }
+}
+
 .activity-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -149,6 +159,14 @@ const platformLink = computed(() => {
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+}
+
+.activity-container-shorts {
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

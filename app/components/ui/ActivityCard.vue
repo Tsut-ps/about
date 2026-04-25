@@ -23,6 +23,9 @@ function formatDate(date: Date | string) {
 }
 
 const url = computed(() => item.links.find(link => link.platform === selectedPlatform)?.url || item.links[0]?.url)
+const isShort = computed(() =>
+  selectedPlatform?.endsWith('-shorts') || item.links.some(link => link.platform?.endsWith('-shorts'))
+)
 
 interface PlatformIcon {
   name: string
@@ -32,7 +35,9 @@ interface PlatformIcon {
 
 const platformIcons: Record<string, PlatformIcon> = {
   youtube: { name: 'mdi:youtube', size: 24 },
+  'youtube-shorts': { name: 'mdi:youtube', size: 24 },
   nicovideo: { name: 'simple-icons:niconico', size: 20 },
+  'nicovideo-shorts': { name: 'simple-icons:niconico', size: 20 },
   blog: { name: 'mdi:web', size: 22 },
   note: { name: 'simple-icons:note', size: 18 },
   scrapbox: { name: 'custom:cosense', size: 20 },
@@ -41,9 +46,10 @@ const platformIcons: Record<string, PlatformIcon> = {
 </script>
 
 <template>
-  <div class="card-thumbnail">
+  <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
     <a :href="url" target="_blank">
-      <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" width="480" height="360">
+      <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
+        :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
         <Icon
           :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
@@ -78,6 +84,10 @@ const platformIcons: Record<string, PlatformIcon> = {
   position: relative;
   border-radius: 8px;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-thumbnail-shorts {
+  aspect-ratio: 9 / 16;
 }
 
 .card-thumbnail img {

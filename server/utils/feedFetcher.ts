@@ -15,6 +15,7 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
     const parsed = parser.parse(response);
 
     const items: ActivityItem[] = [];
+    const shortItems: ActivityItem[] = [];
 
     // nicovideo/blog/note/scrapbox: RSS 2.0形式
     if (parsed.rss?.channel?.item) {
@@ -23,14 +24,14 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
         : [parsed.rss.channel.item];
 
       for (const entry of entries) {
-        // ニコニコ: /watch/ss... から始まるショート動画を除く
-        if (
-          feedConfig.platform === "nicovideo" &&
-          typeof entry.link === "string" &&
-          entry.link.includes("/watch/ss")
-        ) {
-          continue;
-        }
+        const isNicovideo = feedConfig.platform.startsWith("nicovideo");
+        const isShort = typeof entry.link === "string" && entry.link.includes("/watch/ss");
+        const platform = isNicovideo && isShort
+          ? feedConfig.shortPlatform
+          : feedConfig.platform;
+
+        if (!platform) continue;
+
 
         // nicovideo, note
         let thumbnail =
@@ -44,7 +45,7 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
 
         // nicovideo: 高画質版サムネイルを取得
         if (
-          feedConfig.platform === "nicovideo" &&
+          isNicovideo &&
           thumbnail &&
           !thumbnail.endsWith(".L")
         ) {
@@ -54,27 +55,41 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
         // blog, note, scrapbox
         const id = entry.guid?.["#text"] || entry.guid || entry.link;
 
-        items.push({
+        const item = {
           id,
           title: entry.title,
           date: new Date(entry.pubDate),
           publishedDate: new Date(entry.pubDate),
           links: [
             {
-              platform: feedConfig.platform,
+              platform,
               url: entry.link,
             },
           ],
           thumbnail,
-        });
+        };
+
+        if (platform === feedConfig.shortPlatform) {
+          shortItems.push(item);
+        } else {
+          items.push(item);
+        }
       }
     }
 
     const limitedItems = items.slice(0, feedConfig.itemLimit || items.length);
+    const limitedShortItems = shortItems.slice(0, feedConfig.shortItemLimit || shortItems.length);
+
     console.log(
       `[/api/activities] Fetched ${items.length} -> ${limitedItems.length} items from ${feedConfig.name}`
     );
-    return limitedItems;
+    if (feedConfig.shortPlatform) {
+      console.log(
+        `[/api/activities] Fetched ${shortItems.length} -> ${limitedShortItems.length} items from ${feedConfig.shortName ?? feedConfig.shortPlatform}`
+      );
+    }
+
+    return [...limitedItems, ...limitedShortItems];
   } catch (error) {
     console.error(
       `[/api/activities] Failed to fetch ${feedConfig.name}:`,
