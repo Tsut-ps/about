@@ -48,8 +48,7 @@ const pickThumbnail = (thumbnails: YouTubeThumbnailSet): string | undefined => {
 
 async function fetchYouTubePlaylist(config: API, apiKey: string): Promise<ActivityItem[]> {
   if (!config?.playlistId) {
-    console.error(`[/api/activities] ${config.name} playlistId is not defined`);
-    return [];
+    throw new Error(`[/api/activities] ${config.name} playlistId is not defined`);
   }
 
   try {
@@ -101,8 +100,7 @@ async function fetchYouTubePlaylist(config: API, apiKey: string): Promise<Activi
     );
     return limitedItems;
   } catch (error) {
-    console.error(`[/api/activities] Failed to fetch ${config.name}`, error);
-    return [];
+    throw new Error(`[/api/activities] Failed to fetch ${config.name}: ${error}`);
   }
 }
 
@@ -110,8 +108,7 @@ export async function fetchApiYouTube(): Promise<ActivityItem[]> {
   const apiKey = useRuntimeConfig().youtubeApiKey;
 
   if (!apiKey) {
-    console.error("[/api/activities] YOUTUBE_API_KEY is not set");
-    return [];
+    throw new Error("[/api/activities] YOUTUBE_API_KEY is not set");
   }
 
   const results = await Promise.all(configs.map((config) => fetchYouTubePlaylist(config, apiKey)));

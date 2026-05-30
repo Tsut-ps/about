@@ -8,20 +8,14 @@ import { groupSimilarItems } from "../utils/activityGrouper";
 
 export default defineEventHandler(async () => {
   // フィードとAPIを並行取得
-  const results = await Promise.allSettled([
+  const results = await Promise.all([
     ...feeds.map((feed) => fetchFeed(feed)),
     fetchApiYouTube(),
     fetchApiGitHub(),
     fetchApiScrapbox(),
   ]);
 
-  // 成功したものだけを取得
-  const activityItems: ActivityItem[] = [];
-  for (const result of results) {
-    if (result.status === "fulfilled") {
-      activityItems.push(...result.value);
-    }
-  }
+  const activityItems: ActivityItem[] = results.flat();
 
   // 同一コンテンツのグループ化（タイトルが類似している場合）
   const grouped = groupSimilarItems(activityItems);

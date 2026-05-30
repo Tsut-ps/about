@@ -95,8 +95,7 @@ async function fetchReadmeThumbnail(
 
 export async function fetchApiGitHub(): Promise<ActivityItem[]> {
   if (!config?.userName) {
-    console.error(`[/api/activities] GitHub username is not defined`);
-    return [];
+    throw new Error("[/api/activities] GitHub username is not defined");
   }
 
   const userName = config.userName;
@@ -144,7 +143,6 @@ export async function fetchApiGitHub(): Promise<ActivityItem[]> {
     );
     return limitedItems;
   } catch (error) {
-    console.error("[/api/activities] Failed to fetch GitHub", error);
-    return [];
+    throw new Error(`[/api/activities] Failed to fetch GitHub: ${error}`);
   }
 }

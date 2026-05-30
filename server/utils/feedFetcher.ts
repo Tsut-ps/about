@@ -91,10 +91,6 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
 
     return [...limitedItems, ...limitedShortItems];
   } catch (error) {
-    console.error(
-      `[/api/activities] Failed to fetch ${feedConfig.name}:`,
-      error
-    );
-    return [];
+    throw new Error(`[/api/activities] Failed to fetch ${feedConfig.name}: ${error}`);
   }
 }

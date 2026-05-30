@@ -28,7 +28,9 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ["/"],
+      failOnError: true,
+      retry: 0,
+      routes: ["/", "/api/activities"],
     },
   },
 

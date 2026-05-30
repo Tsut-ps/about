@@ -29,8 +29,7 @@ function replaceSpacesWithUnderscores(str: string): string {
 
 export async function fetchApiScrapbox(): Promise<ActivityItem[]> {
   if (!config?.userName) {
-    console.error(`[/api/activities] Scrapbox username is not defined`);
-    return [];
+    throw new Error("[/api/activities] Scrapbox username is not defined");
   }
   try {
     const response: ScrapboxApiResponse = await $fetch(apiUrl, {
@@ -68,7 +67,6 @@ export async function fetchApiScrapbox(): Promise<ActivityItem[]> {
     );
     return limitedItems;
   } catch (error) {
-    console.error("[/api/activities] Failed to fetch Scrapbox", error);
-    return [];
+    throw new Error(`[/api/activities] Failed to fetch Scrapbox: ${error}`);
   }
 }
