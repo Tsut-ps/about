@@ -22,10 +22,13 @@ function formatDate(date: Date | string) {
   })
 }
 
-const url = computed(() => item.links.find(link => link.platform === selectedPlatform)?.url || item.links[0]?.url)
-const isShort = computed(() =>
-  selectedPlatform?.endsWith('-shorts') || item.links.some(link => link.platform?.endsWith('-shorts'))
-)
+// 選択中のフィルターに対応するリンクを優先して使う
+const selectedLink = computed(() => item.links.find(link => link.platform === selectedPlatform))
+// 対応リンクがない場合は、優先順位で並べられた先頭リンクを使う
+const displayLink = computed(() => selectedLink.value || item.links[0])
+const url = computed(() => displayLink.value?.url)
+// 実際に表示するリンクがショートなら、サムネイルも縦長で表示する
+const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') ?? false)
 
 interface PlatformIcon {
   name: string

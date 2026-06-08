@@ -12,6 +12,8 @@ const platformMap: Record<string, string[]> = {
   'ブログ/note': ['blog', 'note'],
   '手記/開発ログ': ['scrapbox', 'github'],
 }
+// 横動画版がある場合は #Shorts ではなく通常動画タブにまとめて表示
+const horizontalVideoPlatforms = new Set(['youtube', 'nicovideo'])
 
 const activeFilter = ref('ニコニコ動画')
 const visibleActivityCount = computed(() => activeFilter.value === '#Shorts' ? 4 : 6)
@@ -19,12 +21,20 @@ const visibleActivityCount = computed(() => activeFilter.value === '#Shorts' ? 4
 const filteredActivities = computed(() => {
   if (!activities.value) return []
 
-  const filtered = activities.value.filter(item =>
-    item.links.some(link => {
-      const platforms = platformMap[activeFilter.value] || []
-      return platforms.includes(link.platform)
-    })
-  )
+  const platforms = platformMap[activeFilter.value] || []
+  const isShortsFilter = activeFilter.value === '#Shorts'
+
+  const filtered = activities.value.filter(item => {
+    // 現在のフィルター対象プラットフォームを持つ活動だけ表示候補にする
+    const matchesActiveFilter = item.links.some(link => platforms.includes(link.platform))
+    if (!matchesActiveFilter) return false
+
+    // #Shorts で横動画リンクも持つ場合は通常動画タブだけに表示
+    const hasHorizontalVideo = item.links.some(link => horizontalVideoPlatforms.has(link.platform))
+    if (isShortsFilter && hasHorizontalVideo) return false
+
+    return true
+  })
 
   return filtered.slice(0, visibleActivityCount.value)
 })

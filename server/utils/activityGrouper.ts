@@ -1,6 +1,27 @@
 import type { ActivityItem } from "../types/activity";
 
-type ContentGroup = "standard" | "shorts";
+// サムネイル/代表リンク優先順位 [高] 0 >>>> 7 [低]
+// 横動画がある場合はショートより横動画を優先する
+const platformPriorityOrder = [
+  "youtube",
+  "nicovideo",
+  "youtube-shorts",
+  "nicovideo-shorts",
+  "blog",
+  "note",
+  "scrapbox",
+  "github",
+];
+
+const getPlatformPriority = (platform?: string) => {
+  const priority = platformPriorityOrder.indexOf(platform ?? "");
+  return priority === -1 ? platformPriorityOrder.length : priority; // 存在しない場合は最低優先度
+};
+
+// 複数リンクを持つアイテムでも、最も優先度の高いリンクで比較する
+const getItemPriority = (item: ActivityItem) => {
+  return Math.min(...item.links.map((link) => getPlatformPriority(link.platform)));
+};
 
 export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   const grouped: ActivityItem[] = [];
@@ -9,39 +30,31 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   for (const item of items) {
     if (processedIds.has(item.id)) continue;
 
-    const itemContentGroup = getContentGroup(item);
-
     // itemを基準に、未処理のotherを1件ずつ比較して類似候補を集める
     const similar = items.filter(
       (other) =>
         !processedIds.has(other.id) &&
         other.id !== item.id &&
-        getContentGroup(other) === itemContentGroup &&
         isSimilarTitle(item.title, other.title),
     );
 
     if (similar.length > 0) {
-      // グループ化 [[platform, url], [platform, url], ...]
-      const links = [...item.links, ...similar.flatMap((s) => s.links)];
+      // 類似候補がある場合は1件の活動としてまとめる
+      const groupedItems = [item, ...similar];
 
-      // サムネイル優先順位 [高] 0 >>>> 4 [低]
-      const priorityOrder = [
-        "youtube",
-        "youtube-shorts",
-        "nicovideo",
-        "nicovideo-shorts",
-        "blog",
-        "note",
-        "scrapbox",
-        "github",
-      ];
+      // 同じコンテンツに横動画とショートがある場合は、横動画を代表にする (小さい値が優先)
+      const primaryItem = groupedItems.reduce((best, current) =>
+        getItemPriority(current) < getItemPriority(best) ? current : best,
+      );
 
-      const getPlatformPriority = (platform?: string) => {
-        const priority = priorityOrder.indexOf(platform ?? "");
-        return priority === -1 ? priorityOrder.length : priority; // 存在しない場合は最低優先度
-      };
-      let bestThumbnail = item.thumbnail;
-      let bestPriority = getPlatformPriority(item.links[0]?.platform);
+      // リンクも優先順位で並べて、表示時のデフォルトリンクを代表側に寄せる
+      const links = groupedItems
+        .flatMap((groupedItem) => groupedItem.links)
+        .sort((a, b) => getPlatformPriority(a.platform) - getPlatformPriority(b.platform));
+
+      // 基本は代表アイテムのサムネイルを使う。無い場合は後続の類似アイテムから拾う
+      let bestThumbnail = primaryItem.thumbnail;
+      let bestPriority = getItemPriority(primaryItem);
 
       // 公開日は最も古いものを採用
       let oldestPublishedDate = item.publishedDate;
@@ -50,7 +63,7 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
 
       for (const similarItem of similar) {
         if (similarItem.thumbnail) {
-          const priority = getPlatformPriority(similarItem.links[0]?.platform);
+          const priority = getItemPriority(similarItem);
           if (!bestThumbnail || priority < bestPriority) {
             bestThumbnail = similarItem.thumbnail;
             bestPriority = priority;
@@ -66,8 +79,9 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
         }
       }
 
+      // タイトルやIDは代表アイテムを使い、リンク・サムネイル・日付は統合結果で上書きする
       grouped.push({
-        ...item,
+        ...primaryItem,
         links,
         thumbnail: bestThumbnail,
         date: newestDate,
@@ -86,12 +100,7 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
   return grouped;
 }
 
-// 通常の動画とショート動画を分ける
-function getContentGroup(item: ActivityItem): ContentGroup {
-  const platform = item.links[0]?.platform; // 未処理はまだ1件のプラットフォーム/リンクしかないため
-  return platform?.endsWith("-shorts") ? "shorts" : "standard";
-}
-
+// 表記ゆれを吸収し、同じコンテンツとしてまとめられるタイトルか判定する
 function isSimilarTitle(title1: string, title2: string): boolean {
   // タイトルの正規化（コア情報の抽出）
   const extractCore = (str: string) => {
