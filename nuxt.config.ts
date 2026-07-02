@@ -10,6 +10,13 @@ export default defineNuxtConfig({
 
   modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon"],
 
+  // Nuxt DevToolsの依存を事前バンドルし、開発時の不要なページリロードを防ぐ
+  vite: {
+    optimizeDeps: {
+      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+    },
+  },
+
   icon: {
     provider: "iconify",
     serverBundle: {
