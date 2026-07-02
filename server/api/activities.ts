@@ -2,6 +2,7 @@ import type { ActivityItem } from "../types/activity";
 import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
 import { fetchApiGitHub } from "../utils/githubApiFetcher";
+import { fetchApiNiconico } from "../utils/niconicoApiFetcher";
 import { fetchApiScrapbox } from "../utils/scrapboxApiFetcher";
 import { fetchApiYouTube } from "../utils/youtubeApiFetcher";
 import { groupSimilarItems } from "../utils/activityGrouper";
@@ -13,6 +14,7 @@ export default defineEventHandler(async () => {
     fetchApiYouTube(),
     fetchApiGitHub(),
     fetchApiScrapbox(),
+    fetchApiNiconico(),
   ]);
 
   const activityItems: ActivityItem[] = results.flat();

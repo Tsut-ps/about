@@ -2,15 +2,6 @@ import type { Feed } from "../types/activity";
 
 export const feeds: Feed[] = [
   {
-    url: "https://www.nicovideo.jp/user/56264499/video?rss=2.0",
-    platform: "nicovideo",
-    name: "ニコニコ動画",
-    itemLimit: 24,
-    shortPlatform: "nicovideo-shorts",
-    shortName: "ニコニコショート",
-    shortItemLimit: 24,
-  },
-  {
     url: "https://note.com/tsutps/rss",
     platform: "note",
     name: "note",

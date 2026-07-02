@@ -15,9 +15,6 @@ export interface Feed {
   platform: string;
   name: string;
   itemLimit?: number;
-  shortPlatform?: string;
-  shortName?: string;
-  shortItemLimit?: number;
 }
 
 export interface API {
@@ -27,4 +24,7 @@ export interface API {
   playlistId?: string;
   itemLimit?: number;
   excludeItems?: string[];
+  shortPlatform?: string;
+  shortName?: string;
+  shortItemLimit?: number;
 }

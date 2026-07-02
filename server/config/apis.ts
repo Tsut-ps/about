@@ -32,4 +32,13 @@ export const apis: API[] = [
     platform: "twitter",
     name: "X",
   },
+  {
+    userName: "56264499",
+    platform: "nicovideo",
+    name: "ニコニコ動画",
+    itemLimit: 24,
+    shortPlatform: "nicovideo-shorts",
+    shortName: "ニコニコショート",
+    shortItemLimit: 24,
+  },
 ];
