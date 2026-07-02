@@ -49,8 +49,8 @@ const sections: ActivitySection[] = [
   },
 ]
 
-// ショート版がある場合は、動画ではなくショート側にまとめて表示する
-const shortsPlatforms = new Set(['youtube-shorts', 'nicovideo-shorts'])
+// 横動画版がある場合は、ショートではなく動画側にまとめて表示する
+const horizontalVideoPlatforms = new Set(['youtube', 'nicovideo'])
 
 // activities.valueを自動追跡 (0件のセクションは非表示にする)
 const sectionItems = computed(() => {
@@ -66,8 +66,8 @@ const sectionItems = computed(() => {
       const matches = item.links.some(link => section.platforms.includes(link.platform))
       if (!matches) return false
 
-      // 動画セクションで、ショート版リンクも持つ場合はショート側だけに表示
-      if (section.key === 'video' && item.links.some(link => shortsPlatforms.has(link.platform))) {
+      // ショートセクションで、横動画版リンクも持つ場合は動画側だけに表示
+      if (section.key === 'shorts' && item.links.some(link => horizontalVideoPlatforms.has(link.platform))) {
         return false
       }
 
