@@ -16,7 +16,8 @@ function formatDate(date: Date | string) {
   return d.toLocaleDateString('ja-JP', {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
+    timeZone: 'Asia/Tokyo'
   })
 }
 
