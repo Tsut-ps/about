@@ -4,6 +4,7 @@ const { data: activities } = await useFetch('/api/activities')
 interface ActivitySection {
   key: string
   title: string
+  englishLabel: string
   platforms: string[]
   maxItems: number
   columns: 3 | 4
@@ -14,6 +15,7 @@ const sections: ActivitySection[] = [
   {
     key: 'video',
     title: '音声合成動画',
+    englishLabel: '-Software Singer & Talking-',
     platforms: ['youtube', 'nicovideo'],
     maxItems: 6,
     columns: 3,
@@ -21,6 +23,7 @@ const sections: ActivitySection[] = [
   {
     key: 'shorts',
     title: 'ショート',
+    englishLabel: '#Shorts',
     platforms: ['youtube-shorts', 'nicovideo-shorts'],
     maxItems: 4,
     columns: 4,
@@ -28,6 +31,7 @@ const sections: ActivitySection[] = [
   {
     key: 'diary',
     title: '日記',
+    englishLabel: '-Diary-',
     platforms: ['blog'],
     maxItems: 3,
     columns: 3,
@@ -35,6 +39,7 @@ const sections: ActivitySection[] = [
   {
     key: 'notes',
     title: '書き散らし',
+    englishLabel: '-Notes-',
     platforms: ['scrapbox', 'note'],
     maxItems: 8,
     columns: 3,
@@ -43,6 +48,7 @@ const sections: ActivitySection[] = [
   {
     key: 'dev',
     title: '開発',
+    englishLabel: '-Development-',
     platforms: ['github'],
     maxItems: 3,
     columns: 3,
@@ -94,7 +100,10 @@ const sectionItems = computed(() => {
       <!-- アクティビティ -->
       <div v-for="(section, index) in sectionItems" :key="section.key" class="activity-section"
         :class="{ 'activity-section-alt': index % 2 === 0 }">
-        <h3 class="section-title">{{ section.title }}</h3>
+        <h3 class="section-title">
+          {{ section.title }}
+          <span class="section-title-en">{{ section.englishLabel }}</span>
+        </h3>
 
         <ul v-if="section.textOnly" class="activity-list">
           <li v-for="item in section.items" :key="item.id">
@@ -183,6 +192,14 @@ const sectionItems = computed(() => {
   font-weight: 600;
   margin: 0 0 3rem;
   opacity: 0.85;
+}
+
+.section-title-en {
+  margin-left: 0.5rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  opacity: 0.2;
+  font-family: 'Caveat', cursive;
 }
 
 .activity-grid {
