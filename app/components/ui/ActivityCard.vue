@@ -1,15 +1,17 @@
 <script setup lang="ts">
-const { item } = defineProps<{
+const { item, preferShort } = defineProps<{
   item: {
     id: string
     title: string
-    thumbnail?: string
     publishedDate: string
     links: {
       platform?: string
       url: string
+      thumbnail?: string
     }[]
   }
+  // ショートセクションに表示する場合、横動画版が優先リンクに来ていてもショート版を代表として使う
+  preferShort?: boolean
 }>()
 
 function formatDate(date: Date | string) {
@@ -22,8 +24,15 @@ function formatDate(date: Date | string) {
 }
 
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
-const displayLink = computed(() => item.links[0])
+const displayLink = computed(() => {
+  if (preferShort) {
+    return item.links.find(link => link.platform?.endsWith('-shorts')) ?? item.links[0]
+  }
+  return item.links[0]
+})
 const url = computed(() => displayLink.value?.url)
+// 代表リンクにサムネイルが無い場合は、グループ内の他のリンクから探す
+const thumbnail = computed(() => displayLink.value?.thumbnail ?? item.links.find(link => link.thumbnail)?.thumbnail)
 // 実際に表示するリンクがショートなら、サムネイルも縦長で表示する
 const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') ?? false)
 </script>
@@ -31,12 +40,12 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
 <template>
   <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
     <a :href="url" target="_blank">
-      <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
+      <img v-if="thumbnail" :src="thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
         :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
         <Icon
-          :name="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.name) || 'mdi:file-document-outline'"
-          :size="(item.links[0]?.platform && platformIcons[item.links[0].platform]?.size || 24) * 2.4" />
+          :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:file-document-outline'"
+          :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size || 24) * 2.4" />
       </div>
     </a>
   </div>

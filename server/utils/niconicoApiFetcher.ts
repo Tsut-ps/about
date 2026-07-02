@@ -66,12 +66,12 @@ function toActivityItem(
       {
         platform,
         url: `https://www.nicovideo.jp/watch/${essential.id}`,
+        thumbnail:
+          essential.contentType === "short"
+            ? essential.thumbnail.shortUrl || essential.thumbnail.largeUrl
+            : essential.thumbnail.largeUrl || essential.thumbnail.url,
       },
     ],
-    thumbnail:
-      essential.contentType === "short"
-        ? essential.thumbnail.shortUrl || essential.thumbnail.largeUrl
-        : essential.thumbnail.largeUrl || essential.thumbnail.url,
   };
 }
 

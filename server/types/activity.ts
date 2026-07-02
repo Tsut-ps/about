@@ -6,8 +6,8 @@ export interface ActivityItem {
   links: Array<{
     platform: string;
     url: string;
+    thumbnail?: string;
   }>;
-  thumbnail?: string;
 }
 
 export interface Feed {

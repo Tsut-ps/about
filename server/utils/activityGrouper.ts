@@ -52,23 +52,12 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
         .flatMap((groupedItem) => groupedItem.links)
         .sort((a, b) => getPlatformPriority(a.platform) - getPlatformPriority(b.platform));
 
-      // 基本は代表アイテムのサムネイルを使う。無い場合は後続の類似アイテムから拾う
-      let bestThumbnail = primaryItem.thumbnail;
-      let bestPriority = getItemPriority(primaryItem);
-
       // 公開日は最も古いものを採用
       let oldestPublishedDate = item.publishedDate;
       // 更新日は最も新しいものを採用
       let newestDate = item.date;
 
       for (const similarItem of similar) {
-        if (similarItem.thumbnail) {
-          const priority = getItemPriority(similarItem);
-          if (!bestThumbnail || priority < bestPriority) {
-            bestThumbnail = similarItem.thumbnail;
-            bestPriority = priority;
-          }
-        }
         // より古い日付があれば更新
         if (similarItem.publishedDate < oldestPublishedDate) {
           oldestPublishedDate = similarItem.publishedDate;
@@ -79,11 +68,11 @@ export function groupSimilarItems(items: ActivityItem[]): ActivityItem[] {
         }
       }
 
-      // タイトルやIDは代表アイテムを使い、リンク・サムネイル・日付は統合結果で上書きする
+      // タイトルやIDは代表アイテムを使い、リンク・日付は統合結果で上書きする
+      // サムネイルは各リンクに付随しているため、links(優先順位順)から自然に代表のものが使われる
       grouped.push({
         ...primaryItem,
         links,
-        thumbnail: bestThumbnail,
         date: newestDate,
         publishedDate: oldestPublishedDate,
       });

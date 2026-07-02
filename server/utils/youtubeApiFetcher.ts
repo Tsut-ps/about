@@ -88,9 +88,9 @@ async function fetchYouTubePlaylist(config: API, apiKey: string): Promise<Activi
             {
               platform: config.platform,
               url: `https://www.youtube.com/watch?v=${videoId}`,
+              thumbnail: pickThumbnail(item.snippet.thumbnails),
             },
           ],
-          thumbnail: pickThumbnail(item.snippet.thumbnails),
         };
       });
 

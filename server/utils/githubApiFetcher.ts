@@ -130,9 +130,9 @@ export async function fetchApiGitHub(): Promise<ActivityItem[]> {
             {
               platform: config.platform,
               url: repo.html_url,
+              ...(thumbnail && { thumbnail }), // サムネイルが存在する場合のみ追加
             },
           ],
-          ...(thumbnail && { thumbnail }), // サムネイルが存在する場合のみ追加
         };
       })
     );

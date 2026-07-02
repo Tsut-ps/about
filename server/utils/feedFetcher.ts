@@ -47,9 +47,9 @@ export async function fetchFeed(feedConfig: Feed): Promise<ActivityItem[]> {
             {
               platform,
               url: entry.link,
+              thumbnail,
             },
           ],
-          thumbnail,
         });
       }
     }
