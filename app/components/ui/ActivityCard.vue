@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { item, selectedPlatform } = defineProps<{
+const { item } = defineProps<{
   item: {
     id: string
     title: string
@@ -9,8 +9,7 @@ const { item, selectedPlatform } = defineProps<{
       platform?: string
       url: string
     }[]
-  },
-  selectedPlatform: string | undefined
+  }
 }>()
 
 function formatDate(date: Date | string) {
@@ -22,30 +21,11 @@ function formatDate(date: Date | string) {
   })
 }
 
-// 選択中のフィルターに対応するリンクを優先して使う
-const selectedLink = computed(() => item.links.find(link => link.platform === selectedPlatform))
-// 対応リンクがない場合は、優先順位で並べられた先頭リンクを使う
-const displayLink = computed(() => selectedLink.value || item.links[0])
+// リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
+const displayLink = computed(() => item.links[0])
 const url = computed(() => displayLink.value?.url)
 // 実際に表示するリンクがショートなら、サムネイルも縦長で表示する
 const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') ?? false)
-
-interface PlatformIcon {
-  name: string
-  src?: string
-  size: number
-}
-
-const platformIcons: Record<string, PlatformIcon> = {
-  youtube: { name: 'mdi:youtube', size: 24 },
-  'youtube-shorts': { name: 'mdi:youtube', size: 24 },
-  nicovideo: { name: 'simple-icons:niconico', size: 20 },
-  'nicovideo-shorts': { name: 'simple-icons:niconico', size: 20 },
-  blog: { name: 'mdi:web', size: 22 },
-  note: { name: 'simple-icons:note', size: 18 },
-  scrapbox: { name: 'custom:cosense', size: 20 },
-  github: { name: 'mdi:github', size: 23 }
-}
 </script>
 
 <template>

@@ -26,6 +26,8 @@ a {
 
 body {
   margin: 0;
+  /* activity-section-altの全幅背景(100vw)がスクロールバー分はみ出すのを防ぐ */
+  overflow-x: hidden;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Zen Maru Gothic', sans-serif;

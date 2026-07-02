@@ -1,52 +1,81 @@
 <script setup lang="ts">
 const { data: activities } = await useFetch('/api/activities')
-const appConfig = useAppConfig()
 
-const filters = ['YouTube', 'ニコニコ動画', '#Shorts', 'ブログ/note', '手記/開発ログ']
-
-// フィルター時のリンクは1番目を優先
-const platformMap: Record<string, string[]> = {
-  'YouTube': ['youtube'],
-  'ニコニコ動画': ['nicovideo'],
-  '#Shorts': ['youtube-shorts', 'nicovideo-shorts'],
-  'ブログ/note': ['blog', 'note'],
-  '手記/開発ログ': ['scrapbox', 'github'],
+interface ActivitySection {
+  key: string
+  title: string
+  platforms: string[]
+  maxItems: number
+  columns: 3 | 4
+  textOnly?: boolean
 }
-// 横動画版がある場合は #Shorts ではなく通常動画タブにまとめて表示
+
+const sections: ActivitySection[] = [
+  {
+    key: 'video',
+    title: '音声合成動画',
+    platforms: ['youtube', 'nicovideo'],
+    maxItems: 6,
+    columns: 3,
+  },
+  {
+    key: 'shorts',
+    title: 'ショート',
+    platforms: ['youtube-shorts', 'nicovideo-shorts'],
+    maxItems: 4,
+    columns: 4,
+  },
+  {
+    key: 'diary',
+    title: '日記',
+    platforms: ['blog'],
+    maxItems: 3,
+    columns: 3,
+  },
+  {
+    key: 'notes',
+    title: '書き散らし',
+    platforms: ['scrapbox', 'note'],
+    maxItems: 8,
+    columns: 3,
+    textOnly: true,
+  },
+  {
+    key: 'dev',
+    title: '開発',
+    platforms: ['github'],
+    maxItems: 3,
+    columns: 3,
+  },
+]
+
+// 横動画版がある場合は、ショートではなく動画側にまとめて表示する
 const horizontalVideoPlatforms = new Set(['youtube', 'nicovideo'])
 
-const activeFilter = ref('ニコニコ動画')
-const visibleActivityCount = computed(() => activeFilter.value === '#Shorts' ? 4 : 6)
+// activities.valueを自動追跡 (0件のセクションは非表示にする)
+const sectionItems = computed(() => {
+  // useFetchはDateをstringにシリアライズするため、素の取得値の型を推論する
+  type Item = NonNullable<typeof activities.value>[number]
 
-const filteredActivities = computed(() => {
-  if (!activities.value) return []
+  const data = activities.value
+  if (!data) return [] as (ActivitySection & { items: Item[] })[]
 
-  const platforms = platformMap[activeFilter.value] || []
-  const isShortsFilter = activeFilter.value === '#Shorts'
+  return sections.map((section) => {
+    const items = data.filter((item) => {
+      // 現在のフィルター対象プラットフォームを持つ活動だけ表示候補にする
+      const matches = item.links.some(link => section.platforms.includes(link.platform))
+      if (!matches) return false
 
-  const filtered = activities.value.filter(item => {
-    // 現在のフィルター対象プラットフォームを持つ活動だけ表示候補にする
-    const matchesActiveFilter = item.links.some(link => platforms.includes(link.platform))
-    if (!matchesActiveFilter) return false
+      // #Shorts で横動画リンクも持つ場合は通常動画だけに表示
+      if (section.key === 'shorts' && item.links.some(link => horizontalVideoPlatforms.has(link.platform))) {
+        return false
+      }
 
-    // #Shorts で横動画リンクも持つ場合は通常動画タブだけに表示
-    const hasHorizontalVideo = item.links.some(link => horizontalVideoPlatforms.has(link.platform))
-    if (isShortsFilter && hasHorizontalVideo) return false
+      return true
+    }).slice(0, section.maxItems)
 
-    return true
-  })
-
-  return filtered.slice(0, visibleActivityCount.value)
-})
-
-function setFilter(filter: string) {
-  activeFilter.value = filter
-}
-
-const platformLink = computed(() => {
-  return appConfig.snsLinks.find(snsLink => {
-    return snsLink.name === activeFilter.value
-  })?.url || undefined
+    return { ...section, items }
+  }).filter(section => section.items.length > 0)
 })
 </script>
 
@@ -54,32 +83,29 @@ const platformLink = computed(() => {
   <section class="activities">
     <div class="activities-content">
 
-      <!-- フィルターヘッダー -->
-      <div class="header-container">
+      <!-- アクティビティヘッダー -->
+      <div class="activities-title-wrap">
         <h2 class="activities-title">New!</h2>
-        <div class="filter-container">
-          <button v-for="filter in filters" :key="filter" class="filter-btn"
-            :class="{ active: activeFilter === filter }" @click="setFilter(filter)" @mouseenter="setFilter(filter)">
-            {{ filter }}
-          </button>
+        <div class="scroll-hint">
+          <Icon name="mdi:chevron-down" :size="24" />
         </div>
       </div>
 
       <!-- アクティビティ -->
-      <div class="activity-container-frame">
-        <div :key="activeFilter" class="activity-container"
-          :class="{ 'activity-container-shorts': activeFilter === '#Shorts' }">
-          <div v-for="item in filteredActivities" :key="item.id" target="_blank" class="activity-card">
-            <UiActivityCard :item="item" :selected-platform="platformMap[activeFilter]?.[0]" />
+      <div v-for="(section, index) in sectionItems" :key="section.key" class="activity-section"
+        :class="{ 'activity-section-alt': index % 2 === 0 }">
+        <h3 class="section-title">{{ section.title }}</h3>
+
+        <ul v-if="section.textOnly" class="activity-list">
+          <li v-for="item in section.items" :key="item.id">
+            <UiActivityListItem :item="item" />
+          </li>
+        </ul>
+        <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`">
+          <div v-for="item in section.items" :key="item.id" class="activity-card">
+            <UiActivityCard :item="item" />
           </div>
         </div>
-      </div>
-
-      <!-- もっと見る -->
-      <div class="more-container">
-        <a v-if="platformLink" :href="platformLink" aria-label="もっと見る" target="_blank">
-          <Icon name="mdi:chevron-down" :size="24" />
-        </a>
       </div>
     </div>
   </section>
@@ -87,7 +113,7 @@ const platformLink = computed(() => {
 
 <style scoped>
 .activities {
-  margin: 1rem 1rem 6rem;
+  margin: 1rem 0 6rem;
 }
 
 .activities-content {
@@ -95,72 +121,75 @@ const platformLink = computed(() => {
   margin: 0 auto;
 }
 
-.header-container {
+.activities-title-wrap {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2.5rem;
-  gap: 2rem;
-  flex-wrap: wrap;
-
-  @media (max-width: 640px) {
-    justify-content: center;
-  }
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .activities-title {
   font-size: 3rem;
-  margin: 0 -1rem;
-  padding: 0 1rem;
+  margin: 0 0 1.5rem;
   opacity: 0.9;
   font-weight: 500;
   font-family: 'Caveat', cursive;
 }
 
-.filter-container {
-  display: flex;
-  gap: .25rem;
-  flex-wrap: wrap;
-
-  @media (max-width: 800px) {
-    justify-content: center;
-  }
-}
-
-.filter-btn {
-  background: none;
-  border: none;
-  color: var(--color-text);
-  font-size: 1rem;
-  padding: .65rem 1.25rem;
-  cursor: pointer;
+.scroll-hint {
+  margin: 0 0 3rem;
   opacity: 0.5;
-  border-radius: 64px;
-  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  animation: scrollBounce 1.6s ease-in-out infinite;
 }
 
-.filter-btn:hover {
-  opacity: 0.8;
-  background-color: var(--color-accent);
-  transform: translateY(-2px);
-}
+@keyframes scrollBounce {
 
-.filter-btn.active {
-  opacity: 1;
-  background-color: var(--color-accent);
-}
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-.activity-container-frame {
-  @media (min-width: 801px) {
-    min-height: 660px;
+  50% {
+    transform: translateY(8px);
   }
 }
 
-.activity-container {
+.activity-section {
+  position: relative;
+  padding: 4rem 1rem;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* コンテンツ幅の制約を超えて、画面幅いっぱいに帯として背景を広げる。
+   box-shadowのvmax spread + clip-pathは境界に継ぎ目が出ることがあるため、
+   疑似要素をvw基準で画面幅いっぱいに広げる方式にする */
+.activity-section-alt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--color-accent);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 3rem;
+  opacity: 0.85;
+}
+
+.activity-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  animation: fadeIn 0.3s ease forwards;
+  column-gap: 2rem;
+  row-gap: 3rem;
 
   @media (max-width: 800px) {
     grid-template-columns: repeat(2, 1fr);
@@ -172,7 +201,7 @@ const platformLink = computed(() => {
   }
 }
 
-.activity-container-shorts {
+.activity-grid-cols-4 {
   grid-template-columns: repeat(4, 1fr);
 
   @media (max-width: 800px) {
@@ -187,17 +216,44 @@ const platformLink = computed(() => {
   text-decoration: none;
   color: var(--color-text);
   cursor: pointer;
-  transition: transform 0.3s ease;
-
-  @media (min-width: 600px) and (max-width: 800px) {
-    &:nth-child(n+5) {
-      display: none;
-    }
-  }
+  transition: transform 0.2s ease;
 
   @media (max-width: 600px) {
     max-width: 380px;
   }
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+}
+
+/* クリップ範囲(card-thumbnailのoverflow: hidden)は保ったまま、画像だけ拡大する */
+.activity-card:hover :deep(.card-thumbnail img) {
+  transform: scale(1.04);
+}
+
+.activity-card:active {
+  transition-duration: 0.06s;
+  transform: translateY(-2px);
+}
+
+.activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* タイムライン表示の連結線 */
+.activity-list::before {
+  content: '';
+  position: absolute;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  left: 1rem;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(-50%);
 }
 
 @keyframes fadeIn {
@@ -207,29 +263,6 @@ const platformLink = computed(() => {
 
   to {
     opacity: 1;
-  }
-}
-
-.activity-card:hover {
-  transform: translateY(-8px);
-}
-
-.activity-card:hover .card-thumbnail img {
-  transform: scale(1.05);
-}
-
-.more-container {
-  display: block;
-  width: 100%;
-  height: 6em;
-  opacity: 0.5;
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
   }
 }
 </style>
