@@ -87,6 +87,8 @@ const sectionItems = computed(() => {
 
 <template>
   <section class="activities">
+    <UiSectionNav :sections="sectionItems" />
+
     <div class="activities-content">
 
       <!-- アクティビティヘッダー -->
@@ -98,7 +100,7 @@ const sectionItems = computed(() => {
       </div>
 
       <!-- アクティビティ -->
-      <div v-for="(section, index) in sectionItems" :key="section.key" class="activity-section"
+      <div v-for="(section, index) in sectionItems" :id="section.key" :key="section.key" class="activity-section"
         :class="{ 'activity-section-alt': index % 2 === 0 }">
         <h3 class="section-title">
           {{ section.title }}
@@ -122,6 +124,7 @@ const sectionItems = computed(() => {
 
 <style scoped>
 .activities {
+  position: relative;
   margin: 1rem 0 6rem;
 }
 
