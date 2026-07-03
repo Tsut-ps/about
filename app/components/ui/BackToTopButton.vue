@@ -42,7 +42,7 @@ onUnmounted(() => {
   background: var(--color-accent);
   color: var(--color-text);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 

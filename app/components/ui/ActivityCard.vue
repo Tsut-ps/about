@@ -78,7 +78,7 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   background-color: var(--color-accent);
   position: relative;
   border-radius: 8px;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-thumbnail-shorts {
