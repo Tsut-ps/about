@@ -103,7 +103,7 @@ const sectionItems = computed(() => {
       <div v-for="(section, index) in sectionItems" :id="section.key" :key="section.key" class="activity-section"
         :class="{ 'activity-section-alt': index % 2 === 0 }">
         <h3 class="section-title">
-          {{ section.title }}
+          <span class="section-title-ja">{{ section.title }}</span>
           <span class="section-title-en">{{ section.englishLabel }}</span>
         </h3>
 
@@ -192,6 +192,10 @@ const sectionItems = computed(() => {
 }
 
 .section-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
   font-size: 1.4rem;
   font-weight: 600;
   margin: 0 0 3rem;
@@ -199,11 +203,11 @@ const sectionItems = computed(() => {
 }
 
 .section-title-en {
-  margin-left: 0.5rem;
   font-size: 1.6rem;
   font-weight: 400;
   opacity: 0.2;
   font-family: 'Caveat', cursive;
+  white-space: nowrap;
 }
 
 .activity-grid {
