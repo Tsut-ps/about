@@ -27,42 +27,42 @@ const url = computed(() => displayLink.value?.url)
 </script>
 
 <template>
-  <a :href="url" target="_blank" class="list-item">
-    <span class="list-item-circle">
+  <a :href="url" target="_blank" class="timeline-item">
+    <span class="timeline-item-circle">
       <Icon
-        class="list-item-icon"
+        class="timeline-item-icon"
         :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:link'"
         :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size) || 16" />
     </span>
-    <span class="list-item-content">
-      <time class="list-item-date">{{ formatDate(item.publishedDate) }}</time>
-      <h3 class="list-item-title">{{ item.title }}</h3>
+    <span class="timeline-item-content">
+      <time class="timeline-item-date">{{ formatDate(item.publishedDate) }}</time>
+      <h3 class="timeline-item-title">{{ item.title }}</h3>
     </span>
   </a>
 </template>
 
 <style scoped>
-.list-item {
+.timeline-item {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 0.75rem;
-  margin: 0 -0.75rem;
+  padding: 0.85rem;
+  margin: 0 -0.85rem;
   border-radius: 8px;
   color: var(--color-text);
   transition: all 0.2s ease;
 }
 
-.list-item:hover {
+.timeline-item:hover {
   transform: translateY(-4px);
 }
 
-.list-item:active {
+.timeline-item:active {
   transition-duration: 0.06s;
   transform: translateY(-2px);
 }
 
-.list-item-circle {
+.timeline-item-circle {
   position: relative;
   z-index: 1;
   flex: 0 0 auto;
@@ -76,20 +76,20 @@ const url = computed(() => displayLink.value?.url)
   border: 1px solid var(--color-accent);
 }
 
-.list-item-icon {
+.timeline-item-icon {
   opacity: 0.75;
 }
 
-.list-item-content {
+.timeline-item-content {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  padding-top: 0.3rem;
+  gap: 0.2rem;
+  padding-top: 0.1rem;
 }
 
-.list-item-title {
+.timeline-item-title {
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
@@ -98,7 +98,7 @@ const url = computed(() => displayLink.value?.url)
   white-space: nowrap;
 }
 
-.list-item-date {
+.timeline-item-date {
   font-size: 0.75rem;
   opacity: 0.5;
 }

@@ -109,7 +109,7 @@ const sectionItems = computed(() => {
 
         <ul v-if="section.textOnly" class="activity-list">
           <li v-for="item in section.items" :key="item.id">
-            <UiActivityListItem :item="item" />
+            <UiActivityTimelineItem :item="item" />
           </li>
         </ul>
         <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`">
