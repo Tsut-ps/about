@@ -12,6 +12,8 @@ const { item, preferShort } = defineProps<{
   }
   // ショートセクションに表示する場合、横動画版が優先リンクに来ていてもショート版を代表として使う
   preferShort?: boolean
+  // 日記セクションなど、プラットフォームアイコンの表示が不要な場合に指定する
+  hidePlatformIcons?: boolean
 }>()
 
 function formatDate(date: Date | string) {
@@ -56,7 +58,7 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
     </a>
     <div class="card-meta">
       <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
-      <div class="card-platforms">
+      <div v-if="!hidePlatformIcons" class="card-platforms">
         <template v-for="(link, index) in item.links" :key="index">
           <a :href="link.url" target="_blank" class="platform-link">
             <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"

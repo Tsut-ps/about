@@ -114,7 +114,8 @@ const sectionItems = computed(() => {
         </ul>
         <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`">
           <div v-for="item in section.items" :key="item.id" class="activity-card">
-            <UiActivityCard :item="item" :prefer-short="section.key === 'shorts'" />
+            <UiActivityCard :item="item" :prefer-short="section.key === 'shorts'"
+              :hide-platform-icons="section.key === 'diary'" />
           </div>
         </div>
       </div>
