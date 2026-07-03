@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   icon: {
     provider: "iconify",
     serverBundle: {
-      collections: ["mdi", "simple-icons"], // SSGで必要なコレクションをバンドル
+      collections: ["mdi", "simple-icons", "material-symbols"], // SSGで必要なコレクションをバンドル
     },
     customCollections: [
       {

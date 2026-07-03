@@ -6,6 +6,7 @@
     <ActivitiesSection />
   </main>
   <FooterSection />
+  <UiBackToTopButton />
 </template>
 
 <style>
