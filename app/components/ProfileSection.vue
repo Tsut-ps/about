@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
-const SNSLinks = appConfig.snsLinks.filter(link => !link.viewType)
 const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'card-aka')
 </script>
@@ -27,12 +26,7 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
       </p>
 
       <!-- SNSリンク -->
-      <div class="social-mini-links">
-        <a v-for="link in SNSLinks" :key="link.url" :href="link.url" target="_blank" class="social-mini-link"
-          :title="link.name + ' / ' + link.description">
-          <Icon :name="link.iconName" :size="link.iconSize" />
-        </a>
-      </div>
+      <PartsSNSLinks class="social-mini-links" />
 
       <!-- SNSリンク(カード) -->
       <div class="social-links">
@@ -122,27 +116,7 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
 }
 
 .social-mini-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: center;
   margin-bottom: 2rem;
-}
-
-.social-mini-link {
-  margin: -0.5rem;
-  padding: 0.5rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active {
-    transition-duration: 0.06s;
-    transform: translateY(-2px);
-  }
 }
 
 .social-links {
