@@ -87,7 +87,7 @@ const sectionItems = computed(() => {
 
 <template>
   <section class="activities">
-    <UiSectionNav :sections="sectionItems" />
+    <PartsSectionNav :sections="sectionItems" />
 
     <div class="activities-content">
 
