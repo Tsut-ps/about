@@ -72,12 +72,29 @@ export default defineAppConfig<{
       description: "コードを書く技術記事とか、思考整理のスクラップ",
     },
     {
+      url: "https://www.pixiv.net/users/29058934",
+      iconName: "simple-icons:pixiv",
+      iconSize: 24,
+      name: "piviv",
+      description: "たまに、ほんとうにたまに描く",
+      viewType: "other",
+    },
+    {
+      url: "https://marshmallow-qa.com/tsut_ps",
+      iconName: "custom:marshmallow-qa",
+      iconSize: 25,
+      name: "匿名で質問する",
+      description: "マシュマロです。なんでもおk",
+      viewType: "other",
+    },
+    {
       url: "https://www.amazon.jp/hz/wishlist/ls/29Z1OGW2MBBWP",
       iconName: "mdi:gift",
-      iconSize: 25,
-      name: "欲しいものリスト",
+      iconSize: 24,
+      name: "(物資の支援)",
       description:
-        "公開してますが、無理のない範囲で支援していただけると幸いです",
+        "ものりすを公開してますが、無理のない範囲で支援していただけると幸いです",
+      viewType: "other",
     },
   ],
 });
