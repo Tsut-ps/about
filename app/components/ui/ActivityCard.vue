@@ -41,32 +41,27 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
 </script>
 
 <template>
-  <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
-    <!-- タイトルと同じURLへの重複導線なので、クリックは可能なままTabキー選択の対象から外す -->
-    <ExtLink :to="url" tabindex="-1">
-      <img v-if="thumbnail" :src="thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
+  <ExtLink :to="url" class="card-primary-link">
+    <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
+      <img v-if="thumbnail" :src="thumbnail" alt="" :width="isShort ? 360 : 480"
         :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
         <Icon
           :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:file-document-outline'"
           :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size || 24) * 2.4" />
       </div>
-    </ExtLink>
-  </div>
-  <div class="card-info">
-    <ExtLink :to="url">
-      <h3 class="card-title">{{ item.title }}</h3>
-    </ExtLink>
-    <div class="card-meta">
-      <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
-      <div v-if="!hidePlatformIcons" class="card-platforms">
-        <template v-for="(link, index) in item.links" :key="index">
-          <ExtLink :to="link.url" class="platform-link">
-            <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
-              :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
-          </ExtLink>
-        </template>
-      </div>
+    </div>
+    <h3 class="card-title">{{ item.title }}</h3>
+  </ExtLink>
+  <div class="card-meta">
+    <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
+    <div v-if="!hidePlatformIcons" class="card-platforms">
+      <template v-for="(link, index) in item.links" :key="index">
+        <ExtLink :to="link.url" class="platform-link">
+          <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
+            :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
+        </ExtLink>
+      </template>
     </div>
   </div>
 </template>
@@ -103,19 +98,20 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   opacity: 0.6;
 }
 
-.card-info {
-  padding: 1rem 0;
-  flex: 1 1;
+.card-primary-link {
+  color: var(--color-text);
+  text-decoration: none;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .card-title {
   font-size: 1rem;
-  margin: 0 0 0.5rem 0;
+  margin: 1rem 0 0.5rem;
   font-weight: 500;
   line-height: 1.5;
+  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -128,6 +124,7 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .card-date {
