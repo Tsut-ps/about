@@ -1,7 +1,9 @@
 <template>
   <footer class="footer-section">
     <PartsSNSLinks dimmed class="footer-links" />
-    <p class="footer-copyright">© Tsut-ps. Deployed with <a href="https://github.com/Tsut-ps/about" target="_blank">GitHub</a>.</p>
+    <p class="footer-copyright">© Tsut-ps. Deployed with
+      <ExtLink to="https://github.com/Tsut-ps/about">GitHub</ExtLink>.
+    </p>
   </footer>
 </template>
 

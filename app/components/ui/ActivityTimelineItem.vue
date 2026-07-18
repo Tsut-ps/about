@@ -27,10 +27,9 @@ const url = computed(() => displayLink.value?.url)
 </script>
 
 <template>
-  <a :href="url" target="_blank" class="timeline-item">
+  <ExtLink :to="url" class="timeline-item">
     <span class="timeline-item-circle">
-      <Icon
-        class="timeline-item-icon"
+      <Icon class="timeline-item-icon"
         :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:link'"
         :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size) || 16" />
     </span>
@@ -38,7 +37,7 @@ const url = computed(() => displayLink.value?.url)
       <time class="timeline-item-date">{{ formatDate(item.publishedDate) }}</time>
       <h3 class="timeline-item-title">{{ item.title }}</h3>
     </span>
-  </a>
+  </ExtLink>
 </template>
 
 <style scoped>

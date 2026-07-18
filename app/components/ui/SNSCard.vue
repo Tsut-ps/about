@@ -4,7 +4,7 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
 </script>
 
 <template>
-  <a :href="url" target="_blank" class="social-card">
+  <ExtLink :to="url" class="social-card">
     <div class="social-icon">
       <Icon :name="iconName" :size="iconSize" />
     </div>
@@ -15,7 +15,7 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
     <div class="social-arrow">
       <Icon name="mdi:chevron-right" :size="28" />
     </div>
-  </a>
+  </ExtLink>
 </template>
 
 <style>

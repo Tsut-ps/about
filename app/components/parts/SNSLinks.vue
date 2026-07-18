@@ -26,10 +26,10 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 <template>
   <div class="sns-links" :class="{ 'sns-links-dimmed': dimmed }">
-    <a v-for="link in snsLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
-      class="sns-link" :title="link.name + ' / ' + link.description">
+    <ExtLink v-for="link in snsLinks" :key="link.url" :to="link.url" class="sns-link"
+      :title="link.name + ' / ' + link.description">
       <Icon :name="link.iconName" :size="link.iconSize" />
-    </a>
+    </ExtLink>
 
     <div v-if="snsOtherLinks.length" ref="snsOtherContainer" class="sns-other-links">
       <button type="button" class="sns-other-button" title="その他のリンク" aria-label="その他のリンク"
@@ -38,11 +38,11 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
       </button>
       <Transition name="sns-other-menu">
         <div v-if="isOtherMenuOpen" class="sns-other-menu">
-          <a v-for="link in snsOtherLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
-            class="sns-other-link" :title="link.name + ' / ' + link.description">
+          <ExtLink v-for="link in snsOtherLinks" :key="link.url" :to="link.url" class="sns-other-link"
+            :title="link.name + ' / ' + link.description">
             <Icon :name="link.iconName" :size="link.iconSize" />
             <span>{{ link.name }}</span>
-          </a>
+          </ExtLink>
         </div>
       </Transition>
     </div>

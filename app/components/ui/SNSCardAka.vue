@@ -4,11 +4,11 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
 </script>
 
 <template>
-  <a :href="url" target="_blank" class="social-aka-card">
+  <ExtLink :to="url" class="social-aka-card">
     <Icon :name="iconName" :size="iconSize / 28 * 24" />
     <h3 class="social-aka-name">{{ name }}<span class="social-aka-description">({{ description }})</span></h3>
     <Icon name="mdi:arrow-right" :size="24" />
-  </a>
+  </ExtLink>
 </template>
 
 <style>

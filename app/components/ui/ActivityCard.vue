@@ -42,7 +42,7 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
 
 <template>
   <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
-    <a :href="url" target="_blank">
+    <ExtLink :to="url">
       <img v-if="thumbnail" :src="thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
         :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
@@ -50,20 +50,20 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
           :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:file-document-outline'"
           :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size || 24) * 2.4" />
       </div>
-    </a>
+    </ExtLink>
   </div>
   <div class="card-info">
-    <a :href="url" target="_blank">
+    <ExtLink :to="url">
       <h3 class="card-title">{{ item.title }}</h3>
-    </a>
+    </ExtLink>
     <div class="card-meta">
       <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
       <div v-if="!hidePlatformIcons" class="card-platforms">
         <template v-for="(link, index) in item.links" :key="index">
-          <a :href="link.url" target="_blank" class="platform-link">
+          <ExtLink :to="link.url" class="platform-link">
             <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
               :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
-          </a>
+          </ExtLink>
         </template>
       </div>
     </div>
