@@ -72,6 +72,9 @@ const sectionItems = computed(() => {
       const matches = item.links.some(link => section.platforms.includes(link.platform))
       if (!matches) return false
 
+      // 開発カードはサムネイルを取得できた活動だけ表示する
+      if (section.key === 'dev' && !item.links.some(link => link.thumbnail)) return false
+
       // ショートセクションで、横動画版リンクも持つ場合は動画側だけに表示
       if (section.key === 'shorts' && item.links.some(link => horizontalVideoPlatforms.has(link.platform))) {
         return false
