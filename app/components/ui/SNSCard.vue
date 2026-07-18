@@ -28,7 +28,8 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
   border: 1px solid var(--color-accent);
   transition: all 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     background: var(--color-accent);

@@ -248,12 +248,14 @@ const sectionItems = computed(() => {
   }
 }
 
-.activity-card:hover {
+.activity-card:hover,
+.activity-card:has(:focus-visible) {
   transform: translateY(-4px);
 }
 
 /* クリップ範囲(card-thumbnailのoverflow: hidden)は保ったまま、画像だけ拡大する */
-.activity-card:hover :deep(.card-thumbnail img) {
+.activity-card:hover :deep(.card-thumbnail img),
+.activity-card:has(:focus-visible) :deep(.card-thumbnail img) {
   transform: scale(1.04);
 }
 

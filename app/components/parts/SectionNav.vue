@@ -114,7 +114,8 @@ onUnmounted(() => {
   transition: opacity 0.25s ease, font-size 0.25s ease;
 }
 
-.section-nav-link:hover {
+.section-nav-link:hover,
+.section-nav-link:focus-visible {
   opacity: 1;
 }
 

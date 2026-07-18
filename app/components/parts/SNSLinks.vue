@@ -70,7 +70,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 .sns-link {
   transition: transform 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: translateY(-4px);
   }
 
@@ -93,7 +94,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   opacity: 0.65;
   transition: opacity 0.2s ease, transform 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     opacity: 1;
   }
 
@@ -140,7 +142,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   border-radius: 6px;
   transition: background-color 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: var(--color-accent);
   }
 }
@@ -149,7 +152,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   .sns-link {
     opacity: 0.5;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       opacity: 0.75;
     }
   }

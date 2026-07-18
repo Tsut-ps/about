@@ -20,7 +20,9 @@ const { url, iconName, iconSize, name, description } = defineProps<SNSLink>()
   transition: all 0.2s ease;
   opacity: 0.5;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
     transform: translateY(-4px);
   }
 

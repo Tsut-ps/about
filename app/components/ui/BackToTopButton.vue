@@ -46,7 +46,8 @@ onUnmounted(() => {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.back-to-top:hover {
+.back-to-top:hover,
+.back-to-top:focus-visible {
   transform: translateY(-4px);
 }
 

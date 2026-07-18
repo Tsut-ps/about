@@ -53,7 +53,8 @@ const url = computed(() => displayLink.value?.url)
   transition: all 0.2s ease;
 }
 
-.timeline-item:hover {
+.timeline-item:hover,
+.timeline-item:focus-visible {
   transform: translateY(-4px);
 }
 
