@@ -5,20 +5,19 @@ const { dimmed } = defineProps<{
 }>()
 
 const appConfig = useAppConfig()
-const SNSLinks = appConfig.snsLinks.filter(link => !link.viewType)
-const SNSOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other')
-const SNSOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
-const isSNSOtherOpen = ref(false)
-
-const closeSNSOtherLinks = () => isSNSOtherOpen.value = false
-const toggleSNSOtherLinks = () => isSNSOtherOpen.value = !isSNSOtherOpen.value
+const snsLinks = appConfig.snsLinks.filter(link => !link.viewType)
+const snsOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other')
+const snsOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
+const isOtherMenuOpen = ref(false)
 
 // 外側をクリックしたら閉じる
 const handleClickOutside = (event: MouseEvent) => {
-  const container = SNSOtherContainer.value
+  if (!isOtherMenuOpen.value) return
+
+  const container = snsOtherContainer.value
   const target = event.target
 
-  if (target instanceof Node && !container?.contains(target)) closeSNSOtherLinks()
+  if (target instanceof Node && !container?.contains(target)) isOtherMenuOpen.value = false
 }
 
 onMounted(() => document.addEventListener('click', handleClickOutside))
@@ -27,19 +26,19 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 <template>
   <div class="sns-links" :class="{ 'sns-links-dimmed': dimmed }">
-    <a v-for="link in SNSLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
+    <a v-for="link in snsLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
       class="sns-link" :title="link.name + ' / ' + link.description">
       <Icon :name="link.iconName" :size="link.iconSize" />
     </a>
 
-    <div v-if="SNSOtherLinks.length" ref="snsOtherContainer" class="sns-other-links">
-      <button type="button" class="sns-other-summary" title="その他のリンク" aria-label="その他のリンク"
-        :aria-expanded="isSNSOtherOpen" @click="toggleSNSOtherLinks">
+    <div v-if="snsOtherLinks.length" ref="snsOtherContainer" class="sns-other-links">
+      <button type="button" class="sns-other-button" title="その他のリンク" aria-label="その他のリンク"
+        :aria-expanded="isOtherMenuOpen" @click="isOtherMenuOpen = !isOtherMenuOpen">
         <Icon name="mdi:dots-horizontal" :size="28" aria-hidden="true" />
       </button>
       <Transition name="sns-other-menu">
-        <div v-if="isSNSOtherOpen" class="sns-other-menu">
-          <a v-for="link in SNSOtherLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
+        <div v-if="isOtherMenuOpen" class="sns-other-menu">
+          <a v-for="link in snsOtherLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
             class="sns-other-link" :title="link.name + ' / ' + link.description">
             <Icon :name="link.iconName" :size="link.iconSize" />
             <span>{{ link.name }}</span>
@@ -58,14 +57,18 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   gap: 1rem;
 }
 
-.sns-link {
+.sns-link,
+.sns-other-button {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: -0.5rem;
   padding: 0.5rem;
   color: var(--color-text);
-  transition: all 0.2s ease;
+}
+
+.sns-link {
+  transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);
@@ -83,18 +86,12 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   position: relative;
 }
 
-.sns-other-summary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: -0.5rem;
-  padding: 0.5rem;
+.sns-other-button {
   border: none;
   background: none;
-  color: var(--color-text);
   cursor: pointer;
   opacity: 0.65;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 
   &:hover {
     opacity: 1;
@@ -153,7 +150,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
     opacity: 0.5;
 
     &:hover {
-      opacity: .75;
+      opacity: 0.75;
     }
   }
 

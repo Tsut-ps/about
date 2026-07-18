@@ -4,5 +4,5 @@ export interface SNSLink {
   iconSize: number;
   name: string;
   description: string;
-  viewType?: string;
+  viewType?: 'card' | 'card-aka' | 'other';
 }
