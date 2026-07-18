@@ -42,7 +42,8 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
 
 <template>
   <div class="card-thumbnail" :class="{ 'card-thumbnail-shorts': isShort }">
-    <ExtLink :to="url">
+    <!-- タイトルと同じURLへの重複導線なので、クリックは可能なままTabキー選択の対象から外す -->
+    <ExtLink :to="url" tabindex="-1">
       <img v-if="thumbnail" :src="thumbnail" :alt="item.title" :width="isShort ? 360 : 480"
         :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
