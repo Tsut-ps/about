@@ -7,6 +7,20 @@ const { dimmed } = defineProps<{
 const appConfig = useAppConfig()
 const SNSLinks = appConfig.snsLinks.filter(link => !link.viewType)
 const SNSOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other')
+const SNSOtherDetails = useTemplateRef<HTMLDetailsElement>('snsOtherDetails')
+
+// 外側をクリックしたら閉じる
+const closeSNSOtherLinks = (event: MouseEvent) => {
+  const details = SNSOtherDetails.value
+  const target = event.target
+
+  if (details?.open && target instanceof Node && !details.contains(target)) {
+    details.open = false
+  }
+}
+
+onMounted(() => document.addEventListener('click', closeSNSOtherLinks))
+onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
 </script>
 
 <template>
@@ -16,7 +30,7 @@ const SNSOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other
       <Icon :name="link.iconName" :size="link.iconSize" />
     </a>
 
-    <details v-if="SNSOtherLinks.length" class="sns-other-links">
+    <details v-if="SNSOtherLinks.length" ref="snsOtherDetails" class="sns-other-links">
       <summary class="sns-other-summary" title="その他のリンク" aria-label="その他のリンク">
         <Icon name="mdi:dots-horizontal" :size="28" aria-hidden="true" />
       </summary>
