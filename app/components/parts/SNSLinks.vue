@@ -7,20 +7,22 @@ const { dimmed } = defineProps<{
 const appConfig = useAppConfig()
 const SNSLinks = appConfig.snsLinks.filter(link => !link.viewType)
 const SNSOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other')
-const SNSOtherDetails = useTemplateRef<HTMLDetailsElement>('snsOtherDetails')
+const SNSOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
+const isSNSOtherOpen = ref(false)
+
+const closeSNSOtherLinks = () => isSNSOtherOpen.value = false
+const toggleSNSOtherLinks = () => isSNSOtherOpen.value = !isSNSOtherOpen.value
 
 // 外側をクリックしたら閉じる
-const closeSNSOtherLinks = (event: MouseEvent) => {
-  const details = SNSOtherDetails.value
+const handleClickOutside = (event: MouseEvent) => {
+  const container = SNSOtherContainer.value
   const target = event.target
 
-  if (details?.open && target instanceof Node && !details.contains(target)) {
-    details.open = false
-  }
+  if (target instanceof Node && !container?.contains(target)) closeSNSOtherLinks()
 }
 
-onMounted(() => document.addEventListener('click', closeSNSOtherLinks))
-onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
@@ -30,18 +32,21 @@ onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
       <Icon :name="link.iconName" :size="link.iconSize" />
     </a>
 
-    <details v-if="SNSOtherLinks.length" ref="snsOtherDetails" class="sns-other-links">
-      <summary class="sns-other-summary" title="その他のリンク" aria-label="その他のリンク">
+    <div v-if="SNSOtherLinks.length" ref="snsOtherContainer" class="sns-other-links">
+      <button type="button" class="sns-other-summary" title="その他のリンク" aria-label="その他のリンク"
+        :aria-expanded="isSNSOtherOpen" @click="toggleSNSOtherLinks">
         <Icon name="mdi:dots-horizontal" :size="28" aria-hidden="true" />
-      </summary>
-      <div class="sns-other-menu">
-        <a v-for="link in SNSOtherLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
-          class="sns-other-link" :title="link.name + ' / ' + link.description">
-          <Icon :name="link.iconName" :size="link.iconSize" />
-          <span>{{ link.name }}</span>
-        </a>
-      </div>
-    </details>
+      </button>
+      <Transition name="sns-other-menu">
+        <div v-if="isSNSOtherOpen" class="sns-other-menu">
+          <a v-for="link in SNSOtherLinks" :key="link.url" :href="link.url" target="_blank" rel="noopener noreferrer"
+            class="sns-other-link" :title="link.name + ' / ' + link.description">
+            <Icon :name="link.iconName" :size="link.iconSize" />
+            <span>{{ link.name }}</span>
+          </a>
+        </div>
+      </Transition>
+    </div>
   </div>
 </template>
 
@@ -82,20 +87,25 @@ onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
   display: flex;
   align-items: center;
   justify-content: center;
-  list-style: none;
   margin: -0.5rem;
   padding: 0.5rem;
+  border: none;
+  background: none;
   color: var(--color-text);
   cursor: pointer;
   opacity: 0.65;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
 
-  &::-webkit-details-marker {
-    display: none;
+  &:hover {
+    opacity: 1;
   }
 
-  &:hover,
-  .sns-other-links[open] & {
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(2px);
+  }
+
+  &[aria-expanded='true'] {
     opacity: 1;
   }
 }
@@ -112,6 +122,17 @@ onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
   background: var(--color-bg);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transform: translateX(-50%);
+}
+
+.sns-other-menu-enter-active,
+.sns-other-menu-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sns-other-menu-enter-from,
+.sns-other-menu-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -0.5rem);
 }
 
 .sns-other-link {
@@ -139,6 +160,11 @@ onBeforeUnmount(() => document.removeEventListener('click', closeSNSOtherLinks))
   .sns-other-menu {
     top: auto;
     bottom: calc(100% + 0.75rem);
+  }
+
+  .sns-other-menu-enter-from,
+  .sns-other-menu-leave-to {
+    transform: translate(-50%, 0.5rem);
   }
 }
 </style>
