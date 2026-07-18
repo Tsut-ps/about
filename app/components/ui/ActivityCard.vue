@@ -138,10 +138,6 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   display: flex;
   gap: 1rem;
 
-  span {
-    opacity: 0.5;
-  }
-
   img {
     border-radius: 50%;
     opacity: 0.75;
@@ -155,5 +151,12 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   display: flex;
   align-items: center;
   color: var(--color-text);
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.85;
+  }
 }
 </style>
