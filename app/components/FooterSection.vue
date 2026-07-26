@@ -1,8 +1,12 @@
+<script setup lang="ts">
+const { buildDate } = useAppConfig()
+</script>
+
 <template>
   <footer class="footer-section">
     <PartsSNSLinks dimmed class="footer-links" />
     <p class="footer-copyright">© Tsut-ps. Deployed with
-      <ExtLink to="https://github.com/Tsut-ps/about">GitHub</ExtLink>.
+      <ExtLink to="https://github.com/Tsut-ps/about">GitHub</ExtLink> ({{ buildDate }})
     </p>
   </footer>
 </template>

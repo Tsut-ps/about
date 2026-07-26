@@ -1,4 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const buildDate = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  month: "numeric",
+  day: "numeric",
+}).format(new Date());
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -6,6 +12,10 @@ export default defineNuxtConfig({
   // https://nuxt.com/docs/4.x/guide/going-further/runtime-config#environment-variables
   runtimeConfig: {
     youtubeApiKey: "",
+  },
+
+  appConfig: {
+    buildDate,
   },
 
   modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon"],
