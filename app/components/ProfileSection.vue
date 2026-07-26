@@ -2,11 +2,14 @@
 const appConfig = useAppConfig()
 const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
 const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'card-aka')
+
+// 自己紹介の詳細の表示とプロフィール本体の移動を同じ状態で同期する
+const isBioExpanded = ref(false)
 </script>
 
 <template>
   <section class="profile">
-    <div class="profile-content">
+    <div class="profile-content" :class="{ 'is-bio-expanded': isBioExpanded }">
       <!-- プロフィール画像 -->
       <div class="avatar-wrapper">
         <span class="orbit orbit-left" aria-hidden="true">♪</span>
@@ -21,9 +24,7 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
       <p class="subtitle">ここん</p>
 
       <!-- 自己紹介 -->
-      <p class="bio">
-        <span>音声合成キャラに歌ってもらったり、</span><span>解説記事を作ったり、</span><span>プログラムを書いたりしています。</span>
-      </p>
+      <ProfileBio v-model:expanded="isBioExpanded" />
 
       <!-- SNSリンク -->
       <PartsSNSLinks class="social-mini-links" />
@@ -40,11 +41,13 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
           :icon-size="link.iconSize" :name="link.name" :description="link.description" />
       </div>
     </div>
+    <PartsProfileBioDetails :visible="isBioExpanded" />
   </section>
 </template>
 
 <style scoped>
 .profile {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,6 +59,12 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
   text-align: center;
   max-width: 600px;
   z-index: 10;
+  transition: transform 300ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.profile-content.is-bio-expanded {
+  /* 右側の自己紹介の詳細へ視線をつなげつつ、プロフィールの中央感は残す */
+  transform: translateX(-64px);
 }
 
 .avatar-wrapper {
@@ -102,17 +111,6 @@ const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'car
   margin-bottom: 1.5rem;
   opacity: 0.7;
   font-weight: 400;
-}
-
-.bio {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-
-  span {
-    white-space: nowrap;
-  }
 }
 
 .social-mini-links {
