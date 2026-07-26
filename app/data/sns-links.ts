@@ -1,13 +1,12 @@
 import type { SNSLink } from "~/types/sns";
 
-export const snsLinks: SNSLink[] = [
+export const snsCardLinks: SNSLink[] = [
   {
     url: "https://www.youtube.com/@kokonkr",
     iconName: "mdi:youtube",
     iconSize: 32,
     name: "YouTube",
     description: "好きな音声合成キャラに歌ってもらったり(カバー)",
-    viewType: "card",
   },
   {
     url: "https://www.nicovideo.jp/user/56264499/video",
@@ -15,7 +14,6 @@ export const snsLinks: SNSLink[] = [
     iconSize: 28,
     name: "ニコニコ動画",
     description: "ソフトウェアトーク動画が置いてあります",
-    viewType: "card",
   },
   {
     url: "https://matcha14.com/",
@@ -23,16 +21,20 @@ export const snsLinks: SNSLink[] = [
     iconSize: 28,
     name: "個人サイト",
     description: "機材、買ったガジェットとか。My new gear……!",
-    viewType: "card",
   },
+];
+
+export const snsAkaLinks: SNSLink[] = [
   {
     url: "https://fori.io/Moti-kitsune",
     iconName: "custom:mk",
     iconSize: 28,
     name: "もちきつね",
     description: "映像別名義",
-    viewType: "card-aka",
   },
+];
+
+export const snsIconLinks: SNSLink[] = [
   {
     url: "https://twitter.com/Tsut_ps",
     iconName: "mdi:twitter",
@@ -68,13 +70,15 @@ export const snsLinks: SNSLink[] = [
     name: "Cosense(Scrapbox)",
     description: "コードを書く技術記事とか、思考整理のスクラップ",
   },
+];
+
+export const snsOtherLinks: SNSLink[] = [
   {
     url: "https://www.pixiv.net/users/29058934",
     iconName: "simple-icons:pixiv",
     iconSize: 24,
     name: "piviv",
     description: "たまに、ほんとうにたまに描く",
-    viewType: "other",
   },
   {
     url: "https://marshmallow-qa.com/tsut_ps",
@@ -82,7 +86,6 @@ export const snsLinks: SNSLink[] = [
     iconSize: 25,
     name: "匿名で質問する",
     description: "マシュマロです。なんでもおk",
-    viewType: "other",
   },
   {
     url: "https://www.amazon.jp/hz/wishlist/ls/29Z1OGW2MBBWP",
@@ -91,6 +94,5 @@ export const snsLinks: SNSLink[] = [
     name: "(物資の支援)",
     description:
       "ものりすを公開してますが、無理のない範囲で支援していただけると幸いです",
-    viewType: "other",
   },
 ];

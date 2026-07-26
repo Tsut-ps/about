@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { snsLinks } from '~/data/sns-links'
-
-const SNSCardLinks = snsLinks.filter(link => link.viewType === 'card')
-const SNSCardLinksAka = snsLinks.filter(link => link.viewType === 'card-aka')
+import { snsAkaLinks, snsCardLinks } from '~/data/sns-links'
 
 // 自己紹介の詳細の表示とプロフィール本体の移動を同じ状態で同期する
 const isBioExpanded = ref(false)
@@ -32,13 +29,13 @@ const isBioExpanded = ref(false)
 
       <!-- SNSリンク(カード) -->
       <div class="social-links">
-        <UiSNSCard v-for="link in SNSCardLinks" :key="link.url" :url="link.url" :icon-name="link.iconName"
+        <UiSNSCard v-for="link in snsCardLinks" :key="link.url" :url="link.url" :icon-name="link.iconName"
           :icon-size="link.iconSize" :name="link.name" :description="link.description" />
       </div>
 
       <!-- SNSリンク(その他のカード) -->
       <div class="social-links social-links-aka">
-        <UiSNSCardAka v-for="link in SNSCardLinksAka" :key="link.url" :url="link.url" :icon-name="link.iconName"
+        <UiSNSCardAka v-for="link in snsAkaLinks" :key="link.url" :url="link.url" :icon-name="link.iconName"
           :icon-size="link.iconSize" :name="link.name" :description="link.description" />
       </div>
     </div>

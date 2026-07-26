@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { snsLinks as allSnsLinks } from '~/data/sns-links'
+import { snsIconLinks, snsOtherLinks } from '~/data/sns-links'
 
 // フッターなど、目立たせたくない場所ではdimmedを指定する
 const { dimmed } = defineProps<{
   dimmed?: boolean
 }>()
 
-const snsLinks = allSnsLinks.filter(link => !link.viewType)
-const snsOtherLinks = allSnsLinks.filter(link => link.viewType === 'other')
 const snsOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
 const isOtherMenuOpen = ref(false)
 
@@ -27,7 +25,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 <template>
   <div class="sns-links" :class="{ 'sns-links-dimmed': dimmed }">
-    <ExtLink v-for="link in snsLinks" :key="link.url" :to="link.url" class="sns-link"
+    <ExtLink v-for="link in snsIconLinks" :key="link.url" :to="link.url" class="sns-link"
       :title="link.name + ' / ' + link.description">
       <Icon :name="link.iconName" :size="link.iconSize" />
     </ExtLink>
