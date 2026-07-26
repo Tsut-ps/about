@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { snsLinks as allSnsLinks } from '~/data/sns-links'
+
 // フッターなど、目立たせたくない場所ではdimmedを指定する
 const { dimmed } = defineProps<{
   dimmed?: boolean
 }>()
 
-const appConfig = useAppConfig()
-const snsLinks = appConfig.snsLinks.filter(link => !link.viewType)
-const snsOtherLinks = appConfig.snsLinks.filter(link => link.viewType === 'other')
+const snsLinks = allSnsLinks.filter(link => !link.viewType)
+const snsOtherLinks = allSnsLinks.filter(link => link.viewType === 'other')
 const snsOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
 const isOtherMenuOpen = ref(false)
 

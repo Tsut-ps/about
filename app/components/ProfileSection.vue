@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const appConfig = useAppConfig()
-const SNSCardLinks = appConfig.snsLinks.filter(link => link.viewType === 'card')
-const SNSCardLinksAka = appConfig.snsLinks.filter(link => link.viewType === 'card-aka')
+import { snsLinks } from '~/data/sns-links'
+
+const SNSCardLinks = snsLinks.filter(link => link.viewType === 'card')
+const SNSCardLinksAka = snsLinks.filter(link => link.viewType === 'card-aka')
 
 // 自己紹介の詳細の表示とプロフィール本体の移動を同じ状態で同期する
 const isBioExpanded = ref(false)
