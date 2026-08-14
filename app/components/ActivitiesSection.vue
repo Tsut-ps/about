@@ -50,7 +50,7 @@ const sections: ActivitySection[] = [
     title: '開発',
     englishLabel: '-Development-',
     platforms: ['github'],
-    maxItems: 3,
+    maxItems: 6,
     columns: 3,
   },
 ]

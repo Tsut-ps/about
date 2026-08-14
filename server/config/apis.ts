@@ -24,7 +24,7 @@ export const apis: API[] = [
     userName: "Tsut-ps",
     platform: "github",
     name: "GitHub",
-    itemLimit: 3,
+    itemLimit: 12,
     excludeItems: ["Tsut-ps", "about"], // プロフィールリポジトリを除外
   },
   {
