@@ -105,7 +105,7 @@ export async function fetchApiGitHub(): Promise<ActivityItem[]> {
       query: {
         sort: "created",
         direction: "desc",
-        per_page: 10,
+        per_page: 20,
       },
       timeout: 10000,
     });
