@@ -149,6 +149,7 @@ const sectionItems = computed(() => {
 .activities-title {
   font-size: 3rem;
   margin: 0 0 1.5rem;
+  padding-inline: 0.3em;
   opacity: 0.9;
   font-weight: 500;
   font-family: 'Caveat', cursive;
