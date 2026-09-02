@@ -86,6 +86,34 @@ const sectionItems = computed(() => {
     return { ...section, items }
   }).filter(section => section.items.length > 0)
 })
+
+let dragged = false
+const dragX = { start: 0, previous: 0 }
+
+function startGridDrag(event: PointerEvent) {
+  if (event.pointerType !== 'mouse' || event.button !== 0) return
+
+  const grid = event.currentTarget as HTMLElement
+  // グリッド外へ出てもドラッグを継続できるよう、このポインターを捕捉する
+  grid.setPointerCapture(event.pointerId)
+  dragged = false
+  dragX.start = dragX.previous = event.clientX
+}
+
+function moveGridDrag(event: PointerEvent) {
+  const grid = event.currentTarget as HTMLElement
+  // ホバーや別の場所から始まった操作でスクロールしないよう、捕捉中の左ドラッグだけに限定する
+  if (event.buttons !== 1 || !grid.hasPointerCapture(event.pointerId)) return
+
+  // 小さな手ぶれでリンクのクリックを無効にしないよう、5pxまではクリックとして扱う
+  dragged ||= Math.abs(event.clientX - dragX.start) > 5
+  if (!dragged) return
+
+  event.preventDefault()
+  // movementXは環境によって単位が異なるため、CSSピクセル基準のclientXから移動量を求める
+  grid.scrollLeft -= event.clientX - dragX.previous
+  dragX.previous = event.clientX
+}
 </script>
 
 <template>
@@ -115,7 +143,10 @@ const sectionItems = computed(() => {
             <UiActivityTimelineItem :item="item" />
           </li>
         </ul>
-        <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`">
+
+        <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`" @pointerdown="startGridDrag"
+          @pointermove="moveGridDrag" @click.capture="dragged && ($event.preventDefault(), dragged = false)"
+          @dragstart.prevent>
           <div v-for="item in section.items" :key="item.id" class="activity-card">
             <UiActivityCard :item="item" :prefer-short="section.key === 'shorts'"
               :hide-platform-icons="section.key === 'diary'" />
@@ -234,6 +265,20 @@ const sectionItems = computed(() => {
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    @media (pointer: fine) {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+        user-select: none;
+      }
+
+      .activity-card,
+      :deep(a) {
+        cursor: inherit;
+      }
     }
   }
 }
