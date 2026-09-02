@@ -298,20 +298,33 @@ function moveGridDrag(event: PointerEvent) {
   transition: transform 0.2s ease;
 }
 
-.activity-card:hover,
 .activity-card:has(:focus-visible) {
   transform: translateY(-4px);
 }
 
 /* クリップ範囲(card-thumbnailのoverflow: hidden)は保ったまま、画像だけ拡大する */
-.activity-card:hover :deep(.card-thumbnail img),
 .activity-card:has(:focus-visible) :deep(.card-thumbnail img) {
   transform: scale(1.04);
+}
+
+/* タッチ端末でhover状態を残さないよう、hover可能な端末だけに限定する */
+@media (hover: hover) {
+  .activity-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .activity-card:hover :deep(.card-thumbnail img) {
+    transform: scale(1.04);
+  }
 }
 
 .activity-card:active {
   transition-duration: 0.06s;
   transform: translateY(-2px);
+}
+
+.activity-card:active :deep(.card-thumbnail img) {
+  transform: scale(1.04);
 }
 
 .activity-list {
