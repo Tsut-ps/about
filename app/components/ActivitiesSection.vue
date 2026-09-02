@@ -41,7 +41,7 @@ const sections: ActivitySection[] = [
     title: '書き散らし',
     englishLabel: '-Notes-',
     platforms: ['scrapbox', 'note'],
-    maxItems: 8,
+    maxItems: 6,
     columns: 3,
     textOnly: true,
   },
