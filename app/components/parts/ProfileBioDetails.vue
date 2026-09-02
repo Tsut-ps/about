@@ -53,6 +53,10 @@ const voicesVisible = ref(false)
   text-align: left;
   opacity: .7;
   transition: opacity 200ms ease;
+
+  @media (max-width: 1500px) {
+    display: none;
+  }
 }
 
 .fade-enter-from,
@@ -62,11 +66,11 @@ const voicesVisible = ref(false)
 
 .tip-section {
   margin-top: 2rem;
-}
 
-.tip-section h3 {
-  margin: 0 0 .75rem;
-  font-size: 1.1rem;
+  h3 {
+    margin: 0 0 .75rem;
+    font-size: 1.1rem;
+  }
 }
 
 .show-voices-button {
@@ -93,18 +97,18 @@ const voicesVisible = ref(false)
 
 .detail-list {
   margin: 0;
-}
 
-.detail-list>div {
-  display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  gap: .75rem;
-  margin-top: .5rem;
-}
+  >div {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: .75rem;
+    margin-top: .5rem;
+  }
 
-.detail-list dd {
-  margin: 0;
-  line-height: 1.6;
+  dd {
+    margin: 0;
+    line-height: 1.6;
+  }
 }
 
 .voice-list {
@@ -115,24 +119,15 @@ const voicesVisible = ref(false)
   margin: .75rem 0 0;
   list-style: none;
   line-height: 1.5;
-}
 
-.voice-list li {
-  white-space: nowrap;
+  li {
+    white-space: nowrap;
+  }
 }
 
 .secondary-text {
   font-size: .8rem;
-}
-
-.secondary-text {
   margin-left: .5rem;
   opacity: .6;
-}
-
-@media (max-width: 1500px) {
-  .profile-bio-details {
-    display: none;
-  }
 }
 </style>

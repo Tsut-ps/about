@@ -62,20 +62,20 @@ onBeforeUnmount(() => {
   span {
     white-space: nowrap;
   }
-}
 
-.bio:hover:not(:disabled),
-.bio:focus-visible {
-  background-color: #222838;
-  opacity: 1;
-}
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background-color: #222838;
+    opacity: 1;
+  }
 
-.bio:focus-visible {
-  outline: 2px solid rgb(255 255 255 / 70%);
-  outline-offset: 2px;
-}
+  &:focus-visible {
+    outline: 2px solid rgb(255 255 255 / 70%);
+    outline-offset: 2px;
+  }
 
-.bio:disabled {
-  cursor: default;
+  &:disabled {
+    cursor: default;
+  }
 }
 </style>

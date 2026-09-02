@@ -58,11 +58,11 @@ const isBioExpanded = ref(false)
   max-width: 600px;
   z-index: 10;
   transition: transform 300ms cubic-bezier(.2, .8, .2, 1);
-}
 
-.profile-content.is-bio-expanded {
-  /* 右側の自己紹介の詳細へ視線をつなげつつ、プロフィールの中央感は残す */
-  transform: translateX(-64px);
+  &.is-bio-expanded {
+    /* 右側の自己紹介の詳細へ視線をつなげつつ、プロフィールの中央感は残す */
+    transform: translateX(-64px);
+  }
 }
 
 .avatar-wrapper {

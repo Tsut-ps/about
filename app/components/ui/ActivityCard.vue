@@ -75,17 +75,17 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
   position: relative;
   border-radius: 8px;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
-}
 
-.card-thumbnail-shorts {
-  aspect-ratio: 9 / 16;
-}
+  &.card-thumbnail-shorts {
+    aspect-ratio: 9 / 16;
+  }
 
-.card-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
 }
 
 .thumbnail-fallback {

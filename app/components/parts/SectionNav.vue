@@ -112,11 +112,11 @@ onUnmounted(() => {
   color: var(--color-text);
   opacity: 0.4;
   transition: opacity 0.25s ease, font-size 0.25s ease;
-}
 
-.section-nav-link:hover,
-.section-nav-link:focus-visible {
-  opacity: 1;
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
 }
 
 .section-nav-link-active {

@@ -44,16 +44,16 @@ onUnmounted(() => {
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, opacity 0.2s ease;
-}
 
-.back-to-top:hover,
-.back-to-top:focus-visible {
-  transform: translateY(-4px);
-}
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-4px);
+  }
 
-.back-to-top:active {
-  transition-duration: 0.06s;
-  transform: translateY(-2px);
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+  }
 }
 
 .fade-enter-active,

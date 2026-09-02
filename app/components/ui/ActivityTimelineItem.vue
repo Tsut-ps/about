@@ -50,16 +50,16 @@ const url = computed(() => displayLink.value?.url)
   border-radius: 8px;
   color: var(--color-text);
   transition: all 0.2s ease;
-}
 
-.timeline-item:hover,
-.timeline-item:focus-visible {
-  transform: translateY(-4px);
-}
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-4px);
+  }
 
-.timeline-item:active {
-  transition-duration: 0.06s;
-  transform: translateY(-2px);
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+  }
 }
 
 .timeline-item-circle {

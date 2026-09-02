@@ -296,35 +296,35 @@ function moveGridDrag(event: PointerEvent) {
   flex-direction: column;
   cursor: pointer;
   transition: transform 0.2s ease;
-}
 
-.activity-card:has(:focus-visible) {
-  transform: translateY(-4px);
-}
-
-/* クリップ範囲(card-thumbnailのoverflow: hidden)は保ったまま、画像だけ拡大する */
-.activity-card:has(:focus-visible) :deep(.card-thumbnail img) {
-  transform: scale(1.04);
-}
-
-/* タッチ端末でhover状態を残さないよう、hover可能な端末だけに限定する */
-@media (hover: hover) {
-  .activity-card:hover {
+  &:has(:focus-visible) {
     transform: translateY(-4px);
+
+    /* クリップ範囲(card-thumbnailのoverflow: hidden)は保ったまま、画像だけ拡大する */
+    & :deep(.card-thumbnail img) {
+      transform: scale(1.04);
+    }
   }
 
-  .activity-card:hover :deep(.card-thumbnail img) {
-    transform: scale(1.04);
+  &:active {
+    transition-duration: 0.06s;
+    transform: translateY(-2px);
+
+    & :deep(.card-thumbnail img) {
+      transform: scale(1.04);
+    }
   }
-}
 
-.activity-card:active {
-  transition-duration: 0.06s;
-  transform: translateY(-2px);
-}
+  /* タッチ端末でhover状態を残さないよう、hover可能な端末だけに限定する */
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px);
 
-.activity-card:active :deep(.card-thumbnail img) {
-  transform: scale(1.04);
+      & :deep(.card-thumbnail img) {
+        transform: scale(1.04);
+      }
+    }
+  }
 }
 
 .activity-list {
@@ -332,18 +332,18 @@ function moveGridDrag(event: PointerEvent) {
   margin: 0;
   padding: 0;
   position: relative;
-}
 
-/* タイムライン表示の連結線 */
-.activity-list::before {
-  content: '';
-  position: absolute;
-  top: 1.75rem;
-  bottom: 1.75rem;
-  left: 1rem;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateX(-50%);
+  /* タイムライン表示の連結線 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 1.75rem;
+    bottom: 1.75rem;
+    left: 1rem;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes fadeIn {
