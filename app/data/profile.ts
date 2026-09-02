@@ -5,7 +5,7 @@ export const profile = {
     "プログラムを書いたり。",
   ],
   contacts: [
-    { label: "Twitter(X)", value: "@tsut_ps" },
+    { label: "Twitter(X)", value: "@Tsut_ps", url: "https://twitter.com/Tsut_ps" },
     { label: "Discord", value: "@tsut_ps" },
   ],
   contactNote: "※Xはあんま見れてないので気がつけないかも……!",

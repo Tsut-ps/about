@@ -5,22 +5,6 @@ import { snsIconLinks, snsOtherLinks } from '~/data/sns-links'
 const { dimmed } = defineProps<{
   dimmed?: boolean
 }>()
-
-const snsOtherContainer = useTemplateRef<HTMLDivElement>('snsOtherContainer')
-const isOtherMenuOpen = ref(false)
-
-// 外側をクリックしたら閉じる
-const handleClickOutside = (event: MouseEvent) => {
-  if (!isOtherMenuOpen.value) return
-
-  const container = snsOtherContainer.value
-  const target = event.target
-
-  if (target instanceof Node && !container?.contains(target)) isOtherMenuOpen.value = false
-}
-
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
@@ -30,21 +14,17 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
       <Icon :name="link.iconName" :size="link.iconSize" />
     </ExtLink>
 
-    <div v-if="snsOtherLinks.length" ref="snsOtherContainer" class="sns-other-links">
-      <button type="button" class="sns-other-button" title="その他のリンク" aria-label="その他のリンク"
-        :aria-expanded="isOtherMenuOpen" @click="isOtherMenuOpen = !isOtherMenuOpen">
+    <UiPopover v-if="snsOtherLinks.length" class="sns-other-popover" label="その他のリンク"
+      :placement="dimmed ? 'top' : 'bottom'" trigger-variant="icon">
+      <template #trigger>
         <Icon name="mdi:dots-horizontal" :size="28" aria-hidden="true" />
-      </button>
-      <Transition name="sns-other-menu">
-        <div v-if="isOtherMenuOpen" class="sns-other-menu">
-          <ExtLink v-for="link in snsOtherLinks" :key="link.url" :to="link.url" class="sns-other-link"
-            :title="link.name + ' / ' + link.description">
-            <Icon :name="link.iconName" :size="link.iconSize" />
-            <span>{{ link.name }}</span>
-          </ExtLink>
-        </div>
-      </Transition>
-    </div>
+      </template>
+      <ExtLink v-for="link in snsOtherLinks" :key="link.url" :to="link.url" class="sns-other-link"
+        :title="link.name + ' / ' + link.description">
+        <Icon :name="link.iconName" :size="link.iconSize" />
+        <span>{{ link.name }}</span>
+      </ExtLink>
+    </UiPopover>
   </div>
 </template>
 
@@ -56,17 +36,13 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   gap: 1rem;
 }
 
-.sns-link,
-.sns-other-button {
+.sns-link {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: -0.5rem;
   padding: 0.5rem;
   color: var(--color-text);
-}
-
-.sns-link {
   transition: transform 0.2s ease;
 
   &:hover,
@@ -78,59 +54,6 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
     transition-duration: 0.06s;
     transform: translateY(-2px);
   }
-}
-
-.sns-other-links {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.sns-other-button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  opacity: 0.65;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-
-  &:hover,
-  &:focus-visible {
-    opacity: 1;
-  }
-
-  &:active {
-    transition-duration: 0.06s;
-    transform: translateY(2px);
-  }
-
-  &[aria-expanded='true'] {
-    opacity: 1;
-  }
-}
-
-.sns-other-menu {
-  position: absolute;
-  top: calc(100% + 0.75rem);
-  left: 50%;
-  z-index: 20;
-  min-width: max-content;
-  padding: 0.5rem;
-  border: 1px solid var(--color-accent);
-  border-radius: 8px;
-  background: var(--color-bg);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transform: translateX(-50%);
-}
-
-.sns-other-menu-enter-active,
-.sns-other-menu-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.sns-other-menu-enter-from,
-.sns-other-menu-leave-to {
-  opacity: 0;
-  transform: translate(-50%, -0.5rem);
 }
 
 .sns-other-link {
@@ -156,15 +79,11 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
       opacity: 0.75;
     }
   }
+}
 
-  .sns-other-menu {
-    top: auto;
-    bottom: calc(100% + 0.75rem);
-  }
-
-  .sns-other-menu-enter-from,
-  .sns-other-menu-leave-to {
-    transform: translate(-50%, 0.5rem);
+@media (max-width: 420px) {
+  .sns-other-popover {
+    --popover-panel-offset-x: -3rem;
   }
 }
 </style>

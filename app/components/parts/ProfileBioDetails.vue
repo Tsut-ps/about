@@ -15,17 +15,6 @@ const voicesVisible = ref(false)
       <p>おはよ<span class="secondary-text">朝昼晩深夜ぜんぶのあいさつにしている</span></p>
 
       <section class="tip-section">
-        <h3>連絡先</h3>
-        <dl class="detail-list">
-          <div v-for="contact in profile.contacts" :key="contact.label">
-            <dt>{{ contact.label }}</dt>
-            <dd>{{ contact.value }}</dd>
-          </div>
-        </dl>
-        <p class="note">{{ profile.contactNote }}</p>
-      </section>
-
-      <section class="tip-section">
         <h3>Info</h3>
         <dl class="detail-list">
           <div v-for="item in profile.info" :key="item.label">
@@ -118,11 +107,6 @@ const voicesVisible = ref(false)
   line-height: 1.6;
 }
 
-.note {
-  margin: 1rem 0 0;
-  line-height: 1.6;
-}
-
 .voice-list {
   display: flex;
   flex-wrap: wrap;
@@ -137,7 +121,6 @@ const voicesVisible = ref(false)
   white-space: nowrap;
 }
 
-.note,
 .secondary-text {
   font-size: .8rem;
 }
