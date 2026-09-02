@@ -221,12 +221,20 @@ const sectionItems = computed(() => {
   row-gap: 3rem;
 
   @media (max-width: 800px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 320px);
+    justify-items: stretch;
+    gap: 1rem;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 1rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    justify-items: center;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
@@ -234,7 +242,8 @@ const sectionItems = computed(() => {
   grid-template-columns: repeat(4, 1fr);
 
   @media (max-width: 800px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: none;
+    grid-auto-columns: min(48vw, 220px);
   }
 }
 
@@ -247,8 +256,8 @@ const sectionItems = computed(() => {
   cursor: pointer;
   transition: transform 0.2s ease;
 
-  @media (max-width: 600px) {
-    max-width: 380px;
+  @media (max-width: 800px) {
+    max-width: none;
   }
 }
 
