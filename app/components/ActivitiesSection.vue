@@ -255,7 +255,6 @@ function moveGridDrag(event: PointerEvent) {
     grid-template-columns: none;
     grid-auto-flow: column;
     grid-auto-columns: min(78vw, 320px);
-    justify-items: stretch;
     gap: 1rem;
     margin-inline: -1rem;
     padding: 0.25rem 1rem 1rem;
@@ -293,17 +292,10 @@ function moveGridDrag(event: PointerEvent) {
 }
 
 .activity-card {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  text-decoration: none;
-  color: var(--color-text);
   cursor: pointer;
   transition: transform 0.2s ease;
-
-  @media (max-width: 800px) {
-    max-width: none;
-  }
 }
 
 .activity-card:hover,
