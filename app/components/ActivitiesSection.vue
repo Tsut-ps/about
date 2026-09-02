@@ -102,8 +102,8 @@ function startGridDrag(event: PointerEvent) {
 
 function moveGridDrag(event: PointerEvent) {
   const grid = event.currentTarget as HTMLElement
-  // ホバーや別の場所から始まった操作でスクロールしないよう、捕捉中の左ドラッグだけに限定する
-  if (event.buttons !== 1 || !grid.hasPointerCapture(event.pointerId)) return
+  // ホバーや別の場所から始まった操作でスクロールしないよう、捕捉中のマウスの左ドラッグだけに限定する
+  if (event.pointerType !== 'mouse' || event.buttons !== 1 || !grid.hasPointerCapture(event.pointerId)) return
 
   // 小さな手ぶれでリンクのクリックを無効にしないよう、5pxまではクリックとして扱う
   dragged ||= Math.abs(event.clientX - dragX.start) > 5
