@@ -313,7 +313,7 @@ function moveGridDrag(event: PointerEvent) {
   &.activity-card-wide {
     display: none;
 
-    @media (min-width: 1900px) {
+    @media (max-width: 800px), (min-width: 1900px) {
       display: flex;
     }
   }
