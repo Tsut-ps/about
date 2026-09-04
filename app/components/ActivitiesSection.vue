@@ -1,15 +1,17 @@
 <script setup lang="ts">
 const { data: activities } = await useFetch('/api/activities')
 
-interface ActivitySection {
+interface ActivitySectionBase {
   key: string
   title: string
   englishLabel: string
   platforms: string[]
-  maxItems: number
-  columns: 3 | 4
-  textOnly?: boolean
 }
+
+type ActivitySection = ActivitySectionBase & (
+  | { rows: number, textOnly?: false }
+  | { itemLimit: number, textOnly: true }
+)
 
 const sections: ActivitySection[] = [
   {
@@ -17,32 +19,28 @@ const sections: ActivitySection[] = [
     title: '音声合成動画',
     englishLabel: '-Software Singer & Talking-',
     platforms: ['youtube', 'nicovideo'],
-    maxItems: 6,
-    columns: 3,
+    rows: 2,
   },
   {
     key: 'shorts',
     title: 'ショート',
     englishLabel: '#Shorts',
     platforms: ['youtube-shorts', 'nicovideo-shorts'],
-    maxItems: 4,
-    columns: 4,
+    rows: 1,
   },
   {
     key: 'diary',
     title: '日記',
     englishLabel: '-Diary-',
     platforms: ['blog'],
-    maxItems: 3,
-    columns: 3,
+    rows: 1,
   },
   {
     key: 'notes',
     title: '書き散らし',
     englishLabel: '-Notes-',
     platforms: ['scrapbox', 'note'],
-    maxItems: 6,
-    columns: 3,
+    itemLimit: 6,
     textOnly: true,
   },
   {
@@ -50,8 +48,7 @@ const sections: ActivitySection[] = [
     title: '開発',
     englishLabel: '-Development-',
     platforms: ['github'],
-    maxItems: 6,
-    columns: 3,
+    rows: 2,
   },
 ]
 
@@ -64,9 +61,12 @@ const sectionItems = computed(() => {
   type Item = NonNullable<typeof activities.value>[number]
 
   const data = activities.value
-  if (!data) return [] as (ActivitySection & { items: Item[] })[]
+  if (!data) return [] as (ActivitySection & { items: Item[], minItems: number })[]
 
   return sections.map((section) => {
+    const maxItems = section.textOnly ? section.itemLimit : section.rows * (section.key === 'shorts' ? 5 : 4)
+    const minItems = section.textOnly ? maxItems : maxItems - section.rows
+
     const items = data.filter((item) => {
       // 現在のフィルター対象プラットフォームを持つ活動だけ表示候補にする
       const matches = item.links.some(link => section.platforms.includes(link.platform))
@@ -81,9 +81,9 @@ const sectionItems = computed(() => {
       }
 
       return true
-    }).slice(0, section.maxItems)
+    }).slice(0, maxItems)
 
-    return { ...section, items }
+    return { ...section, minItems, items }
   }).filter(section => section.items.length > 0)
 })
 
@@ -144,10 +144,11 @@ function moveGridDrag(event: PointerEvent) {
           </li>
         </ul>
 
-        <div v-else class="activity-grid" :class="`activity-grid-cols-${section.columns}`" @pointerdown="startGridDrag"
-          @pointermove="moveGridDrag" @click.capture="dragged && ($event.preventDefault(), dragged = false)"
-          @dragstart.prevent>
-          <div v-for="item in section.items" :key="item.id" class="activity-card">
+        <div v-else class="activity-grid" :class="{ 'activity-grid-shorts': section.key === 'shorts' }"
+          @pointerdown="startGridDrag" @pointermove="moveGridDrag"
+          @click.capture="dragged && ($event.preventDefault(), dragged = false)" @dragstart.prevent>
+          <div v-for="(item, itemIndex) in section.items" :key="item.id" class="activity-card"
+            :class="{ 'activity-card-wide': itemIndex >= section.minItems }">
             <UiActivityCard :item="item" :prefer-short="section.key === 'shorts'"
               :hide-platform-icons="section.key === 'diary'" />
           </div>
@@ -166,6 +167,10 @@ function moveGridDrag(event: PointerEvent) {
 .activities-content {
   max-width: 1200px;
   margin: 0 auto;
+
+  @media (min-width: 1900px) {
+    max-width: 1600px;
+  }
 }
 
 .activities-title-wrap {
@@ -251,6 +256,10 @@ function moveGridDrag(event: PointerEvent) {
   column-gap: 2rem;
   row-gap: 3rem;
 
+  @media (min-width: 1900px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   @media (max-width: 800px) {
     grid-template-columns: none;
     grid-auto-flow: column;
@@ -282,8 +291,12 @@ function moveGridDrag(event: PointerEvent) {
   }
 }
 
-.activity-grid-cols-4 {
+.activity-grid-shorts {
   grid-template-columns: repeat(4, 1fr);
+
+  @media (min-width: 1900px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 
   @media (max-width: 800px) {
     grid-template-columns: none;
@@ -296,6 +309,14 @@ function moveGridDrag(event: PointerEvent) {
   flex-direction: column;
   cursor: pointer;
   transition: transform 0.2s ease;
+
+  &.activity-card-wide {
+    display: none;
+
+    @media (min-width: 1900px) {
+      display: flex;
+    }
+  }
 
   &:has(:focus-visible) {
     transform: translateY(-4px);
