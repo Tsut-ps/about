@@ -91,19 +91,24 @@ let dragged = false
 const dragX = { start: 0, previous: 0 }
 
 function startGridDrag(event: PointerEvent) {
+  dragged = false
   if (event.pointerType !== 'mouse' || event.button !== 0) return
 
   const grid = event.currentTarget as HTMLElement
-  // グリッド外へ出てもドラッグを継続できるよう、このポインターを捕捉する
-  grid.setPointerCapture(event.pointerId)
-  dragged = false
+  // 横スクロール不要なPC表示などでは、通常のクリックやホバーにドラッグ処理が干渉しないようにする
+  if (grid.scrollWidth <= grid.clientWidth) return
+
+  // クリック対象を変えず、グリッド外でもドラッグを継続できるようにする
+  const target = event.target as Element
+  target.setPointerCapture(event.pointerId)
   dragX.start = dragX.previous = event.clientX
 }
 
 function moveGridDrag(event: PointerEvent) {
   const grid = event.currentTarget as HTMLElement
+  const target = event.target as Element
   // ホバーや別の場所から始まった操作でスクロールしないよう、捕捉中のマウスの左ドラッグだけに限定する
-  if (event.pointerType !== 'mouse' || event.buttons !== 1 || !grid.hasPointerCapture(event.pointerId)) return
+  if (event.pointerType !== 'mouse' || event.buttons !== 1 || !target.hasPointerCapture(event.pointerId)) return
 
   // 小さな手ぶれでリンクのクリックを無効にしないよう、5pxまではクリックとして扱う
   dragged ||= Math.abs(event.clientX - dragX.start) > 5
@@ -145,8 +150,9 @@ function moveGridDrag(event: PointerEvent) {
         </ul>
 
         <div v-else class="activity-grid" :class="{ 'activity-grid-shorts': section.key === 'shorts' }"
-          @pointerdown="startGridDrag" @pointermove="moveGridDrag"
-          @click.capture="dragged && ($event.preventDefault(), dragged = false)" @dragstart.prevent>
+          @pointerdown="startGridDrag" @pointermove="moveGridDrag" @pointercancel="dragged = false"
+          @click.capture="dragged && $event.detail > 0 && ($event.preventDefault(), dragged = false)"
+          @dragstart.prevent>
           <div v-for="(item, itemIndex) in section.items" :key="item.id" class="activity-card"
             :class="{ 'activity-card-wide': itemIndex >= section.minItems }">
             <UiActivityCard :item="item" :prefer-short="section.key === 'shorts'"
@@ -338,7 +344,7 @@ function moveGridDrag(event: PointerEvent) {
 
   /* タッチ端末でhover状態を残さないよう、hover可能な端末だけに限定する */
   @media (hover: hover) {
-    &:hover {
+    &:hover:not(:active) {
       transform: translateY(-4px);
 
       & :deep(.card-thumbnail img) {
