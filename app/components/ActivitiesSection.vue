@@ -40,7 +40,7 @@ const sections: ActivitySection[] = [
     title: '書き散らし',
     englishLabel: '-Notes-',
     platforms: ['scrapbox', 'note'],
-    itemLimit: 6,
+    itemLimit: 10,
     textOnly: true,
   },
   {
@@ -355,21 +355,34 @@ function moveGridDrag(event: PointerEvent) {
 }
 
 .activity-list {
+  columns: 2;
+  column-gap: 2rem;
   list-style: none;
   margin: 0;
   padding: 0;
-  position: relative;
 
-  /* タイムライン表示の連結線 */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 1.75rem;
-    bottom: 1.75rem;
-    left: 1rem;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateX(-50%);
+  > li {
+    position: relative;
+    /* 表示個数が奇数のときに表示が崩れるのを防ぐ */
+    break-inside: avoid;
+
+    /* 次の項目があるときはタイムラインをつなぐ */
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      inset: 1rem auto -1rem 1rem;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  @media (max-width: 800px) {
+    columns: 1;
+
+    /* 最大6件に制限し、6件目から先へ伸びる縦線も隠す */
+    > li:nth-child(n + 7),
+    > li:nth-child(6)::before {
+      display: none;
+    }
   }
 }
 

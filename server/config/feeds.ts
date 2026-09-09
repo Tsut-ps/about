@@ -5,7 +5,7 @@ export const feeds: Feed[] = [
     url: "https://note.com/tsutps/rss",
     platform: "note",
     name: "note",
-    itemLimit: 2,
+    itemLimit: 10,
   },
   {
     url: "https://matcha14.com/feed/",

@@ -17,7 +17,7 @@ export const apis: API[] = [
     userName: "Tsut-ps",
     platform: "scrapbox",
     name: "Cosense",
-    itemLimit: 5,
+    itemLimit: 10,
     excludeItems: ["Tsut-ps"], // ユーザーページを除外
   },
   {
