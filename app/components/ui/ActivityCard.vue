@@ -16,16 +16,6 @@ const { item, preferShort } = defineProps<{
   hidePlatformIcons?: boolean
 }>()
 
-function formatDate(date: Date | string) {
-  const d = new Date(date)
-  return d.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    timeZone: 'Asia/Tokyo'
-  })
-}
-
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
 const displayLink = computed(() => {
   if (preferShort) {
@@ -54,7 +44,7 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
     <h3 class="card-title">{{ item.title }}</h3>
   </ExtLink>
   <div class="card-meta">
-    <time class="card-date">{{ formatDate(item.publishedDate) }}</time>
+    <UiRelativeTime :datetime="item.publishedDate" class="card-date" />
     <div v-if="!hidePlatformIcons" class="card-platforms">
       <template v-for="(link, index) in item.links" :key="index">
         <ExtLink :to="link.url" class="platform-link">

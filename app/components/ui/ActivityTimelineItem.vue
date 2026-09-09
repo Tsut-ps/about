@@ -11,16 +11,6 @@ const { item } = defineProps<{
   }
 }>()
 
-function formatDate(date: Date | string) {
-  const d = new Date(date)
-  return d.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    timeZone: 'Asia/Tokyo'
-  })
-}
-
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
 const displayLink = computed(() => item.links[0])
 const url = computed(() => displayLink.value?.url)
@@ -34,7 +24,7 @@ const url = computed(() => displayLink.value?.url)
         :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size) || 16" />
     </span>
     <span class="timeline-item-content">
-      <time class="timeline-item-date">{{ formatDate(item.publishedDate) }}</time>
+      <UiRelativeTime :datetime="item.publishedDate" class="timeline-item-date" />
       <h3 class="timeline-item-title">{{ item.title }}</h3>
     </span>
   </ExtLink>

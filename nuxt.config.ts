@@ -1,9 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const buildDate = new Intl.DateTimeFormat("ja-JP", {
-  timeZone: "Asia/Tokyo",
-  month: "numeric",
-  day: "numeric",
-}).format(new Date());
+const buildDate = new Date().toISOString();
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",

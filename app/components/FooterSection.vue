@@ -46,7 +46,7 @@ onBeforeUnmount(() => clearTimeout(copyResetTimer))
     </div>
 
     <p class="footer-copyright">© Tsut-ps. Deployed with
-      <ExtLink to="https://github.com/Tsut-ps/about">GitHub</ExtLink> ({{ buildDate }})
+      <ExtLink to="https://github.com/Tsut-ps/about">GitHub</ExtLink> (<UiRelativeTime :datetime="buildDate" />)
     </p>
   </footer>
 </template>
