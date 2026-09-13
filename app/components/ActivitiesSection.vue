@@ -1,6 +1,25 @@
 <script setup lang="ts">
 const { data: activities } = await useFetch('/api/activities')
 
+const searchFilters = ['カバー', 'ソフトウェアトーク']
+const coverTerms = ['カバー', 'cover', '歌']
+const activeSearchFilter = ref('')
+
+function cycleSearchFilter() {
+  const filters = ['', ...searchFilters]
+  const currentIndex = filters.indexOf(activeSearchFilter.value)
+  activeSearchFilter.value = filters[(currentIndex + 1) % filters.length] ?? ''
+}
+
+function matchesSearchFilter(text: string) {
+  if (!activeSearchFilter.value) return true
+
+  const normalizedText = text.toLowerCase()
+  const isCover = coverTerms.some(term => normalizedText.includes(term.toLowerCase()))
+  // 2種類を重複なく分類するため、カバーに一致しない動画をソフトウェアトークとして扱う
+  return activeSearchFilter.value === 'カバー' ? isCover : !isCover
+}
+
 interface ActivitySectionBase {
   key: string
   title: string
@@ -68,6 +87,14 @@ const sectionItems = computed(() => {
     const minItems = section.textOnly ? maxItems : maxItems - section.rows
 
     const items = data.filter((item) => {
+      // 選択した種別のいずれかに一致する動画だけを表示する（OR検索）
+      if (
+        ['video', 'shorts'].includes(section.key)
+        && !matchesSearchFilter(item.title)
+      ) {
+        return false
+      }
+
       // 現在のフィルター対象プラットフォームを持つ活動だけ表示候補にする
       const matches = item.links.some(link => section.platforms.includes(link.platform))
       if (!matches) return false
@@ -84,7 +111,11 @@ const sectionItems = computed(() => {
     }).slice(0, maxItems)
 
     return { ...section, minItems, items }
-  }).filter(section => section.items.length > 0)
+  }).filter((section) => {
+    // 絞り込み中は0件でも検索UIを残し、「すべて」へ戻せるよう動画セクションは非表示にしない
+    if (section.key === 'video' && activeSearchFilter.value !== '') return true
+    return section.items.length > 0
+  })
 })
 
 let dragged = false
@@ -138,12 +169,25 @@ function moveGridDrag(event: PointerEvent) {
       <!-- アクティビティ -->
       <div v-for="(section, index) in sectionItems" :id="section.key" :key="section.key" class="activity-section"
         :class="{ 'activity-section-alt': index % 2 === 0 }">
-        <h3 class="section-title">
-          <span class="section-title-ja">{{ section.title }}</span>
-          <span class="section-title-en">{{ section.englishLabel }}</span>
-        </h3>
+        <div class="section-heading">
+          <h3 class="section-title">
+            <span class="section-title-ja">{{ section.title }}</span>
+            <span class="section-title-en">{{ section.englishLabel }}</span>
+          </h3>
 
-        <ul v-if="section.textOnly" class="activity-list">
+          <!-- 検索対象の動画セクションに付属する操作として表示する -->
+          <div v-if="['video', 'shorts'].includes(section.key)" class="search-filter">
+            <button type="button" class="search-filter-button" aria-label="あいまい検索の条件を切り替える"
+              title="クリックして切り替え" @click="cycleSearchFilter">
+              <span :key="activeSearchFilter" class="filter-label">#{{ activeSearchFilter || 'すべて' }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 絞り込みで0件になった場合は、表示形式を選ぶ前に空状態を表示する -->
+        <p v-if="!section.items.length" class="activity-empty">なぜかわからないけど、なにも見つからなかった！</p>
+
+        <ul v-else-if="section.textOnly" class="activity-list">
           <li v-for="item in section.items" :key="item.id">
             <UiActivityTimelineItem :item="item" />
           </li>
@@ -197,6 +241,75 @@ function moveGridDrag(event: PointerEvent) {
   font-family: 'Caveat', cursive;
 }
 
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 3rem;
+
+  @media (max-width: 800px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .75rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.search-filter {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  flex-shrink: 0;
+  font-size: .8rem;
+  color: rgb(241 241 241 / 50%);
+}
+
+.search-filter-button {
+  padding: .3rem .7rem;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+
+  &:hover {
+    border-color: rgb(255 255 255 / 25%);
+    background: rgb(255 255 255 / 5%);
+    color: rgb(241 241 241 / 85%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgb(255 255 255 / 70%);
+    outline-offset: 2px;
+  }
+}
+
+.filter-label {
+  display: inline-block;
+  animation: filterLabelChange 250ms ease;
+}
+
+@keyframes filterLabelChange {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-label {
+    animation: none;
+  }
+}
+
+.activity-empty {
+  margin: 0;
+  font-size: .9rem;
+  opacity: .5;
+}
+
 .scroll-hint {
   margin: 0 0 3rem;
   opacity: 0.5;
@@ -244,7 +357,7 @@ function moveGridDrag(event: PointerEvent) {
   gap: 0.3rem 0.6rem;
   font-size: 1.4rem;
   font-weight: 600;
-  margin: 0 0 3rem;
+  margin: 0;
   opacity: 0.85;
 }
 
