@@ -28,13 +28,12 @@ onBeforeUnmount(() => clearTimeout(copyResetTimer))
         <div class="legal-content">
           <h2>YouTube API サービスの利用</h2>
           <p>
-            本サイトは、公開動画の表示にYouTube API サービスを利用しています。
-            本APIは
+            本サイトは、公開動画の表示にYouTube API サービスを利用していますが、本APIを通じて閲覧者情報を取得・利用しません。
+            本APIにおける情報の取扱いは、
             <ExtLink to="https://policies.google.com/privacy">Googleプライバシーポリシー</ExtLink>
-            ・
+            をご確認ください。本サイトの利用により、
             <ExtLink to="https://www.youtube.com/t/terms">YouTube利用規約</ExtLink>
-            に基づいて提供され、本サイトを利用することでこれらに同意したものとみなされます。
-            本サイトは本APIを通じて閲覧者情報を一切取得・利用していません。
+            に同意したものとみなされます。
           </p>
         </div>
       </UiPopover>
