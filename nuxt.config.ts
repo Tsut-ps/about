@@ -14,7 +14,11 @@ export default defineNuxtConfig({
     buildDate,
   },
 
-  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon"],
+  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image"],
+
+  image: {
+    format: ["avif"],
+  },
 
   // Nuxt DevToolsの依存を事前バンドルし、開発時の不要なページリロードを防ぐ
   vite: {

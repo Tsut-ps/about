@@ -184,6 +184,8 @@ function moveGridDrag(event: PointerEvent) {
           </div>
         </div>
 
+        <PickupSection v-if="section.key === 'dev'" />
+
         <!-- 絞り込みで0件になった場合は、表示形式を選ぶ前に空状態を表示する -->
         <p v-if="!section.items.length" class="activity-empty">なぜかわからないけど、なにも見つからなかった！</p>
 
