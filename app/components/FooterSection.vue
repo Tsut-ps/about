@@ -23,6 +23,21 @@ onBeforeUnmount(() => clearTimeout(copyResetTimer))
 
     <div class="footer-menu">
       <ExtLink class="footer-menu-link" to="https://note.com/tsutps/n/nf56ab5c50060">二次創作ガイドライン</ExtLink>
+      <UiPopover class="legal-popover" label="サイトポリシー" placement="top" trigger-variant="text">
+        <template #trigger>サイトポリシー</template>
+        <div class="legal-content">
+          <h2>YouTube API サービスの利用</h2>
+          <p>
+            本サイトは、公開動画の表示にYouTube API サービスを利用しています。
+            本APIは
+            <ExtLink to="https://policies.google.com/privacy">Googleプライバシーポリシー</ExtLink>
+            ・
+            <ExtLink to="https://www.youtube.com/t/terms">YouTube利用規約</ExtLink>
+            に基づいて提供され、本サイトを利用することでこれらに同意したものとみなされます。
+            本サイトは本APIを通じて閲覧者情報を一切取得・利用していません。
+          </p>
+        </div>
+      </UiPopover>
       <UiPopover class="contact-popover" label="連絡先" placement="top" trigger-variant="text">
         <template #trigger>連絡先</template>
         <div class="contact-content">
@@ -69,6 +84,7 @@ onBeforeUnmount(() => clearTimeout(copyResetTimer))
 }
 
 @media (max-width: 480px) {
+  .legal-popover,
   .contact-popover {
     position: static;
   }
@@ -87,6 +103,36 @@ onBeforeUnmount(() => clearTimeout(copyResetTimer))
 .contact-content {
   padding: 0.5rem;
   text-align: left;
+}
+
+.legal-content {
+  width: min(30rem, calc(100vw - 3rem));
+  padding: 0.5rem;
+  text-align: left;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+
+    &:not(:first-child) {
+      margin-top: 1.25rem;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+
+    +p {
+      margin-top: 0.75rem;
+    }
+  }
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
 }
 
 .contact-list {
