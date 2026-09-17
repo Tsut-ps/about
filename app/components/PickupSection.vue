@@ -1,24 +1,21 @@
 <template>
   <section class="pickup" @contextmenu.prevent @dragstart.prevent>
     <div class="pickup-card">
-      <NuxtPicture class="pickup-desktop" src="/banner/EmoLabMaker_L.png" alt="" width="700" height="400"
-        sizes="700px" />
-      <NuxtPicture class="pickup-desktop" src="/banner/EmoLabMaker_R.png" alt="" width="480" height="400"
-        sizes="480px" />
-      <NuxtPicture class="pickup-mobile" src="/banner/EmoLabMaker_S.png" alt="" width="600" height="400"
-        sizes="600px" />
+      <img class="pickup-desktop" src="/banner/EmoLabMaker_L.png" alt="" width="700" height="400">
+      <img class="pickup-desktop" src="/banner/EmoLabMaker_R.png" alt="" width="480" height="400">
+      <img class="pickup-mobile" src="/banner/EmoLabMaker_S.png" alt="" width="600" height="400">
 
       <div class="pickup-badges">
         <span class="pickup-badges-label">↙ β版配布先</span>
         <div class="pickup-badges-list">
           <ExtLink class="pickup-badge-link" to="https://github.com/Tsut-ps/EmoLabMaker-ae">
-            <NuxtPicture src="/logo/GitHub_Button.png" alt="GitHub" width="128" height="32" sizes="128px" />
+            <img class="pickup-badge-image" src="/logo/GitHub_Button.png" alt="GitHub" width="128" height="32">
           </ExtLink>
         </div>
       </div>
     </div>
-    <NuxtPicture class="pickup-free-badge" src="/banner/Free_Badge.png" alt="Free! 無料!" width="160" height="160"
-      sizes="160px" />
+
+    <img class="pickup-free-badge" src="/banner/Free_Badge.png" alt="Free! 無料!" width="160" height="160">
   </section>
 </template>
 
@@ -42,10 +39,6 @@
   background: #1b1b1b;
 }
 
-.pickup :deep(img) {
-  display: block;
-}
-
 .pickup-badges {
   position: absolute;
   right: 2rem;
@@ -66,7 +59,8 @@
   gap: 1.4rem;
 }
 
-.pickup-badges-list :deep(img) {
+.pickup-badge-image {
+  display: block;
   width: auto;
   height: 2.8rem;
 }
@@ -87,32 +81,23 @@
 }
 
 .pickup-desktop {
-  display: contents;
-}
-
-.pickup-desktop :deep(img) {
+  display: block;
   width: auto;
   height: min(400px, 32cqw);
 }
 
 .pickup-mobile {
   display: none;
-}
-
-.pickup-mobile :deep(img),
-.pickup-free-badge :deep(img) {
   width: 100%;
-  height: auto;
-}
-
-.pickup-mobile :deep(img) {
   max-width: 600px;
+  height: auto;
 }
 
 .pickup-free-badge {
   position: absolute;
   top: -2rem;
   right: 2rem;
+  display: block;
   width: min(10rem, 14cqw);
   height: auto;
 }
@@ -125,7 +110,7 @@
   }
 
   .pickup-mobile {
-    display: contents;
+    display: block;
   }
 }
 
@@ -138,7 +123,7 @@
     gap: 1.1rem;
   }
 
-  .pickup-badges-list :deep(img) {
+  .pickup-badge-image {
     height: 2.2rem;
   }
 }
