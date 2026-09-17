@@ -8,14 +8,15 @@ const { item } = defineProps<{
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
 const displayLink = computed(() => item.links[0])
 const url = computed(() => displayLink.value?.url)
+const displayPlatform = computed(() => displayLink.value?.platform ?? '')
 </script>
 
 <template>
   <ExtLink :to="url" class="timeline-item">
     <span class="timeline-item-circle">
       <Icon class="timeline-item-icon"
-        :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:link'"
-        :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size) || 16" />
+        :name="platformIcons[displayPlatform]?.name || 'mdi:link'"
+        :size="platformIcons[displayPlatform]?.size || 16" />
     </span>
     <span class="timeline-item-content">
       <UiRelativeTime :datetime="item.publishedDate" class="timeline-item-date" />

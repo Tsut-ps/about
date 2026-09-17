@@ -12,15 +12,17 @@ const { item, preferShort } = defineProps<{
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う
 const displayLink = computed(() => {
   if (preferShort) {
-    return item.links.find(link => link.platform?.endsWith('-shorts')) ?? item.links[0]
+    return item.links.find(link => link.platform.endsWith('-shorts')) ?? item.links[0]
   }
   return item.links[0]
 })
 const url = computed(() => displayLink.value?.url)
+const displayPlatform = computed(() => displayLink.value?.platform ?? '')
+
 // 代表リンクにサムネイルが無い場合は、グループ内の他のリンクから探す
 const thumbnail = computed(() => displayLink.value?.thumbnail ?? item.links.find(link => link.thumbnail)?.thumbnail)
 // 実際に表示するリンクがショートなら、サムネイルも縦長で表示する
-const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') ?? false)
+const isShort = computed(() => displayLink.value?.platform.endsWith('-shorts') ?? false)
 </script>
 
 <template>
@@ -30,8 +32,8 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
         :height="isShort ? 640 : 360">
       <div v-else class="thumbnail-fallback">
         <Icon
-          :name="(displayLink?.platform && platformIcons[displayLink.platform]?.name) || 'mdi:file-document-outline'"
-          :size="(displayLink?.platform && platformIcons[displayLink.platform]?.size || 24) * 2.4" />
+          :name="platformIcons[displayPlatform]?.name || 'mdi:file-document-outline'"
+          :size="(platformIcons[displayPlatform]?.size || 24) * 2.4" />
       </div>
     </div>
     <h3 class="card-title">{{ item.title }}</h3>
@@ -41,8 +43,8 @@ const isShort = computed(() => displayLink.value?.platform?.endsWith('-shorts') 
     <div v-if="!hidePlatformIcons" class="card-platforms">
       <template v-for="(link, index) in item.links" :key="index">
         <ExtLink :to="link.url" class="platform-link">
-          <Icon :name="(link.platform && platformIcons[link.platform]?.name) || 'mdi:link'"
-            :size="(link.platform && platformIcons[link.platform]?.size) || 16" />
+          <Icon :name="platformIcons[link.platform]?.name || 'mdi:link'"
+            :size="platformIcons[link.platform]?.size || 16" />
         </ExtLink>
       </template>
     </div>
