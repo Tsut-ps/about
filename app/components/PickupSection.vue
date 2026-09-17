@@ -1,9 +1,9 @@
 <template>
   <section class="pickup" @contextmenu.prevent @dragstart.prevent>
     <div class="pickup-card">
-      <img class="pickup-desktop" src="/banner/EmoLabMaker_L.webp" alt="" width="700" height="400">
+      <img class="pickup-desktop" src="/banner/EmoLabMaker_L.webp" alt="EmoLabMaker 表情レイヤーを制御、口パクレイヤーを作成する、After Effectsスクリプト" width="700" height="400">
       <img class="pickup-desktop" src="/banner/EmoLabMaker_R.webp" alt="" width="480" height="400">
-      <img class="pickup-mobile" src="/banner/EmoLabMaker_SP.webp" alt="" width="600" height="400">
+      <img class="pickup-mobile" src="/banner/EmoLabMaker_SP.webp" alt="EmoLabMaker 表情レイヤーを制御、口パクレイヤーを作成する、After Effectsスクリプト" width="600" height="400">
 
       <div class="pickup-badges">
         <span class="pickup-badges-label">↙ β版配布先</span>
