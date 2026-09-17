@@ -42,6 +42,10 @@
   background: #1b1b1b;
 }
 
+.pickup :deep(img) {
+  display: block;
+}
+
 .pickup-badges {
   position: absolute;
   right: 2rem;
@@ -63,7 +67,6 @@
 }
 
 .pickup-badges-list :deep(img) {
-  display: block;
   width: auto;
   height: 2.8rem;
 }
@@ -88,7 +91,6 @@
 }
 
 .pickup-desktop :deep(img) {
-  display: block;
   width: auto;
   height: min(400px, 32cqw);
 }
@@ -97,11 +99,14 @@
   display: none;
 }
 
-.pickup-mobile :deep(img) {
-  display: block;
+.pickup-mobile :deep(img),
+.pickup-free-badge :deep(img) {
   width: 100%;
-  max-width: 600px;
   height: auto;
+}
+
+.pickup-mobile :deep(img) {
+  max-width: 600px;
 }
 
 .pickup-free-badge {
@@ -109,12 +114,6 @@
   top: -2rem;
   right: 2rem;
   width: min(10rem, 14cqw);
-  height: auto;
-}
-
-.pickup-free-badge :deep(img) {
-  display: block;
-  width: 100%;
   height: auto;
 }
 
