@@ -25,7 +25,7 @@ export const apis: API[] = [
     platform: "github",
     name: "GitHub",
     itemLimit: 12,
-    excludeItems: ["Tsut-ps", "about"], // プロフィールリポジトリを除外
+    excludeItems: ["Tsut-ps", "about", "EmoLabMaker-ae"], // プロフィール・ピックアップ対象を除外
   },
   {
     userName: "56264499",
