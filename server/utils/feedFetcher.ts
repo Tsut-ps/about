@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
-import type { ActivityItem, Feed } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
+import type { Feed } from "../types/activity";
 
 const parser = new XMLParser({
   ignoreAttributes: false, // hrefなどの属性を含めて解析

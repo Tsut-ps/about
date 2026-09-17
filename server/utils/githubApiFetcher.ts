@@ -1,5 +1,5 @@
 import { apis } from "../config/apis";
-import type { ActivityItem } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
 
 const config = apis.find((api) => api.platform === "github");
 const apiUrl = `https://api.github.com/users/${config?.userName}/repos`;

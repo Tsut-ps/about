@@ -1,4 +1,4 @@
-import type { ActivityItem } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
 import { feeds } from "../config/feeds";
 import { fetchFeed } from "../utils/feedFetcher";
 import { fetchApiGitHub } from "../utils/githubApiFetcher";

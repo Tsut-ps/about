@@ -1,5 +1,6 @@
 import { apis } from "../config/apis";
-import type { ActivityItem, API } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
+import type { API } from "../types/activity";
 
 const configs = apis.filter((api) => api.platform.startsWith("youtube"));
 const apiUrl = "https://www.googleapis.com/youtube/v3";

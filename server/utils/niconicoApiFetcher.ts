@@ -1,5 +1,5 @@
 import { apis } from "../config/apis";
-import type { ActivityItem } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
 
 // 旧RSSでの取得終了に伴い、公式スナップショット検索APIでも代替不可と確認 (userIdで叩けず)
 // HTMLでのスクレイピングは高負荷なので避け、低負荷な形で非公開APIのnvapiを利用する (サイト1回のアクセス分の負荷)

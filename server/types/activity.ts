@@ -1,5 +1,3 @@
-export type { ActivityItem } from "../../shared/types/activity";
-
 export interface Feed {
   url: string;
   platform: string;

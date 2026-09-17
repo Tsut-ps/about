@@ -1,4 +1,4 @@
-import type { ActivityItem } from "../types/activity";
+import type { ActivityItem } from "#shared/types/activity";
 
 // サムネイル/代表リンク優先順位 [高] 0 >>>> 7 [低]
 // 横動画がある場合はショートより横動画を優先する
