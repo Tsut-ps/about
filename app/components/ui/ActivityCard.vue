@@ -41,7 +41,7 @@ const isShort = computed(() => displayLink.value?.platform.endsWith('-shorts') ?
   <div class="card-meta">
     <UiRelativeTime :datetime="item.publishedDate" class="card-date" />
     <div v-if="!hidePlatformIcons" class="card-platforms">
-      <template v-for="(link, index) in item.links" :key="index">
+      <template v-for="link in item.links" :key="`${link.platform}:${link.url}`">
         <ExtLink :to="link.url" class="platform-link">
           <Icon :name="platformIcons[link.platform]?.name || 'mdi:link'"
             :size="platformIcons[link.platform]?.size || 16" />
