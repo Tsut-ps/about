@@ -28,11 +28,6 @@ export const apis: API[] = [
     excludeItems: ["Tsut-ps", "about"], // プロフィールリポジトリを除外
   },
   {
-    userName: "Tsut_ps",
-    platform: "twitter",
-    name: "X",
-  },
-  {
     userName: "56264499",
     platform: "nicovideo",
     name: "ニコニコ動画",
