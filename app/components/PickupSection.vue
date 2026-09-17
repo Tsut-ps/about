@@ -1,21 +1,21 @@
 <template>
   <section class="pickup" @contextmenu.prevent @dragstart.prevent>
     <div class="pickup-card">
-      <img class="pickup-desktop" src="/banner/EmoLabMaker_L.png" alt="" width="700" height="400">
-      <img class="pickup-desktop" src="/banner/EmoLabMaker_R.png" alt="" width="480" height="400">
-      <img class="pickup-mobile" src="/banner/EmoLabMaker_S.png" alt="" width="600" height="400">
+      <img class="pickup-desktop" src="/banner/EmoLabMaker_L.webp" alt="" width="700" height="400">
+      <img class="pickup-desktop" src="/banner/EmoLabMaker_R.webp" alt="" width="480" height="400">
+      <img class="pickup-mobile" src="/banner/EmoLabMaker_SP.webp" alt="" width="600" height="400">
 
       <div class="pickup-badges">
         <span class="pickup-badges-label">↙ β版配布先</span>
         <div class="pickup-badges-list">
           <ExtLink class="pickup-badge-link" to="https://github.com/Tsut-ps/EmoLabMaker-ae">
-            <img src="/logo/GitHub_Button.png" alt="GitHub" width="128" height="32">
+            <img src="/logo/GitHub_Button.webp" alt="GitHub" width="128" height="32">
           </ExtLink>
         </div>
       </div>
     </div>
 
-    <img class="pickup-free-badge" src="/banner/Free_Badge.png" alt="Free! 無料!" width="160" height="160">
+    <img class="pickup-free-badge" src="/banner/Free_Badge.webp" alt="Free! 無料!" width="160" height="160">
   </section>
 </template>
 
