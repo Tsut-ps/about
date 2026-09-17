@@ -6,7 +6,7 @@
       <img class="pickup-mobile" src="/banner/EmoLabMaker_SP.webp" alt="EmoLabMaker 表情レイヤーを制御、口パクレイヤーを作成する、After Effectsスクリプト" width="600" height="400">
 
       <div class="pickup-badges">
-        <span class="pickup-badges-label">↙ β版配布先</span>
+        <span class="pickup-badges-label">β版配布先</span>
         <div class="pickup-badges-list">
           <ExtLink class="pickup-badge-link" to="https://github.com/Tsut-ps/EmoLabMaker-ae">
             <img src="/logo/GitHub_Button.webp" alt="GitHub" width="128" height="32">
