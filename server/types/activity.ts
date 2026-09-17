@@ -1,14 +1,4 @@
-export interface ActivityItem {
-  id: string;
-  title: string;
-  date: Date;
-  publishedDate: Date;
-  links: Array<{
-    platform: string;
-    url: string;
-    thumbnail?: string;
-  }>;
-}
+export type { ActivityItem } from "../../shared/types/activity";
 
 export interface Feed {
   url: string;

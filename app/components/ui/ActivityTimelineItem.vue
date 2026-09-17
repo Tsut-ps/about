@@ -1,14 +1,8 @@
 <script setup lang="ts">
+import type { ActivityResponseItem } from '#shared/types/activity'
+
 const { item } = defineProps<{
-  item: {
-    id: string
-    title: string
-    publishedDate: string
-    links: {
-      platform?: string
-      url: string
-    }[]
-  }
+  item: ActivityResponseItem
 }>()
 
 // リンクは優先順位順に並んでいるため、先頭を代表リンクとして使う

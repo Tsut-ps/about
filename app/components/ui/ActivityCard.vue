@@ -1,15 +1,8 @@
 <script setup lang="ts">
+import type { ActivityResponseItem } from '#shared/types/activity'
+
 const { item, preferShort } = defineProps<{
-  item: {
-    id: string
-    title: string
-    publishedDate: string
-    links: {
-      platform?: string
-      url: string
-      thumbnail?: string
-    }[]
-  }
+  item: ActivityResponseItem
   // ショートセクションに表示する場合、横動画版が優先リンクに来ていてもショート版を代表として使う
   preferShort?: boolean
   // 日記セクションなど、プラットフォームアイコンの表示が不要な場合に指定する
