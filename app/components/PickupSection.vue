@@ -9,7 +9,7 @@
         <span class="pickup-badges-label">↙ β版配布先</span>
         <div class="pickup-badges-list">
           <ExtLink class="pickup-badge-link" to="https://github.com/Tsut-ps/EmoLabMaker-ae">
-            <img class="pickup-badge-image" src="/logo/GitHub_Button.png" alt="GitHub" width="128" height="32">
+            <img src="/logo/GitHub_Button.png" alt="GitHub" width="128" height="32">
           </ExtLink>
         </div>
       </div>
@@ -59,8 +59,7 @@
   gap: 1.4rem;
 }
 
-.pickup-badge-image {
-  display: block;
+.pickup-badge-link img {
   width: auto;
   height: 2.8rem;
 }
@@ -81,7 +80,6 @@
 }
 
 .pickup-desktop {
-  display: block;
   width: auto;
   height: min(400px, 32cqw);
 }
@@ -97,7 +95,6 @@
   position: absolute;
   top: -2rem;
   right: 2rem;
-  display: block;
   width: min(10rem, 14cqw);
   height: auto;
 }
@@ -123,7 +120,7 @@
     gap: 1.1rem;
   }
 
-  .pickup-badge-image {
+  .pickup-badge-link img {
     height: 2.2rem;
   }
 }
