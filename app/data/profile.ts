@@ -1,8 +1,9 @@
 export const profile = {
   bio: [
+    "けもみみと人外が好き。",
     "音声合成キャラに歌ってもらったり、",
     "解説記事を作ったり、",
-    "プログラムを書いたり。",
+    "プログラムを書いたり etc.",
   ],
   contacts: [
     { label: "Twitter(X)", value: "@Tsut_ps", url: "https://twitter.com/Tsut_ps" },
