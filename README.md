@@ -1,6 +1,4 @@
-<a href="https://tsut-ps.github.io/about/">
-  <img src="./public/256kkn.webp" width="100%" height="auto" />
-</a>
+<img src="./public/256kkn.webp" width="100%" height="auto" />
 
 # about
 

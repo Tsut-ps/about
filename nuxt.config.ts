@@ -54,13 +54,13 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: "/about/",
+    baseURL: "/",
     head: {
       title: "狐紺くろ",
       htmlAttrs: {
         lang: "ja",
       },
-      link: [{ rel: "icon", type: "image/x-icon", href: "/about/favicon.png" }],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }],
       meta: [
         {
           name: "狐紺くろのプロフィール",
