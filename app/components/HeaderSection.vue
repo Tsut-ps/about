@@ -11,7 +11,7 @@
   justify-content: center;
   width: 100%;
   height: min(240px, 35vw);
-  background-color: #edbd98;
+  background-color: var(--color-header-bg);
 }
 
 .header {

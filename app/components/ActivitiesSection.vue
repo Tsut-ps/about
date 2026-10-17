@@ -264,12 +264,12 @@ function moveGridDrag(event: PointerEvent) {
   gap: .35rem;
   flex-shrink: 0;
   font-size: .8rem;
-  color: rgb(241 241 241 / 50%);
+  color: var(--color-text-muted);
 }
 
 .search-filter-button {
   padding: .3rem .7rem;
-  border: 1px solid rgb(255 255 255 / 12%);
+  border: 1px solid var(--color-border);
   border-radius: 999px;
   background: transparent;
   color: inherit;
@@ -277,13 +277,13 @@ function moveGridDrag(event: PointerEvent) {
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
 
   &:hover {
-    border-color: rgb(255 255 255 / 25%);
-    background: rgb(255 255 255 / 5%);
-    color: rgb(241 241 241 / 85%);
+    border-color: var(--color-border-hover);
+    background: var(--color-hover-bg);
+    color: var(--color-text-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid rgb(255 255 255 / 70%);
+    outline: 2px solid var(--color-focus-ring);
     outline-offset: 2px;
   }
 }
@@ -347,8 +347,7 @@ function moveGridDrag(event: PointerEvent) {
   left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  background: var(--color-accent);
-  opacity: 0.3;
+  background: var(--color-surface);
   z-index: -1;
 }
 
@@ -486,7 +485,7 @@ function moveGridDrag(event: PointerEvent) {
       content: '';
       position: absolute;
       inset: 1rem auto -1rem 1rem;
-      border-left: 1px solid rgba(255, 255, 255, 0.15);
+      border-left: 1px solid var(--color-border);
     }
   }
 

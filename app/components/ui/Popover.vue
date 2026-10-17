@@ -96,7 +96,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   border: 1px solid var(--color-accent);
   border-radius: 8px;
   background: var(--color-bg);
-  box-shadow: 0 8px 16px rgb(0 0 0 / 20%);
+  box-shadow: 0 8px 16px var(--color-shadow);
   transform: translateX(-50%);
   translate: var(--popover-panel-offset-x, 0);
 }

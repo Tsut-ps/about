@@ -27,6 +27,7 @@
   container-type: inline-size;
   width: 100%;
   margin-bottom: 4rem;
+  --pickup-card-bg: #1b1b1b;
 }
 
 .pickup-link {
@@ -68,7 +69,7 @@
   max-height: 400px;
   overflow: hidden;
   border-radius: 16px;
-  background: #1b1b1b;
+  background: var(--pickup-card-bg);
 }
 
 .pickup-visual {
@@ -88,7 +89,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.75rem;
-  color: #fff;
+  color: var(--color-text);
 }
 
 .pickup-badges-label {

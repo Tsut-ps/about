@@ -65,12 +65,12 @@ onBeforeUnmount(() => {
 
   &:hover:not(:disabled),
   &:focus-visible {
-    background-color: #222838;
+    background-color: var(--color-surface);
     opacity: 1;
   }
 
   &:focus-visible {
-    outline: 2px solid rgb(255 255 255 / 70%);
+    outline: 2px solid var(--color-focus-ring);
     outline-offset: 2px;
   }
 

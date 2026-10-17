@@ -59,7 +59,7 @@ const isShort = computed(() => displayLink.value?.platform.endsWith('-shorts') ?
   background-color: var(--color-accent);
   position: relative;
   border-radius: 8px;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 16px var(--color-shadow);
 
   &.card-thumbnail-shorts {
     aspect-ratio: 9 / 16;
@@ -79,7 +79,7 @@ const isShort = computed(() => displayLink.value?.platform.endsWith('-shorts') ?
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(32, 33, 40, 0.8), rgba(27, 32, 44, 0.8));
+  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
   opacity: 0.6;
 }
 
