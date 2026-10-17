@@ -17,7 +17,7 @@
   --color-text: #f1f1f1;
 
   /* 面 */
-  --color-surface: #222838;
+  --color-surface: #1f2533;
   --color-header-bg: #edbd98;
 
   /* 文字の濃淡 */
